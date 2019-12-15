@@ -7,6 +7,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.RegistryBuilder
 import net.pearx.craftdumper.ID
+import net.pearx.craftdumper.dumper.standard.vanilla.DumperLootTables
+import net.pearx.craftdumper.dumper.standard.vanilla.DumperVillagerProfessions
 import net.pearx.craftdumper.helper.getRegistryElementNames
 import net.pearx.craftdumper.helper.lookupRegistryElements
 
@@ -26,7 +28,8 @@ object Events {
     @SubscribeEvent
     fun onRegisterDumpers(event: RegistryEvent.Register<Dumper>) {
         with(event.registry) {
-
+            register(DumperLootTables)
+            register(DumperVillagerProfessions)
         }
     }
 }
