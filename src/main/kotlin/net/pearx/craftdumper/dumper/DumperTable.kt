@@ -1,15 +1,33 @@
 package net.pearx.craftdumper.dumper
 
 import net.pearx.craftdumper.CraftDumper
+import net.pearx.craftdumper.helper.appendCsvRow
 import net.pearx.craftdumper.helper.client
+import net.pearx.craftdumper.helper.currentDateTime
+import net.pearx.craftdumper.helper.getRegistryElementName
+
+typealias DumperTableContents = Iterable<List<String>>
 
 interface DumperTable : Dumper {
     val header: List<String>
     val columnToSortBy: Int
-    fun dumpTable(): Iterable<List<String>>
+    fun dumpTable(): DumperTableContents
 
-    override fun dumpContents() {
-        // TODO: implement
+    override fun dumpContents(reporter: DumpProgressReporter) {
+        val count = getCount()
+        val dumpFile = CraftDumper.outputDirectory
+            .resolve("${DumperRegistry.getRegistryElementName(registryName!!)}_${currentDateTime()}.csv")
+        dumpFile.parentFile.mkdirs()
+        dumpFile.printWriter().use { writer ->
+            with(writer) {
+                // todo: sorting
+                appendCsvRow(header)
+                dumpTable().forEachIndexed { index, row ->
+                    appendCsvRow(row)
+                    reporter.progress = (index + 1.0) / count
+                }
+            }
+        }
     }
 }
 
@@ -20,7 +38,7 @@ class DumperTableContext : DumperBase(), DumperTable {
     override lateinit var header: List<String>
     override var columnToSortBy = 0
 
-    override fun dumpTable(): Iterable<List<String>> = Iterable { iterator(tableCreator) }
+    override fun dumpTable(): DumperTableContents = Iterable { iterator(tableCreator) }
 
     fun table(block: DumperTableCreator) {
         tableCreator = block

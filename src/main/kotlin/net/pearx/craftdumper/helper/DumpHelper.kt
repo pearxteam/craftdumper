@@ -3,6 +3,8 @@ package net.pearx.craftdumper.helper
 import net.minecraft.util.ResourceLocation
 import org.apache.commons.lang3.reflect.FieldUtils
 import java.lang.reflect.Field
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 fun Boolean.toPlusMinusString() = if (this) "+" else "-"
 
@@ -40,3 +42,5 @@ fun Any.readFieldRaw(vararg names: String): Any {
 }
 
 inline fun <reified T> Any.readField(vararg names: String): T = readFieldRaw(*names) as T
+
+internal fun currentDateTime(): String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"))

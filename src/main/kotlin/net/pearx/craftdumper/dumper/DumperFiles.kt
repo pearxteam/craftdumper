@@ -1,16 +1,34 @@
 package net.pearx.craftdumper.dumper
 
+import net.pearx.craftdumper.CraftDumper
 import net.pearx.craftdumper.helper.client
+import net.pearx.craftdumper.helper.currentDateTime
+import net.pearx.craftdumper.helper.getRegistryElementName
 import java.io.InputStream
 import kotlin.random.Random
 
 data class DumpFile(val path: String, val contents: InputStream)
 
-interface DumperFiles : Dumper {
-    fun dumpFiles(): Iterable<DumpFile>
+typealias DumperFileContents = Iterable<DumpFile>
 
-    override fun dumpContents() {
-        // TODO: implement
+interface DumperFiles : Dumper {
+    fun dumpFiles(): DumperFileContents
+
+    override fun dumpContents(reporter: DumpProgressReporter) {
+        val count = getCount()
+        val baseDirectory = CraftDumper.outputDirectory
+            .resolve("${DumperRegistry.getRegistryElementName(registryName!!)}_${currentDateTime()}")
+        dumpFiles().forEachIndexed { index, file ->
+            val dumpPath = baseDirectory
+                .resolve(file.path)
+            dumpPath.parentFile.mkdirs()
+            file.contents.use { dump ->
+                dumpPath.outputStream().buffered().use { file ->
+                    dump.copyTo(file)
+                }
+            }
+            reporter.progress = (index + 1.0) / count
+        }
     }
 }
 
@@ -19,7 +37,7 @@ typealias DumperFilesCreator = suspend SequenceScope<DumpFile>.() -> Unit
 class DumperFilesContext : DumperBase(), DumperFiles {
     private lateinit var filesCreator: DumperFilesCreator
 
-    override fun dumpFiles(): Iterable<DumpFile> = Iterable { iterator(filesCreator) }
+    override fun dumpFiles(): DumperFileContents = Iterable { iterator(filesCreator) }
 
     fun files(block: DumperFilesCreator) {
         filesCreator = block

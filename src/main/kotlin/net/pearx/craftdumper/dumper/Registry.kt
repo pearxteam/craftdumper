@@ -14,18 +14,20 @@ import net.pearx.craftdumper.helper.lookupRegistryElements
 
 lateinit var DumperRegistry: IForgeRegistry<Dumper> private set
 
-fun lookupDumperRegistry(name: String) = lookupRegistryElements(DumperRegistry, name)
+fun lookupDumperRegistry(name: String) = DumperRegistry.lookupRegistryElements(name)
 
-fun getDumperNames(): List<String> = getRegistryElementNames(DumperRegistry)
+fun getDumperNames(): List<String> = DumperRegistry.getRegistryElementNames()
 
 @Mod.EventBusSubscriber(modid = ID)
 object Events {
     @SubscribeEvent
+    @JvmStatic
     fun onNewRegistry(event: RegistryEvent.NewRegistry) {
         DumperRegistry = RegistryBuilder<Dumper>().setName(ResourceLocation(ID, "dumpers")).setType(Dumper::class.java).disableSaving().create()
     }
 
     @SubscribeEvent
+    @JvmStatic
     fun onRegisterDumpers(event: RegistryEvent.Register<Dumper>) {
         with(event.registry) {
             register(DumperLootTables)

@@ -18,6 +18,7 @@ val DumperVillagerProfessions = dumperTable {
     amounts {
         ForgeRegistries.VILLAGER_PROFESSIONS.forEach { this += it.registryName }
     }
+    count { ForgeRegistries.VILLAGER_PROFESSIONS.count() }
     table {
         ForgeRegistries.VILLAGER_PROFESSIONS.forEach { profession ->
             row(header.size) {

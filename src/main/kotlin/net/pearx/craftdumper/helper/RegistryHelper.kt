@@ -5,10 +5,10 @@ import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.IForgeRegistryEntry
 import net.pearx.craftdumper.ID
 
-internal fun <T : IForgeRegistryEntry<T>> lookupRegistryElements(registry: IForgeRegistry<T>, name: String): List<T> {
+internal fun <T : IForgeRegistryEntry<T>> IForgeRegistry<T>.lookupRegistryElements(name: String): List<T> {
     val foundElements = mutableListOf<T>()
 
-    for (element in registry) {
+    for (element in this) {
         if (element.registryName != null) {
             if (element.registryName.toString() == name)
                 return listOf(element)
@@ -20,19 +20,19 @@ internal fun <T : IForgeRegistryEntry<T>> lookupRegistryElements(registry: IForg
     return foundElements
 }
 
-internal fun <T : IForgeRegistryEntry<T>> getRegistryElementNames(registry: IForgeRegistry<T>): List<String> {
-    return ArrayList<String>(registry.entries.size).apply {
-        for (element in registry) {
+internal fun <T : IForgeRegistryEntry<T>> IForgeRegistry<T>.getRegistryElementNames(): List<String> {
+    return ArrayList<String>(entries.size).apply {
+        for (element in this@getRegistryElementNames) {
 
             if (element.registryName != null)
-                add(getRegistryElementName(registry, element.registryName!!))
+                add(getRegistryElementName(element.registryName!!))
         }
     }
 }
 
-internal fun <T : IForgeRegistryEntry<T>> getRegistryElementName(registry: IForgeRegistry<T>, name: ResourceLocation): String {
+internal fun <T : IForgeRegistryEntry<T>> IForgeRegistry<T>.getRegistryElementName(name: ResourceLocation): String {
     val found: Boolean = run {
-        for (anotherElement in registry) {
+        for (anotherElement in this@getRegistryElementName) {
             if (anotherElement.registryName != name &&
                 anotherElement.registryName!!.path == name.path) {
                 return@run true
