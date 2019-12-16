@@ -2,6 +2,7 @@ package net.pearx.craftdumper
 
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent
 import org.apache.logging.log4j.Logger
 import java.io.File
 
@@ -28,5 +29,11 @@ object CraftDumper {
             version = VERSION
             authorList = AUTHORS
         }
+    }
+
+    @Mod.EventHandler
+    fun serverStarting(event: FMLServerStartingEvent) {
+        log.info("Registering '/craftdumper' command")
+        event.registerServerCommand(CraftDumperCommand())
     }
 }

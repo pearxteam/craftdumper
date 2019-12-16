@@ -2,6 +2,7 @@ package net.pearx.craftdumper.dumper
 
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.IForgeRegistryEntry
+import java.io.File
 
 class DumpAmounts : MutableMap<String, Int> by hashMapOf() {
     operator fun plusAssign(value: String) {
@@ -12,6 +13,8 @@ class DumpAmounts : MutableMap<String, Int> by hashMapOf() {
 
     fun sort(): List<Pair<String, Int>> = toList().sortedByDescending { (_, v) -> v }
 }
+
+class DumpOutput(val translationKey: String, val path: File)
 
 interface DumpProgressReporter {
     var progress: Double
@@ -24,7 +27,7 @@ interface Dumper : IForgeRegistryEntry<Dumper> {
 
     fun getCount(): Int
 
-    fun dumpContents(reporter: DumpProgressReporter)
+    fun dumpContents(reporter: DumpProgressReporter): List<DumpOutput>
 }
 
 typealias DumpAmountsCreator = DumpAmounts.() -> Unit

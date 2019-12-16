@@ -14,7 +14,7 @@ typealias DumperFileContents = Iterable<DumpFile>
 interface DumperFiles : Dumper {
     fun dumpFiles(): DumperFileContents
 
-    override fun dumpContents(reporter: DumpProgressReporter) {
+    override fun dumpContents(reporter: DumpProgressReporter): List<DumpOutput> {
         val count = getCount()
         val baseDirectory = CraftDumper.outputDirectory
             .resolve("${DumperRegistry.getRegistryElementName(registryName!!)}_${currentDateTime()}")
@@ -29,6 +29,7 @@ interface DumperFiles : Dumper {
             }
             reporter.progress = (index + 1.0) / count
         }
+        return listOf(DumpOutput("craftdumper.output.directory.name", baseDirectory))
     }
 }
 

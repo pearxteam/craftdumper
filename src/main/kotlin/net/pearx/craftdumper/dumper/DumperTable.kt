@@ -13,7 +13,7 @@ interface DumperTable : Dumper {
     val columnToSortBy: Int
     fun dumpTable(): DumperTableContents
 
-    override fun dumpContents(reporter: DumpProgressReporter) {
+    override fun dumpContents(reporter: DumpProgressReporter): List<DumpOutput> {
         val count = getCount()
         val dumpFile = CraftDumper.outputDirectory
             .resolve("${DumperRegistry.getRegistryElementName(registryName!!)}_${currentDateTime()}.csv")
@@ -28,6 +28,7 @@ interface DumperTable : Dumper {
                 }
             }
         }
+        return listOf(DumpOutput("craftdumper.output.table.name", dumpFile))
     }
 }
 
