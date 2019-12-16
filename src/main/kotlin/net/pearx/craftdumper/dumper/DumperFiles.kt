@@ -7,14 +7,14 @@ import net.pearx.craftdumper.helper.getRegistryElementName
 import java.io.InputStream
 import kotlin.random.Random
 
-data class DumpFile(val path: String, val contents: InputStream)
+data class DumpFile(val path: String, val data: InputStream)
 
-typealias DumperFileContents = Iterable<DumpFile>
+typealias DumperFileData = Iterable<DumpFile>
 
 interface DumperFiles : Dumper {
-    fun dumpFiles(): DumperFileContents
+    fun dumpFiles(): DumperFileData
 
-    override fun dumpContents(reporter: DumpProgressReporter): List<DumpOutput> {
+    override fun dumpData(reporter: DumpProgressReporter): List<DumpOutput> {
         val count = getCount()
         val baseDirectory = CraftDumper.outputDirectory
             .resolve("${DumperRegistry.getRegistryElementName(registryName!!)}_${currentDateTime()}")
@@ -22,7 +22,7 @@ interface DumperFiles : Dumper {
             val dumpPath = baseDirectory
                 .resolve(file.path)
             dumpPath.parentFile.mkdirs()
-            file.contents.use { dump ->
+            file.data.use { dump ->
                 dumpPath.outputStream().buffered().use { file ->
                     dump.copyTo(file)
                 }
@@ -38,7 +38,7 @@ typealias DumperFilesCreator = suspend SequenceScope<DumpFile>.() -> Unit
 class DumperFilesContext : DumperBase(), DumperFiles {
     private lateinit var filesCreator: DumperFilesCreator
 
-    override fun dumpFiles(): DumperFileContents = Iterable { iterator(filesCreator) }
+    override fun dumpFiles(): DumperFileData = Iterable { iterator(filesCreator) }
 
     fun files(block: DumperFilesCreator) {
         filesCreator = block
@@ -49,8 +49,8 @@ inline fun dumperFiles(init: DumperFilesContext.() -> Unit): DumperFiles = Dumpe
 
 inline fun dumperFilesClient(init: DumperFilesContext.() -> Unit): DumperFiles? = client { DumperFilesContext().apply(init) }
 
-suspend inline fun SequenceScope<DumpFile>.file(getPath: () -> String, getContents: () -> InputStream) {
+suspend inline fun SequenceScope<DumpFile>.file(getPath: () -> String, getData: () -> InputStream) {
     val path = try { getPath() } catch(e: Exception) { "error_${Random.nextInt()}" }
-    val contents = try { getContents() } catch(e: Exception) { ByteArray(0).inputStream() }
-    yield(DumpFile(path, contents))
+    val data = try { getData() } catch(e: Exception) { ByteArray(0).inputStream() }
+    yield(DumpFile(path, data))
 }

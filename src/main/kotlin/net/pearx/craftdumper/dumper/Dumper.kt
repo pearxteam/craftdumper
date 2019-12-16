@@ -27,7 +27,7 @@ interface Dumper : IForgeRegistryEntry<Dumper> {
 
     fun getCount(): Int
 
-    fun dumpContents(reporter: DumpProgressReporter): List<DumpOutput>
+    fun dumpData(reporter: DumpProgressReporter): List<DumpOutput>
 }
 
 typealias DumpAmountsCreator = DumpAmounts.() -> Unit

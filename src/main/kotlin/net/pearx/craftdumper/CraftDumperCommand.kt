@@ -40,7 +40,7 @@ class CraftDumperCommand : CommandBase() {
                 set(value) { field = value }
 
         }
-        val outputs = dumper.dumpContents(reporter)
+        val outputs = dumper.dumpData(reporter)
         sender.sendMessage(TextComponentTranslation("commands.craftdumper.success", "${TextFormatting.GOLD}${dumper.registryName?.path}${TextFormatting.RESET}").apply {
             var start = true
             for (output in outputs) {
@@ -61,7 +61,7 @@ class CraftDumperCommand : CommandBase() {
 
     override fun getTabCompletions(server: MinecraftServer, sender: ICommandSender, args: Array<String>, targetPos: BlockPos?): List<String> {
         return when (args.size) {
-            1 -> CommandBase.getListOfStringsMatchingLastWord(args, getDumperNames().toMutableList().apply { this += "all" })
+            1 -> getListOfStringsMatchingLastWord(args, getDumperNames().toMutableList().apply { this += "all" })
             else -> listOf()
         }
     }

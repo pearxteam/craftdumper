@@ -6,14 +6,14 @@ import net.pearx.craftdumper.helper.client
 import net.pearx.craftdumper.helper.currentDateTime
 import net.pearx.craftdumper.helper.getRegistryElementName
 
-typealias DumperTableContents = Iterable<List<String>>
+typealias DumperTableData = Iterable<List<String>>
 
 interface DumperTable : Dumper {
     val header: List<String>
     val columnToSortBy: Int
-    fun dumpTable(): DumperTableContents
+    fun dumpTable(): DumperTableData
 
-    override fun dumpContents(reporter: DumpProgressReporter): List<DumpOutput> {
+    override fun dumpData(reporter: DumpProgressReporter): List<DumpOutput> {
         val count = getCount()
         val dumpFile = CraftDumper.outputDirectory
             .resolve("${DumperRegistry.getRegistryElementName(registryName!!)}_${currentDateTime()}.csv")
@@ -39,7 +39,7 @@ class DumperTableContext : DumperBase(), DumperTable {
     override lateinit var header: List<String>
     override var columnToSortBy = 0
 
-    override fun dumpTable(): DumperTableContents = Iterable { iterator(tableCreator) }
+    override fun dumpTable(): DumperTableData = Iterable { iterator(tableCreator) }
 
     fun table(block: DumperTableCreator) {
         tableCreator = block
