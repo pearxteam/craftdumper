@@ -23,6 +23,7 @@ interface DumperTable : Dumper {
                 // todo: sorting
                 appendCsvRow(header)
                 dumpTable().forEachIndexed { index, row ->
+                    appendln()
                     appendCsvRow(row)
                     reporter.progress = (index + 1.0) / count
                 }
