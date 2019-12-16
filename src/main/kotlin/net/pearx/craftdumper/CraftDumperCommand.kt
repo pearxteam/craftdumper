@@ -1,15 +1,22 @@
 package net.pearx.craftdumper
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import net.minecraft.client.Minecraft
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.command.WrongUsageException
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.Style
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.util.text.TextFormatting
 import net.minecraft.util.text.event.ClickEvent
+import net.minecraft.world.WorldServer
+import net.pearx.craftdumper.client.DumperToast
 import net.pearx.craftdumper.dumper.*
+import net.pearx.craftdumper.helper.isClient
 
 class CraftDumperCommand : CommandBase() {
     override fun getName() = "craftdumper"
@@ -34,27 +41,60 @@ class CraftDumperCommand : CommandBase() {
     }
 
     private fun createDump(sender: ICommandSender, dumper: Dumper) {
-        val reporter = object : DumpProgressReporter {
-            override var progress: Double = 0.0
-                get() = field
-                set(value) { field = value }
-
-        }
-        val outputs = dumper.dumpData(reporter)
-        sender.sendMessage(TextComponentTranslation("commands.craftdumper.success", "${TextFormatting.GOLD}${dumper.registryName?.path}${TextFormatting.RESET}").apply {
-            var start = true
-            for (output in outputs) {
-                if (start) {
-                    start = false
-                    appendText(" ")
+        if (isClient) {
+            Minecraft.getMinecraft().addScheduledTask {
+                val toast = DumperToast(dumper, DumpOutputType.DATA)
+                val reporter = object : DumpProgressReporter {
+                    override var progress: Float
+                        get() = toast.progress
+                        set(value) {
+                            toast.progress = value
+                        }
                 }
-                else
-                    appendText(", ")
-                val style = Style().setClickEvent(ClickEvent(ClickEvent.Action.OPEN_FILE, output.path.toString())).setUnderlined(true).setColor(TextFormatting.BLUE)
-                appendSibling(TextComponentTranslation(output.translationKey).setStyle(style))
+                Minecraft.getMinecraft().toastGui.add(toast)
+                GlobalScope.launch {
+                    val outputs = dumper.dumpData(reporter)
+                    Minecraft.getMinecraft().addScheduledTask {
+                        toast.hide()
+                        Minecraft.getMinecraft().player.sendMessage(createFinishMessage(dumper, outputs, true))
+                    }
+                }
             }
-            appendText(".")
-        })
+        }
+        else {
+            // todo somehow display progress here
+            val reporter = object : DumpProgressReporter {
+                override var progress: Float = 0F
+            }
+            sender.sendMessage(createStartMessage(dumper))
+            GlobalScope.launch {
+                val outputs = dumper.dumpData(reporter)
+                (sender.entityWorld as WorldServer).addScheduledTask {
+                    sender.sendMessage(createFinishMessage(dumper, outputs, false))
+                }
+            }
+        }
+    }
+
+    private fun createStartMessage(dumper: Dumper): ITextComponent = TextComponentTranslation("commands.craftdumper.start", "${TextFormatting.GOLD}${dumper.getDisplayName()}${TextFormatting.RESET}")
+
+    private fun createFinishMessage(dumper: Dumper, outputs: List<DumpOutput>, displayOutputs: Boolean): ITextComponent {
+        return TextComponentTranslation("commands.craftdumper.success${if(displayOutputs) "_outputs" else ""}", "${TextFormatting.GOLD}${dumper.getDisplayName()}${TextFormatting.RESET}").apply {
+            if(displayOutputs) {
+                var start = true
+                for (output in outputs) {
+                    if (start) {
+                        start = false
+                        appendText(" ")
+                    }
+                    else
+                        appendText(", ")
+                    val style = Style().setClickEvent(ClickEvent(ClickEvent.Action.OPEN_FILE, output.path.toString())).setUnderlined(true).setColor(TextFormatting.BLUE)
+                    appendSibling(TextComponentTranslation(output.translationKey).setStyle(style))
+                }
+                appendText(".")
+            }
+        }
     }
 
     override fun getUsage(sender: ICommandSender) = "commands.craftdumper.usage"

@@ -1,6 +1,7 @@
 package net.pearx.craftdumper.dumper
 
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.translation.I18n
 import net.minecraftforge.registries.IForgeRegistryEntry
 import java.io.File
 
@@ -14,14 +15,23 @@ class DumpAmounts : MutableMap<String, Int> by hashMapOf() {
     fun sort(): List<Pair<String, Int>> = toList().sortedByDescending { (_, v) -> v }
 }
 
+enum class DumpOutputType(val value: String, val hasProgress: Boolean) {
+    AMOUNTS("amounts", false),
+    DATA("data", true)
+}
+
 class DumpOutput(val translationKey: String, val path: File)
 
 interface DumpProgressReporter {
-    var progress: Double
+    var progress: Float
 }
 
 interface Dumper : IForgeRegistryEntry<Dumper> {
     override fun getRegistryType(): Class<Dumper> = Dumper::class.java
+
+    val translationKey: String
+
+    fun getDisplayName(): String = I18n.translateToLocalFormatted("craftdumper.dumper.$translationKey.name")
 
     fun getAmounts(): DumpAmounts?
 
@@ -37,10 +47,17 @@ abstract class DumperBase : Dumper {
     private var registryName: ResourceLocation? = null
     private var amountsCreator: DumpAmountsCreator? = null
     private var countCreator: DumpCountCreator? = null
+    private var _translationKey: String? = null
 
     override fun getRegistryName(): ResourceLocation? = registryName
 
     override fun setRegistryName(name: ResourceLocation?): Dumper = apply { registryName = name }
+
+    override var translationKey: String
+        get() = _translationKey ?: registryName?.path ?: "null"
+        set(value) {
+            _translationKey = value
+        }
 
     override fun getAmounts(): DumpAmounts? = if (amountsCreator == null) null else DumpAmounts().apply { amountsCreator!!() }
 

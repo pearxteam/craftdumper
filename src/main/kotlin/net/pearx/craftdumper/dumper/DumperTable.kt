@@ -25,7 +25,7 @@ interface DumperTable : Dumper {
                 dumpTable().forEachIndexed { index, row ->
                     appendln()
                     appendCsvRow(row)
-                    reporter.progress = (index + 1.0) / count
+                    reporter.progress = (index + 1F) / count
                 }
             }
         }

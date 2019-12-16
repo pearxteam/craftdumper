@@ -27,7 +27,7 @@ interface DumperFiles : Dumper {
                     dump.copyTo(file)
                 }
             }
-            reporter.progress = (index + 1.0) / count
+            reporter.progress = (index + 1F) / count
         }
         return listOf(DumpOutput("craftdumper.output.directory.name", baseDirectory))
     }
