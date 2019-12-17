@@ -9,10 +9,8 @@ import net.minecraft.command.WrongUsageException
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.Style
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.util.text.TextFormatting
-import net.minecraft.util.text.event.ClickEvent
 import net.minecraft.world.WorldServer
 import net.pearx.craftdumper.client.DumperToast
 import net.pearx.craftdumper.dumper.*
@@ -22,11 +20,12 @@ class CraftDumperCommand : CommandBase() {
     override fun getName() = "craftdumper"
 
     override fun execute(server: MinecraftServer, sender: ICommandSender, args: Array<String>) {
-        if (args.size < 1) {
+        if (args.isEmpty()) {
             throw createWrongUsageException(sender)
         }
 
         val dumperName = args[0]
+
         if (dumperName == "all") {
             for (dmpr in DumperRegistry)
                 createDump(sender, dmpr)
@@ -56,7 +55,8 @@ class CraftDumperCommand : CommandBase() {
                     val outputs = dumper.dumpData(reporter)
                     Minecraft.getMinecraft().addScheduledTask {
                         toast.hide()
-                        Minecraft.getMinecraft().player.sendMessage(createFinishMessage(dumper, outputs, true))
+                        for (msg in createSuccessMessage(dumper, outputs, true))
+                            Minecraft.getMinecraft().player.sendMessage(msg)
                     }
                 }
             }
@@ -70,38 +70,43 @@ class CraftDumperCommand : CommandBase() {
             GlobalScope.launch {
                 val outputs = dumper.dumpData(reporter)
                 (sender.entityWorld as WorldServer).addScheduledTask {
-                    sender.sendMessage(createFinishMessage(dumper, outputs, false))
+                    for (msg in createSuccessMessage(dumper, outputs, false))
+                        sender.sendMessage(msg)
                 }
             }
         }
     }
 
-    private fun createStartMessage(dumper: Dumper): ITextComponent = TextComponentTranslation("commands.craftdumper.start", "${TextFormatting.GOLD}${dumper.getDisplayName()}${TextFormatting.RESET}")
+    private fun createStartMessage(dumper: Dumper): ITextComponent = TextComponentTranslation("commands.craftdumper.start", dumper.getTextComponent())
 
-    private fun createFinishMessage(dumper: Dumper, outputs: List<DumpOutput>, displayOutputs: Boolean): ITextComponent {
-        return TextComponentTranslation("commands.craftdumper.success${if(displayOutputs) "_outputs" else ""}", "${TextFormatting.GOLD}${dumper.getDisplayName()}${TextFormatting.RESET}").apply {
-            if(displayOutputs) {
-                var start = true
-                for (output in outputs) {
-                    if (start) {
-                        start = false
-                        appendText(" ")
+    private fun createSuccessMessage(dumper: Dumper, outputs: List<DumpOutput>, displayOutputs: Boolean): List<ITextComponent> {
+        val lst = mutableListOf(TextComponentTranslation("commands.craftdumper.success", dumper.getTextComponent().apply { style.color = TextFormatting.GOLD }))
+
+        if (displayOutputs && outputs.isNotEmpty()) {
+            val outputComponents = outputs.map {
+                it.getTextComponent().apply {
+                    with(style) {
+                        underlined = true
+                        color = TextFormatting.BLUE
                     }
-                    else
-                        appendText(", ")
-                    val style = Style().setClickEvent(ClickEvent(ClickEvent.Action.OPEN_FILE, output.path.toString())).setUnderlined(true).setColor(TextFormatting.BLUE)
-                    appendSibling(TextComponentTranslation(output.translationKey).setStyle(style))
                 }
-                appendText(".")
             }
+            val first: ITextComponent = outputComponents[0]
+            for (comp in outputComponents.subList(1, outputComponents.size)) {
+                first.appendText(", ")
+                first.appendSibling(comp)
+            }
+            lst += TextComponentTranslation("commands.craftdumper.outputs", first)
         }
+
+        return lst
     }
 
     override fun getUsage(sender: ICommandSender) = "commands.craftdumper.usage"
 
     override fun getTabCompletions(server: MinecraftServer, sender: ICommandSender, args: Array<String>, targetPos: BlockPos?): List<String> {
         return when (args.size) {
-            1 -> getListOfStringsMatchingLastWord(args, getDumperNames().toMutableList().apply { this += "all" })
+            1 -> getListOfStringsMatchingLastWord(args, getDumperNames().toMutableList().also { it += "all" })
             else -> listOf()
         }
     }

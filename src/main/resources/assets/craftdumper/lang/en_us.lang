@@ -1,7 +1,7 @@
 commands.craftdumper.usage=/craftdumper <dumper name>. Available dumpers: %s.
 commands.craftdumper.start=Dumping %s...
 commands.craftdumper.success=Successfully created the %s dump!
-commands.craftdumper.success_outputs=Successfully created the %s dump! Outputs:
+commands.craftdumper.outputs=Outputs: %s.
 
 craftdumper.output.table.name=CSV Table
 craftdumper.output.directory.name=Data Directory

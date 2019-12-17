@@ -9,8 +9,8 @@ import net.minecraftforge.registries.RegistryBuilder
 import net.pearx.craftdumper.ID
 import net.pearx.craftdumper.dumper.standard.vanilla.DumperLootTables
 import net.pearx.craftdumper.dumper.standard.vanilla.DumperVillagerProfessions
-import net.pearx.craftdumper.helper.getRegistryElementNames
-import net.pearx.craftdumper.helper.lookupRegistryElements
+import net.pearx.craftdumper.helper.internal.getRegistryElementNames
+import net.pearx.craftdumper.helper.internal.lookupRegistryElements
 
 lateinit var DumperRegistry: IForgeRegistry<Dumper> private set
 
@@ -19,7 +19,7 @@ fun lookupDumperRegistry(name: String) = DumperRegistry.lookupRegistryElements(n
 fun getDumperNames(): List<String> = DumperRegistry.getRegistryElementNames()
 
 @Mod.EventBusSubscriber(modid = ID)
-object Events {
+object DumperRegistryEvents {
     @SubscribeEvent
     @JvmStatic
     fun onNewRegistry(event: RegistryEvent.NewRegistry) {

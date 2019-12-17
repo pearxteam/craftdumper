@@ -1,10 +1,10 @@
 package net.pearx.craftdumper.dumper
 
 import net.pearx.craftdumper.CraftDumper
-import net.pearx.craftdumper.helper.appendCsvRow
+import net.pearx.craftdumper.helper.internal.appendCsvRow
 import net.pearx.craftdumper.helper.client
-import net.pearx.craftdumper.helper.currentDateTime
-import net.pearx.craftdumper.helper.getRegistryElementName
+import net.pearx.craftdumper.helper.internal.currentDateTime
+import net.pearx.craftdumper.helper.internal.getRegistryElementName
 
 typealias DumperTableData = Iterable<List<String>>
 
@@ -29,7 +29,7 @@ interface DumperTable : Dumper {
                 }
             }
         }
-        return listOf(DumpOutput("craftdumper.output.table.name", dumpFile))
+        return listOf(DumpOutput("table", dumpFile))
     }
 }
 

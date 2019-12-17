@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.registry.VillagerRegistry
 import net.pearx.craftdumper.dumper.add
 import net.pearx.craftdumper.dumper.dumperTable
 import net.pearx.craftdumper.dumper.row
-import net.pearx.craftdumper.helper.craftdumper
+import net.pearx.craftdumper.helper.internal.craftdumper
 import net.pearx.craftdumper.helper.readField
 import net.pearx.craftdumper.helper.toAssetsPath
 

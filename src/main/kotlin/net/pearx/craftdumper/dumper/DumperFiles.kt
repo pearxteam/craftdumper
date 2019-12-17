@@ -2,8 +2,8 @@ package net.pearx.craftdumper.dumper
 
 import net.pearx.craftdumper.CraftDumper
 import net.pearx.craftdumper.helper.client
-import net.pearx.craftdumper.helper.currentDateTime
-import net.pearx.craftdumper.helper.getRegistryElementName
+import net.pearx.craftdumper.helper.internal.currentDateTime
+import net.pearx.craftdumper.helper.internal.getRegistryElementName
 import java.io.InputStream
 import kotlin.random.Random
 
@@ -29,7 +29,7 @@ interface DumperFiles : Dumper {
             }
             reporter.progress = (index + 1F) / count
         }
-        return listOf(DumpOutput("craftdumper.output.directory.name", baseDirectory))
+        return listOf(DumpOutput("directory", baseDirectory))
     }
 }
 

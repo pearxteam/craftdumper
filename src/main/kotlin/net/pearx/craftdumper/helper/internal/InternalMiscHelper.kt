@@ -1,4 +1,9 @@
-package net.pearx.craftdumper.helper
+package net.pearx.craftdumper.helper.internal
+
+import net.minecraft.util.ResourceLocation
+import net.pearx.craftdumper.ID
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 internal fun Appendable.appendCsvRow(row: List<String>) {
     var start = true
@@ -18,3 +23,7 @@ internal fun Appendable.appendCsvRow(row: List<String>) {
             append('"')
     }
 }
+
+internal fun currentDateTime(): String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"))
+
+internal fun craftdumper(pathIn: String) = ResourceLocation(ID, pathIn)

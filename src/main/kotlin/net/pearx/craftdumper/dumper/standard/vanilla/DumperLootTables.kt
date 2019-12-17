@@ -11,7 +11,7 @@ import net.minecraft.world.storage.loot.functions.LootFunction
 import net.minecraft.world.storage.loot.functions.LootFunctionManager
 import net.pearx.craftdumper.dumper.dumperFiles
 import net.pearx.craftdumper.dumper.file
-import net.pearx.craftdumper.helper.craftdumper
+import net.pearx.craftdumper.helper.internal.craftdumper
 import net.pearx.craftdumper.helper.toAssetsPath
 
 val DumperLootTables = dumperFiles {

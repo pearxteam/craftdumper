@@ -1,6 +1,11 @@
 package net.pearx.craftdumper.dumper
 
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.Style
+import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.util.text.TextFormatting
+import net.minecraft.util.text.event.ClickEvent
 import net.minecraft.util.text.translation.I18n
 import net.minecraftforge.registries.IForgeRegistryEntry
 import java.io.File
@@ -20,7 +25,13 @@ enum class DumpOutputType(val value: String, val hasProgress: Boolean) {
     DATA("data", true)
 }
 
-class DumpOutput(val translationKey: String, val path: File)
+class DumpOutput(val translationKey: String, val path: File) {
+    fun getTextComponent() = TextComponentTranslation("craftdumper.output.$translationKey.name").apply {
+        with(style) {
+            clickEvent =  ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())
+        }
+    }
+}
 
 interface DumpProgressReporter {
     var progress: Float
@@ -31,7 +42,7 @@ interface Dumper : IForgeRegistryEntry<Dumper> {
 
     val translationKey: String
 
-    fun getDisplayName(): String = I18n.translateToLocalFormatted("craftdumper.dumper.$translationKey.name")
+    fun getTextComponent(): ITextComponent = TextComponentTranslation("craftdumper.dumper.$translationKey.name")
 
     fun getAmounts(): DumpAmounts?
 

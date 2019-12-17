@@ -13,7 +13,7 @@ import net.pearx.craftdumper.dumper.Dumper
 
 @SideOnly(Side.CLIENT)
 class DumperToast(dumper: Dumper, type: DumpOutputType) : IToast {
-    private val title: String = I18n.format("craftdumper.toast.title", dumper.getDisplayName())
+    private val title: String = I18n.format("craftdumper.toast.title", dumper.getTextComponent().formattedText)
     private val subtitle = I18n.format("craftdumper.toast.subtitle.${type.value}")
     private val hasProgress = type.hasProgress
     private var visibility = IToast.Visibility.SHOW

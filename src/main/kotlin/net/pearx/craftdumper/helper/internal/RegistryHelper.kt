@@ -1,4 +1,4 @@
-package net.pearx.craftdumper.helper
+package net.pearx.craftdumper.helper.internal
 
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.IForgeRegistry
@@ -7,7 +7,6 @@ import net.pearx.craftdumper.ID
 
 internal fun <T : IForgeRegistryEntry<T>> IForgeRegistry<T>.lookupRegistryElements(name: String): List<T> {
     val foundElements = mutableListOf<T>()
-
     for (element in this) {
         if (element.registryName != null) {
             if (element.registryName.toString() == name)
@@ -16,18 +15,17 @@ internal fun <T : IForgeRegistryEntry<T>> IForgeRegistry<T>.lookupRegistryElemen
                 foundElements.add(element)
         }
     }
-
     return foundElements
 }
 
 internal fun <T : IForgeRegistryEntry<T>> IForgeRegistry<T>.getRegistryElementNames(): List<String> {
-    return ArrayList<String>(entries.size).apply {
-        for (element in this@getRegistryElementNames) {
+    val names = ArrayList<String>(entries.size)
+        for (element in this) {
 
             if (element.registryName != null)
-                add(getRegistryElementName(element.registryName!!))
+                names += getRegistryElementName(element.registryName!!)
         }
-    }
+    return names
 }
 
 internal fun <T : IForgeRegistryEntry<T>> IForgeRegistry<T>.getRegistryElementName(name: ResourceLocation): String {
@@ -46,10 +44,3 @@ internal fun <T : IForgeRegistryEntry<T>> IForgeRegistry<T>.getRegistryElementNa
     else
         name.path
 }
-
-fun <V : IForgeRegistryEntry<V>> IForgeRegistry<V>.registerNonNull(v: V?) {
-    if (v != null)
-        register(v)
-}
-
-internal fun craftdumper(pathIn: String) = ResourceLocation(ID, pathIn)

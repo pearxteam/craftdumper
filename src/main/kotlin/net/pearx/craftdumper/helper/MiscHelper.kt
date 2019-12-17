@@ -2,6 +2,13 @@ package net.pearx.craftdumper.helper
 
 import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.registries.IForgeRegistry
+import net.minecraftforge.registries.IForgeRegistryEntry
+
+fun <V : IForgeRegistryEntry<V>> IForgeRegistry<V>.registerNonNull(v: V?) {
+    if (v != null)
+        register(v)
+}
 
 val isClient = FMLCommonHandler.instance().side == Side.CLIENT
 
