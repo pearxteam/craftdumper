@@ -18,10 +18,9 @@ val DumperVillagerProfessions = dumperTable {
     amounts {
         ForgeRegistries.VILLAGER_PROFESSIONS.forEach { this += it.registryName }
     }
-    count { ForgeRegistries.VILLAGER_PROFESSIONS.count() * 1000000 }
+    count { ForgeRegistries.VILLAGER_PROFESSIONS.count() }
     table {
         ForgeRegistries.VILLAGER_PROFESSIONS.forEach { profession ->
-            repeat(1000000) {
             row(header.size) {
                 with(profession) {
                     add { registryName.toString() }
@@ -40,7 +39,6 @@ val DumperVillagerProfessions = dumperTable {
                         }.toString()
                     }
                 }
-            }
             }
         }
     }
