@@ -3,7 +3,6 @@ package net.pearx.craftdumper.helper.internal
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.IForgeRegistryEntry
-import net.pearx.craftdumper.ID
 
 internal fun <T : IForgeRegistryEntry<T>> IForgeRegistry<T>.lookupRegistryElements(name: String): List<T> {
     val foundElements = mutableListOf<T>()
