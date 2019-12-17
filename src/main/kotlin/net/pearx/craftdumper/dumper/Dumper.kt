@@ -17,6 +17,8 @@ class DumpAmounts : MutableMap<String, Int> by hashMapOf() {
 
     operator fun plusAssign(value: ResourceLocation?) = plusAssign(value?.namespace ?: "null")
 
+    operator fun plusAssign(values: Collection<ResourceLocation?>) = values.forEach { plusAssign(it) }
+
     fun sort(): List<Pair<String, Int>> = toList().sortedByDescending { (_, v) -> v }
 }
 
