@@ -5,7 +5,7 @@ import net.pearx.craftdumper.ID
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-internal fun Appendable.appendCsvRow(row: List<String>) {
+internal fun Appendable.appendCsvRow(row: Iterable<String>) {
     var start = true
     for (element in row) {
         if (start)
@@ -23,6 +23,8 @@ internal fun Appendable.appendCsvRow(row: List<String>) {
             append('"')
     }
 }
+
+internal fun Appendable.appendCsvRow(vararg row: String) = appendCsvRow(row.toList())
 
 internal fun currentDateTime(): String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"))
 

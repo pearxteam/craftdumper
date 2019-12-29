@@ -1,10 +1,8 @@
 package net.pearx.craftdumper.dumper
 
 import net.pearx.craftdumper.CraftDumper
-import net.pearx.craftdumper.helper.internal.appendCsvRow
 import net.pearx.craftdumper.helper.client
-import net.pearx.craftdumper.helper.internal.currentDateTime
-import net.pearx.craftdumper.helper.internal.getRegistryElementName
+import net.pearx.craftdumper.helper.internal.appendCsvRow
 
 typealias DumperTableData = Iterable<List<String>>
 
@@ -15,8 +13,7 @@ interface DumperTable : Dumper {
 
     override fun dumpData(reporter: DumpProgressReporter): List<DumpOutput> {
         val count = getCount()
-        val dumpFile = CraftDumper.outputDirectory
-            .resolve("${DumperRegistry.getRegistryElementName(registryName!!)}_${currentDateTime()}.csv")
+        val dumpFile = CraftDumper.getOutputFile(registryName!!, ".csv")
         dumpFile.parentFile.mkdirs()
         dumpFile.printWriter().use { writer ->
             with(writer) {

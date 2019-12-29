@@ -5,6 +5,8 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.util.text.event.ClickEvent
 import net.minecraftforge.registries.IForgeRegistryEntry
+import net.pearx.craftdumper.CraftDumper
+import net.pearx.craftdumper.helper.internal.appendCsvRow
 import java.io.File
 
 class DumpAmounts : MutableMap<String, Int> by hashMapOf() {
@@ -16,12 +18,7 @@ class DumpAmounts : MutableMap<String, Int> by hashMapOf() {
 
     operator fun plusAssign(values: Collection<ResourceLocation?>) = values.forEach { plusAssign(it) }
 
-    fun sort(): List<Pair<String, Int>> = toList().sortedByDescending { (_, v) -> v }
-}
-
-enum class DumpOutputType(val value: String, val hasProgress: Boolean) {
-    AMOUNTS("amounts", false),
-    DATA("data", true)
+    fun sorted(): List<Pair<String, Int>> = toList().sortedByDescending { (_, v) -> v }
 }
 
 class DumpOutput(val translationKey: String, val path: File) {
@@ -48,6 +45,8 @@ interface Dumper : IForgeRegistryEntry<Dumper> {
     fun getCount(): Int
 
     fun dumpData(reporter: DumpProgressReporter): List<DumpOutput>
+
+    fun dumpAmounts(): DumpOutput?
 }
 
 typealias DumpAmountsCreator = DumpAmounts.() -> Unit
@@ -79,5 +78,21 @@ abstract class DumperBase : Dumper {
 
     fun count(block: DumpCountCreator) {
         countCreator = block
+    }
+
+    override fun dumpAmounts(): DumpOutput? {
+        val amounts = getAmounts()
+        if (amounts != null) {
+            val amountsFile = CraftDumper.getOutputFile(registryName!!, "_amounts.csv")
+            amountsFile.printWriter().use { writer ->
+                with(writer) {
+                    for ((key, value) in amounts.sorted()) {
+                        appendCsvRow(key, value.toString())
+                    }
+                }
+            }
+            return DumpOutput("amounts", amountsFile)
+        }
+        return null
     }
 }

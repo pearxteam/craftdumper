@@ -2,8 +2,6 @@ package net.pearx.craftdumper.dumper
 
 import net.pearx.craftdumper.CraftDumper
 import net.pearx.craftdumper.helper.client
-import net.pearx.craftdumper.helper.internal.currentDateTime
-import net.pearx.craftdumper.helper.internal.getRegistryElementName
 import java.io.InputStream
 import kotlin.random.Random
 
@@ -16,8 +14,7 @@ interface DumperFiles : Dumper {
 
     override fun dumpData(reporter: DumpProgressReporter): List<DumpOutput> {
         val count = getCount()
-        val baseDirectory = CraftDumper.outputDirectory
-            .resolve("${DumperRegistry.getRegistryElementName(registryName!!)}_${currentDateTime()}")
+        val baseDirectory = CraftDumper.getOutputFile(registryName!!)
         dumpFiles().forEachIndexed { index, file ->
             val dumpPath = baseDirectory
                 .resolve(file.path)
