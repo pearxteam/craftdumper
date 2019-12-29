@@ -10,6 +10,7 @@ import net.pearx.craftdumper.ID
 import net.pearx.craftdumper.common.dumper.standard.vanilla.*
 import net.pearx.craftdumper.common.helper.internal.getRegistryElementNames
 import net.pearx.craftdumper.common.helper.internal.lookupRegistryElements
+import net.pearx.craftdumper.common.helper.registerNonNull
 
 lateinit var DumperRegistry: IForgeRegistry<Dumper> private set
 
@@ -31,6 +32,7 @@ object DumperRegistryEvents {
         with(event.registry) {
             register(DumperEnchantments)
             register(DumperLootTables)
+            registerNonNull(DumperModels)
             register(DumperPotions)
             register(DumperSoundEvents)
             register(DumperTileEntities)
