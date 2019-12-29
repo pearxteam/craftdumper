@@ -31,6 +31,7 @@ object DumperRegistryEvents {
     fun onRegisterDumpers(event: RegistryEvent.Register<Dumper>) {
         with(event.registry) {
             register(DumperEnchantments)
+            register(DumperFluids)
             register(DumperLootTables)
             registerNonNull(DumperModels)
             register(DumperPotions)
