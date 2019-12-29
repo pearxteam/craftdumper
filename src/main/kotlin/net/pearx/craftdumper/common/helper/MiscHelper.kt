@@ -1,4 +1,4 @@
-package net.pearx.craftdumper.helper
+package net.pearx.craftdumper.common.helper
 
 import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.fml.relauncher.Side

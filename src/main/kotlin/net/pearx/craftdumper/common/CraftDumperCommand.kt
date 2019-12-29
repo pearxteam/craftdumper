@@ -1,4 +1,4 @@
-package net.pearx.craftdumper
+package net.pearx.craftdumper.common
 
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
@@ -9,7 +9,8 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentString
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.util.text.TextFormatting
-import net.pearx.craftdumper.dumper.*
+import net.pearx.craftdumper.CraftDumper
+import net.pearx.craftdumper.common.dumper.*
 
 class CraftDumperCommand : CommandBase() {
     companion object {

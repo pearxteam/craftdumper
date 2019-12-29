@@ -6,11 +6,11 @@ import net.minecraft.client.Minecraft
 import net.minecraft.command.ICommandSender
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import net.pearx.craftdumper.CommonProxy
-import net.pearx.craftdumper.CraftDumperCommand
-import net.pearx.craftdumper.dumper.DumpOutput
-import net.pearx.craftdumper.dumper.DumpProgressReporter
-import net.pearx.craftdumper.dumper.Dumper
+import net.pearx.craftdumper.common.CommonProxy
+import net.pearx.craftdumper.common.CraftDumperCommand
+import net.pearx.craftdumper.common.dumper.DumpOutput
+import net.pearx.craftdumper.common.dumper.DumpProgressReporter
+import net.pearx.craftdumper.common.dumper.Dumper
 
 @SideOnly(Side.CLIENT)
 class ClientProxy : CommonProxy {

@@ -1,4 +1,4 @@
-package net.pearx.craftdumper.helper
+package net.pearx.craftdumper.common.helper
 
 import net.minecraft.util.ResourceLocation
 import org.apache.commons.lang3.reflect.FieldUtils

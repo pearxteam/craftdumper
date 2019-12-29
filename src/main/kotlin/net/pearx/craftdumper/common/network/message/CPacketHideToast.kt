@@ -1,4 +1,4 @@
-package net.pearx.craftdumper.network.message
+package net.pearx.craftdumper.common.network.message
 
 import io.netty.buffer.ByteBuf
 import net.minecraft.client.Minecraft

@@ -1,4 +1,4 @@
-package net.pearx.craftdumper.network.message
+package net.pearx.craftdumper.common.network.message
 
 import io.netty.buffer.ByteBuf
 import net.minecraft.client.Minecraft
@@ -9,10 +9,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.pearx.craftdumper.client.DumperToast
-import net.pearx.craftdumper.dumper.Dumper
-import net.pearx.craftdumper.dumper.DumperRegistry
-import net.pearx.craftdumper.helper.internal.readString
-import net.pearx.craftdumper.helper.internal.writeString
+import net.pearx.craftdumper.common.dumper.Dumper
+import net.pearx.craftdumper.common.dumper.DumperRegistry
+import net.pearx.craftdumper.common.helper.internal.readString
+import net.pearx.craftdumper.common.helper.internal.writeString
 
 class CPacketCreateToast(private var token: Int, private var dumper: Dumper?, private var subtitle: String?) : IMessage {
     constructor() : this(-1, null, null)

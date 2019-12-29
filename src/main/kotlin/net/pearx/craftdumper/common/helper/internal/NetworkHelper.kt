@@ -1,4 +1,4 @@
-package net.pearx.craftdumper.helper.internal
+package net.pearx.craftdumper.common.helper.internal
 
 import io.netty.buffer.ByteBuf
 import net.minecraftforge.fml.common.network.ByteBufUtils

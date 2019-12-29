@@ -1,4 +1,4 @@
-package net.pearx.craftdumper.network.message
+package net.pearx.craftdumper.common.network.message
 
 import io.netty.buffer.ByteBuf
 import net.minecraft.client.Minecraft
@@ -8,8 +8,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.pearx.craftdumper.client.DumperToast
-import net.pearx.craftdumper.helper.internal.readStringNullable
-import net.pearx.craftdumper.helper.internal.writeStringNullable
+import net.pearx.craftdumper.common.helper.internal.readStringNullable
+import net.pearx.craftdumper.common.helper.internal.writeStringNullable
 
 
 class CPacketUpdateToast(var token: Int, var progress: Float, var subtitle: String? = null) : IMessage {

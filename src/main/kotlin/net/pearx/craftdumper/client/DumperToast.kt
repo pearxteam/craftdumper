@@ -9,7 +9,7 @@ import net.minecraft.client.resources.I18n
 import net.minecraft.util.math.MathHelper.clampedLerp
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import net.pearx.craftdumper.dumper.Dumper
+import net.pearx.craftdumper.common.dumper.Dumper
 
 @SideOnly(Side.CLIENT)
 class DumperToast(private val token: Int, dumper: Dumper, subtitle: String) : IToast {

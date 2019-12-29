@@ -9,14 +9,14 @@ import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.world.WorldServer
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import net.pearx.craftdumper.CommonProxy
-import net.pearx.craftdumper.CraftDumperCommand
-import net.pearx.craftdumper.dumper.DumpProgressReporter
-import net.pearx.craftdumper.dumper.Dumper
-import net.pearx.craftdumper.network.CHANNEL
-import net.pearx.craftdumper.network.message.CPacketCreateToast
-import net.pearx.craftdumper.network.message.CPacketHideToast
-import net.pearx.craftdumper.network.message.CPacketUpdateToast
+import net.pearx.craftdumper.common.CommonProxy
+import net.pearx.craftdumper.common.CraftDumperCommand
+import net.pearx.craftdumper.common.dumper.DumpProgressReporter
+import net.pearx.craftdumper.common.dumper.Dumper
+import net.pearx.craftdumper.common.network.CHANNEL
+import net.pearx.craftdumper.common.network.message.CPacketCreateToast
+import net.pearx.craftdumper.common.network.message.CPacketHideToast
+import net.pearx.craftdumper.common.network.message.CPacketUpdateToast
 
 @SideOnly(Side.SERVER)
 class ServerProxy : CommonProxy {

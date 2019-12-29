@@ -1,16 +1,16 @@
 @file:JvmMultifileClass
 @file:JvmName("VanillaDumpers")
 
-package net.pearx.craftdumper.dumper.standard.vanilla
+package net.pearx.craftdumper.common.dumper.standard.vanilla
 
 import net.minecraftforge.fml.common.registry.ForgeRegistries
 import net.minecraftforge.fml.common.registry.VillagerRegistry
-import net.pearx.craftdumper.dumper.add
-import net.pearx.craftdumper.dumper.dumperTable
-import net.pearx.craftdumper.dumper.row
-import net.pearx.craftdumper.helper.internal.craftdumper
-import net.pearx.craftdumper.helper.readField
-import net.pearx.craftdumper.helper.toAssetsPath
+import net.pearx.craftdumper.common.dumper.add
+import net.pearx.craftdumper.common.dumper.dumperTable
+import net.pearx.craftdumper.common.dumper.row
+import net.pearx.craftdumper.common.helper.internal.craftdumper
+import net.pearx.craftdumper.common.helper.readField
+import net.pearx.craftdumper.common.helper.toAssetsPath
 
 val DumperVillagerProfessions = dumperTable {
     registryName = craftdumper("villager_professions")

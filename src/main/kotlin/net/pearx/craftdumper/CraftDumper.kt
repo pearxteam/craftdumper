@@ -6,10 +6,12 @@ import net.minecraftforge.fml.common.SidedProxy
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent
-import net.pearx.craftdumper.dumper.DumperRegistry
-import net.pearx.craftdumper.helper.internal.currentDateTime
-import net.pearx.craftdumper.helper.internal.getRegistryElementName
-import net.pearx.craftdumper.network.initNetwork
+import net.pearx.craftdumper.common.CommonProxy
+import net.pearx.craftdumper.common.CraftDumperCommand
+import net.pearx.craftdumper.common.dumper.DumperRegistry
+import net.pearx.craftdumper.common.helper.internal.currentDateTime
+import net.pearx.craftdumper.common.helper.internal.getRegistryElementName
+import net.pearx.craftdumper.common.network.initNetwork
 import org.apache.logging.log4j.Logger
 import java.io.File
 

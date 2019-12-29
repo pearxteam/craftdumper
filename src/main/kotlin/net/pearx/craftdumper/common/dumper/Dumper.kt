@@ -1,4 +1,4 @@
-package net.pearx.craftdumper.dumper
+package net.pearx.craftdumper.common.dumper
 
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
@@ -6,7 +6,7 @@ import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.util.text.event.ClickEvent
 import net.minecraftforge.registries.IForgeRegistryEntry
 import net.pearx.craftdumper.CraftDumper
-import net.pearx.craftdumper.helper.internal.appendCsvRow
+import net.pearx.craftdumper.common.helper.internal.appendCsvRow
 import java.io.File
 
 class DumpAmounts : MutableMap<String, Int> by hashMapOf() {

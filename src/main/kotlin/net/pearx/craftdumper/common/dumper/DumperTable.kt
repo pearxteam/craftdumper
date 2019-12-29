@@ -1,8 +1,8 @@
-package net.pearx.craftdumper.dumper
+package net.pearx.craftdumper.common.dumper
 
 import net.pearx.craftdumper.CraftDumper
-import net.pearx.craftdumper.helper.client
-import net.pearx.craftdumper.helper.internal.appendCsvRow
+import net.pearx.craftdumper.common.helper.client
+import net.pearx.craftdumper.common.helper.internal.appendCsvRow
 
 typealias DumperTableData = Iterable<List<String>>
 

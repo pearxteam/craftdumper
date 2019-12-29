@@ -1,4 +1,4 @@
-package net.pearx.craftdumper.helper.internal
+package net.pearx.craftdumper.common.helper.internal
 
 import net.minecraft.util.ResourceLocation
 import net.pearx.craftdumper.ID

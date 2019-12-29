@@ -1,11 +1,11 @@
-package net.pearx.craftdumper.network
+package net.pearx.craftdumper.common.network
 
 import net.minecraftforge.fml.common.network.NetworkRegistry
 import net.minecraftforge.fml.relauncher.Side
 import net.pearx.craftdumper.ID
-import net.pearx.craftdumper.network.message.CPacketCreateToast
-import net.pearx.craftdumper.network.message.CPacketHideToast
-import net.pearx.craftdumper.network.message.CPacketUpdateToast
+import net.pearx.craftdumper.common.network.message.CPacketCreateToast
+import net.pearx.craftdumper.common.network.message.CPacketHideToast
+import net.pearx.craftdumper.common.network.message.CPacketUpdateToast
 
 
 val CHANNEL = NetworkRegistry.INSTANCE.newSimpleChannel(ID)
