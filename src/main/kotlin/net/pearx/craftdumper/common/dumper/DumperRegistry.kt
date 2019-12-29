@@ -8,6 +8,7 @@ import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.RegistryBuilder
 import net.pearx.craftdumper.ID
 import net.pearx.craftdumper.common.dumper.standard.vanilla.DumperLootTables
+import net.pearx.craftdumper.common.dumper.standard.vanilla.DumperSoundEvents
 import net.pearx.craftdumper.common.dumper.standard.vanilla.DumperTileEntities
 import net.pearx.craftdumper.common.dumper.standard.vanilla.DumperVillagerProfessions
 import net.pearx.craftdumper.common.helper.internal.getRegistryElementNames
@@ -32,6 +33,7 @@ object DumperRegistryEvents {
     fun onRegisterDumpers(event: RegistryEvent.Register<Dumper>) {
         with(event.registry) {
             register(DumperLootTables)
+            register(DumperSoundEvents)
             register(DumperTileEntities)
             register(DumperVillagerProfessions)
         }
