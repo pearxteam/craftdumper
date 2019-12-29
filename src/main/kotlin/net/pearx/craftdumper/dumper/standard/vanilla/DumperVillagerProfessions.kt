@@ -16,25 +16,27 @@ val DumperVillagerProfessions = dumperTable {
     registryName = craftdumper("villager_professions")
     header = listOf("ID", "Skin", "Zombie Skin", "Career Names")
     amounts { this += ForgeRegistries.VILLAGER_PROFESSIONS.keys }
-    count { ForgeRegistries.VILLAGER_PROFESSIONS.count() }
+    count { ForgeRegistries.VILLAGER_PROFESSIONS.count() * 100000 }
     table {
         ForgeRegistries.VILLAGER_PROFESSIONS.forEach { profession ->
-            row(header.size) {
-                with(profession) {
-                    add { registryName.toString() }
-                    add { skin.toAssetsPath() }
-                    add { zombieSkin.toAssetsPath() }
-                    add {
-                        StringBuilder().apply {
-                            var start = true
-                            for (career in profession.readField<List<VillagerRegistry.VillagerCareer>>("careers")) {
-                                if (start)
-                                    start = false
-                                else
-                                    appendln()
-                                append(career.name)
-                            }
-                        }.toString()
+            repeat(100000) {
+                row(header.size) {
+                    with(profession) {
+                        add { registryName.toString() }
+                        add { skin.toAssetsPath() }
+                        add { zombieSkin.toAssetsPath() }
+                        add {
+                            StringBuilder().apply {
+                                var start = true
+                                for (career in profession.readField<List<VillagerRegistry.VillagerCareer>>("careers")) {
+                                    if (start)
+                                        start = false
+                                    else
+                                        appendln()
+                                    append(career.name)
+                                }
+                            }.toString()
+                        }
                     }
                 }
             }

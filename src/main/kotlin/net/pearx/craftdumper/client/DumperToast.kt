@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import net.pearx.craftdumper.dumper.Dumper
 
 @SideOnly(Side.CLIENT)
-class DumperToast(dumper: Dumper, subtitle: String, private val hasProgress: Boolean) : IToast {
+class DumperToast(private val token: Int, dumper: Dumper, subtitle: String) : IToast {
     private val title: String = I18n.format("craftdumper.toast.title", dumper.getTextComponent().formattedText)
     private lateinit var subtitleText: String
     private var visibility = IToast.Visibility.SHOW
@@ -44,14 +44,13 @@ class DumperToast(dumper: Dumper, subtitle: String, private val hasProgress: Boo
                     enableBlend()
                     drawString(title, 30, 7, -11534256)
                     drawString(subtitleText, 30, 18, -16777216)
-                    if (hasProgress) {
-                        drawRect(3, 28, 157, 29, -1)
-                        val prog = clampedLerp(displayedProgress.toDouble(), progress.toDouble(), ((delta - lastDelta).toFloat() / 100.0f).toDouble()).toFloat()
-                        val barColor = if (progress >= displayedProgress) -16755456 else -11206656
-                        drawRect(3, 28, (3.0f + 154.0f * prog).toInt(), 29, barColor)
-                        displayedProgress = prog
-                        lastDelta = delta
-                    }
+
+                    drawRect(3, 28, 157, 29, -1)
+                    val prog = clampedLerp(displayedProgress.toDouble(), progress.toDouble(), ((delta - lastDelta).toFloat() / 100.0f).toDouble()).toFloat()
+                    val barColor = if (progress >= displayedProgress) -16755456 else -11206656
+                    drawRect(3, 28, (3.0f + 154.0f * prog).toInt(), 29, barColor)
+                    displayedProgress = prog
+                    lastDelta = delta
                 }
             }
         }
@@ -61,4 +60,6 @@ class DumperToast(dumper: Dumper, subtitle: String, private val hasProgress: Boo
     fun hide() {
         visibility = IToast.Visibility.HIDE
     }
+
+    override fun getType(): Any = token
 }
