@@ -54,10 +54,15 @@ inline fun MutableList<String>.add(block: () -> String) {
             block()
         }
         catch (e: Exception) {
-            CraftDumper.log.error("An error occurred while creating a dump! Already dumped data: ${joinToString(prefix = "[", separator = ", ", postfix = "]")}", e)
-            "*error*"
+            createAddError(e)
         }
     )
+}
+
+@PublishedApi
+internal fun MutableList<String>.createAddError(e: Exception): String {
+    CraftDumper.log.error("An error occurred while creating a dump! Already dumped data: ${joinToString(prefix = "[", separator = ", ", postfix = "]")}", e)
+    return "*error*"
 }
 
 suspend inline fun SequenceScope<List<String>>.row(size: Int, block: MutableList<String>.() -> Unit) {
