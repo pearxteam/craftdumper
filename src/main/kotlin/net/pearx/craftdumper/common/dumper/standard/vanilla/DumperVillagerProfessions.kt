@@ -25,16 +25,7 @@ val DumperVillagerProfessions = dumperTable {
                     add { skin.toAssetsPath() }
                     add { zombieSkin.toAssetsPath() }
                     add {
-                        StringBuilder().apply {
-                            var start = true
-                            for (career in profession.readField<List<VillagerRegistry.VillagerCareer>>("careers")) {
-                                if (start)
-                                    start = false
-                                else
-                                    appendln()
-                                append(career.name)
-                            }
-                        }.toString()
+                        profession.readField<List<VillagerRegistry.VillagerCareer>>("careers").joinToString(System.lineSeparator()) { it.name }
                     }
                 }
             }
