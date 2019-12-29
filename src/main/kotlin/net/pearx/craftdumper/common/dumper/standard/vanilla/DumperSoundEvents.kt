@@ -27,7 +27,7 @@ val DumperSoundEvents = dumperTable {
                     val accessor = Minecraft.getMinecraft().soundHandler.getAccessor(event.soundName)!!
                     val subtitle = accessor.subtitle
                     add {
-                        subtitle?.unformattedText.toString()
+                        subtitle?.unformattedText ?: ""
                     }
                     add {
                         if (subtitle is TextComponentTranslation) {
