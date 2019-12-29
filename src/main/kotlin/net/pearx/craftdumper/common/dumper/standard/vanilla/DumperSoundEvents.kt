@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries
 import net.pearx.craftdumper.common.dumper.add
 import net.pearx.craftdumper.common.dumper.dumperTable
 import net.pearx.craftdumper.common.dumper.row
+import net.pearx.craftdumper.common.helper.buildMultilineString
 import net.pearx.craftdumper.common.helper.client
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 import net.pearx.craftdumper.common.helper.toAssetsPath
@@ -29,25 +30,18 @@ val DumperSoundEvents = dumperTable {
                         subtitle?.unformattedText.toString()
                     }
                     add {
-                        if(subtitle is TextComponentTranslation) {
+                        if (subtitle is TextComponentTranslation) {
                             subtitle.key
                         }
                         else
                             subtitle.toString()
                     }
                     add {
-                        StringBuilder().apply {
-                            var start = true
-                            for (acc in accessor.accessorList) {
-                                if(start)
-                                    start = false
-                                else
-                                    appendln()
-                                append(acc.cloneEntry().soundAsOggLocation.toAssetsPath())
-                                append(" @ ")
-                                append(acc.weight)
-                            }
-                        }.toString()
+                        buildMultilineString(accessor.accessorList) {
+                            append(it.cloneEntry().soundAsOggLocation.toAssetsPath())
+                            append(" @ ")
+                            append(it.weight)
+                        }
                     }
                 }
             }

@@ -17,3 +17,16 @@ inline fun <T> ifOrNull(bool: Boolean, func: () -> T) = if (bool) func() else nu
 
 fun <T> client(value: T) = ifOrNull(isClient, value)
 inline fun <T> client(func: () -> T) = ifOrNull(isClient, func)
+
+inline fun <T> buildMultilineString(iterable: Iterable<T>, action: StringBuilder.(T) -> Unit): String {
+    return buildString {
+        var start = true
+        for (element in iterable) {
+            if (start)
+                start = false
+            else
+                appendln()
+            action(element)
+        }
+    }
+}

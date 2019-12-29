@@ -35,7 +35,7 @@ fun ItemStack.appendTo(to: Appendable, wildcardMetaAsAny: Boolean = false) {
     }
 }
 
-fun ItemStack.toFullString(wildcardMetaAsAny: Boolean = false) = StringBuilder().apply { appendTo(this, wildcardMetaAsAny) }.toString()
+fun ItemStack.toFullString(wildcardMetaAsAny: Boolean = false) = buildString { appendTo(this, wildcardMetaAsAny) }
 
 inline fun <reified T : Item> eachStack(block: (item: T, stack: ItemStack) -> Unit) {
     for (item in ForgeRegistries.ITEMS) {
@@ -91,4 +91,4 @@ private fun appendStackListOrSeparatedTo(to: Appendable, stacks: Array<ItemStack
     }
 }
 
-fun Ingredient.toFullString() = StringBuilder().apply { appendTo(this) }.toString()
+fun Ingredient.toFullString() = buildString { appendTo(this) }

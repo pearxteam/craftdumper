@@ -8,11 +8,8 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries
 import net.pearx.craftdumper.common.dumper.add
 import net.pearx.craftdumper.common.dumper.dumperTable
 import net.pearx.craftdumper.common.dumper.row
-import net.pearx.craftdumper.common.helper.appendTo
-import net.pearx.craftdumper.common.helper.client
+import net.pearx.craftdumper.common.helper.*
 import net.pearx.craftdumper.common.helper.internal.craftdumper
-import net.pearx.craftdumper.common.helper.toHexColorString
-import net.pearx.craftdumper.common.helper.toPlusMinusString
 
 val DumperPotions = dumperTable {
     registryName = craftdumper("potions")
@@ -35,31 +32,18 @@ val DumperPotions = dumperTable {
                         add { liquidColor.toHexColorString() }
                     }
                     add {
-                        StringBuilder().apply {
-                            var start = true
-                            for (item in curativeItems) {
-                                if (start)
-                                    start = false
-                                else
-                                    appendln()
-                                item.appendTo(this)
-                            }
-                        }.toString()
+                        buildMultilineString(curativeItems) {
+                            it.appendTo(this)
+                        }
                     }
                     client {
                         add {
-                            StringBuilder().apply {
-                                var start = true
-                                for ((attribute, modifier) in attributeModifierMap) {
-                                    if (start)
-                                        start = true
-                                    else
-                                        appendln()
-                                    append(attribute.name)
-                                    append(": ")
-                                    append(modifier)
-                                }
-                            }.toString()
+                            buildMultilineString(attributeModifierMap.entries) {
+                                val (attribute, modifier) = it
+                                append(attribute.name)
+                                append(": ")
+                                append(modifier)
+                            }
                         }
                     }
                 }
