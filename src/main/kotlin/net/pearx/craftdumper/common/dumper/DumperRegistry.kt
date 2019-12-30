@@ -43,6 +43,7 @@ object DumperRegistryEvents {
             register(DumperPotions)
             register(DumperShapedRecipes)
             register(DumperShapelessRecipes)
+            register(DumperSmeltingRecipes)
             register(DumperSoundEvents)
             register(DumperTileEntities)
             register(DumperVillagerProfessions)
