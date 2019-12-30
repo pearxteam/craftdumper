@@ -40,14 +40,22 @@ fun ItemStack.toFullString(wildcardMetaAsAny: Boolean = false) = buildString { a
 inline fun <reified T : Item> eachStack(block: (item: T, stack: ItemStack) -> Unit) {
     for (item in ForgeRegistries.ITEMS) {
         if (item is T) {
-            val stacks = NonNullList.create<ItemStack>().apply {
-                item.getSubItems(this)
-            }
+            val stacks = NonNullList.create<ItemStack>().also { item.getSubItems(it) }
             for (stack in stacks) {
                 block(item, stack)
             }
         }
     }
+}
+
+inline fun <reified T : Item> stackCount(): Int {
+    var count = 0
+    for(item in ForgeRegistries.ITEMS) {
+        if(item is T) {
+            count += NonNullList.create<ItemStack>().also { item.getSubItems(it) }.size
+        }
+    }
+    return count
 }
 
 fun Item.getSubItems(list: NonNullList<ItemStack>) {

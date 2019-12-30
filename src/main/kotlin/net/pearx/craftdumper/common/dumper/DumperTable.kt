@@ -66,5 +66,12 @@ internal fun MutableList<String>.createAddError(e: Exception): String {
 }
 
 suspend inline fun SequenceScope<List<String>>.row(size: Int, block: MutableList<String>.() -> Unit) {
-    yield(ArrayList<String>(size).apply(block))
+    val lst = ArrayList<String>(size)
+    try {
+        lst.apply(block)
+    }
+    catch(e: Exception) {
+        lst.createAddError(e)
+    }
+    yield(lst)
 }

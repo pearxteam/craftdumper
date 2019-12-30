@@ -36,6 +36,7 @@ object DumperRegistryEvents {
             register(DumperEnchantments)
             register(DumperEntities)
             register(DumperFluids)
+            register(DumperFood)
             register(DumperLootTables)
             registerNonNull(DumperModels)
             register(DumperPotions)
