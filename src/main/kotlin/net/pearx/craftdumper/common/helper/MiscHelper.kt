@@ -43,3 +43,16 @@ inline fun buildMultilineString(iterable: IntArray, action: StringBuilder.(Int) 
         }
     }
 }
+
+inline fun <T> buildMultilineString(iterable: Array<T>, action: StringBuilder.(T) -> Unit): String {
+    return buildString {
+        var start = true
+        for (element in iterable) {
+            if (start)
+                start = false
+            else
+                appendln()
+            action(element)
+        }
+    }
+}

@@ -30,6 +30,7 @@ object DumperRegistryEvents {
     @JvmStatic
     fun onRegisterDumpers(event: RegistryEvent.Register<Dumper>) {
         with(event.registry) {
+            register(DumperAdvancements)
             register(DumperBiomes)
             register(DumperBlocks)
             register(DumperCapabilities)

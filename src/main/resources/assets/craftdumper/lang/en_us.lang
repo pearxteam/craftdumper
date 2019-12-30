@@ -7,6 +7,7 @@ craftdumper.output.table.name=CSV Table
 craftdumper.output.directory.name=Data Directory
 craftdumper.output.amounts.name=Amounts
 
+craftdumper.dumper.advancements.name=Advancements
 craftdumper.dumper.biomes.name=Biomes
 craftdumper.dumper.blocks.name=Blocks
 craftdumper.dumper.capabilities.name=Capabilities
