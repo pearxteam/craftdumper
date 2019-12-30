@@ -18,10 +18,15 @@ inline fun <T> ifOrNull(bool: Boolean, func: () -> T) = if (bool) func() else nu
 fun <T> client(value: T) = ifOrNull(isClient, value)
 inline fun <T> client(func: () -> T) = ifOrNull(isClient, func)
 
-inline fun <T> buildMultilineString(iterable: Iterable<T>, action: StringBuilder.(T) -> Unit): String {
+inline fun <T> buildMultilineString(iterable: Iterable<T>, crossinline action: StringBuilder.(T) -> Unit) = buildMultilineString_(iterable, action, Iterable<T>::forEach)
+
+inline fun buildMultilineString(iterable: IntArray, crossinline action: StringBuilder.(Int) -> Unit) = buildMultilineString_(iterable, action, IntArray::forEach)
+
+@PublishedApi
+internal inline fun <I, E> buildMultilineString_(iterable: I, crossinline action: StringBuilder.(E) -> Unit, itr: I.((E) -> Unit) -> Unit): String {
     return buildString {
         var start = true
-        for (element in iterable) {
+        iterable.itr { element ->
             if (start)
                 start = false
             else
