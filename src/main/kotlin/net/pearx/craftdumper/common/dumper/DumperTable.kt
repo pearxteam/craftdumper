@@ -17,7 +17,6 @@ interface DumperTable : Dumper {
         dumpFile.parentFile.mkdirs()
         dumpFile.printWriter().use { writer ->
             with(writer) {
-                // todo: sorting
                 appendCsvRow(header)
                 dumpTable().forEachIndexed { index, row ->
                     appendln()
