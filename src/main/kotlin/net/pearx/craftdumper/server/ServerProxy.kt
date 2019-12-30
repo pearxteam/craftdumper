@@ -17,22 +17,27 @@ import net.pearx.craftdumper.common.network.CHANNEL
 import net.pearx.craftdumper.common.network.message.CPacketCreateToast
 import net.pearx.craftdumper.common.network.message.CPacketHideToast
 import net.pearx.craftdumper.common.network.message.CPacketUpdateToast
+import java.util.*
 
 @SideOnly(Side.SERVER)
 class ServerProxy : CommonProxy {
-    private val takenToastTokens = mutableSetOf<Int>()
+    private val takenToastTokens = TreeSet<Int>()
 
     private fun nextToastToken(): Int {
-        for (i in 0..Int.MAX_VALUE)
-            if (i !in takenToastTokens) {
-                takenToastTokens.add(i)
-                return i
+        var prev = -1
+        for (el in takenToastTokens) {
+            if (el - prev > 1) {
+                takenToastTokens += prev + 1
+                return prev + 1
             }
-        return -1 // this should never happen, but...
+            prev = el
+        }
+        takenToastTokens += prev + 1
+        return prev + 1
     }
 
     private fun freeToken(i: Int) {
-        takenToastTokens.remove(i)
+        takenToastTokens -= i
     }
 
     override fun createDump(command: CraftDumperCommand, sender: ICommandSender, dumper: Dumper, type: CraftDumperCommand.DumpType) {

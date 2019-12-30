@@ -47,7 +47,7 @@ inline fun dumperFiles(init: DumperFilesContext.() -> Unit): DumperFiles = Dumpe
 inline fun dumperFilesClient(init: DumperFilesContext.() -> Unit): DumperFiles? = client { DumperFilesContext().apply(init) }
 
 suspend inline fun SequenceScope<DumpFile>.file(getPath: () -> String, getData: () -> InputStream) {
-    val path = try { getPath() } catch(e: Exception) { "error_${Random.nextInt()}" }
-    val data = try { getData() } catch(e: Exception) { ByteArray(0).inputStream() }
+    val path = try { getPath() } catch(e: Throwable) { "error_${Random.nextInt()}" }
+    val data = try { getData() } catch(e: Throwable) { ByteArray(0).inputStream() }
     yield(DumpFile(path, data))
 }
