@@ -8,7 +8,6 @@ typealias DumperTableData = Iterable<List<String>>
 
 interface DumperTable : Dumper {
     val header: List<String>
-    val columnToSortBy: Int
     fun dumpTable(): DumperTableData
 
     override fun dumpData(reporter: DumpProgressReporter): List<DumpOutput> {
@@ -34,7 +33,6 @@ typealias DumperTableCreator = suspend SequenceScope<List<String>>.() -> Unit
 class DumperTableContext : DumperBase(), DumperTable {
     private lateinit var tableCreator: DumperTableCreator
     override lateinit var header: List<String>
-    override var columnToSortBy = 0
 
     override fun dumpTable(): DumperTableData = Iterable { iterator(tableCreator) }
 
