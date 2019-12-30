@@ -41,6 +41,7 @@ object DumperRegistryEvents {
             register(DumperLootTables)
             registerNonNull(DumperModels)
             register(DumperPotions)
+            register(DumperShapedRecipes)
             register(DumperShapelessRecipes)
             register(DumperSoundEvents)
             register(DumperTileEntities)
