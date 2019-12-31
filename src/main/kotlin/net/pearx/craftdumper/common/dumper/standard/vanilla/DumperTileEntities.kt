@@ -15,7 +15,7 @@ val DumperTileEntities = dumperTable {
     registryName = craftdumper("tile_entities")
     header = listOf("ID", "Class Name", "Is Tickable")
     amounts { this += TileEntity.REGISTRY.keys }
-    count { TileEntity.REGISTRY.count() }
+    count { TileEntity.REGISTRY.keys.size }
     table {
         TileEntity.REGISTRY.keys.forEach { id ->
             row(header.size) {
