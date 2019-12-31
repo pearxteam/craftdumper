@@ -17,9 +17,9 @@ val DumperEnchantments = dumperTable {
     amounts { this += ForgeRegistries.ENCHANTMENTS.keys }
     count { ForgeRegistries.ENCHANTMENTS.count() }
     table {
-        ForgeRegistries.ENCHANTMENTS.forEach { ench ->
+        ForgeRegistries.ENCHANTMENTS.forEach { enchantments ->
             row(header.size) {
-                with(ench) {
+                with(enchantments) {
                     add { registryName.toString() }
                     add { name }
                     add { this::class.java.name }

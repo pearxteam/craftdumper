@@ -11,7 +11,7 @@ import net.pearx.craftdumper.common.CraftDumperCommand
 import net.pearx.craftdumper.common.dumper.DumpProgressReporter
 import net.pearx.craftdumper.common.dumper.Dumper
 import net.pearx.craftdumper.common.helper.internal.getTotalCount
-import net.pearx.craftdumper.common.network.CHANNEL
+import net.pearx.craftdumper.common.network.NETWORK
 import net.pearx.craftdumper.common.network.message.CPacketCreateToast
 import net.pearx.craftdumper.common.network.message.CPacketHideToast
 import net.pearx.craftdumper.common.network.message.CPacketUpdateToast
@@ -44,7 +44,7 @@ class ServerProxy : CommonProxy {
         with(command) {
             val token = nextToastToken()
             if (sender is EntityPlayerMP)
-                CHANNEL.sendTo(CPacketCreateToast(token), sender)
+                NETWORK.sendTo(CPacketCreateToast(token), sender)
 
             GlobalScope.launch {
                 val totalCount = toDump.getTotalCount()
@@ -52,18 +52,18 @@ class ServerProxy : CommonProxy {
                 val reporter = object : DumpProgressReporter {
                     override var progress: Int = 0
                 }
-                toDump.forEachIndexed { index, (dumper, type) ->
+                for((dumper, type) in toDump) {
                     if (type.data) {
                         var updateCoroutine: Deferred<Unit>? = null
                         if (sender is EntityPlayerMP) {
                             (sender.entityWorld as WorldServer).addScheduledTask {
-                                CHANNEL.sendTo(CPacketUpdateToast(token, prevCount.toFloat() / totalCount, dumper.getTitle(), dumper.getSubtitleData()), sender)
+                                NETWORK.sendTo(CPacketUpdateToast(token, prevCount.toFloat() / totalCount, dumper.getTitle(), dumper.getSubtitleData()), sender)
                             }
                             updateCoroutine =
                                 async {
                                     while (true) {
                                         (sender.entityWorld as WorldServer).addScheduledTask {
-                                            CHANNEL.sendTo(CPacketUpdateToast(token, (prevCount + reporter.progress.toFloat()) / totalCount, dumper.getTitle(), dumper.getSubtitleData()), sender)
+                                            NETWORK.sendTo(CPacketUpdateToast(token, (prevCount + reporter.progress.toFloat()) / totalCount, dumper.getTitle(), dumper.getSubtitleData()), sender)
                                         }
                                         delay(500)
                                     }
@@ -76,7 +76,7 @@ class ServerProxy : CommonProxy {
                     if (type.amounts) {
                         if (sender is EntityPlayerMP) {
                             (sender.entityWorld as WorldServer).addScheduledTask {
-                                CHANNEL.sendTo(CPacketUpdateToast(token, (prevCount + 1F) / totalCount, subtitle = dumper.getSubtitleAmounts()), sender)
+                                NETWORK.sendTo(CPacketUpdateToast(token, (prevCount + 1F) / totalCount, subtitle = dumper.getSubtitleAmounts()), sender)
                             }
                         }
                         dumper.dumpAmounts()
@@ -89,7 +89,7 @@ class ServerProxy : CommonProxy {
                 }
                 if (sender is EntityPlayerMP) {
                     (sender.entityWorld as WorldServer).addScheduledTask {
-                        CHANNEL.sendTo(CPacketHideToast(token), sender)
+                        NETWORK.sendTo(CPacketHideToast(token), sender)
                         freeToken(token)
                     }
                 }

@@ -80,7 +80,7 @@ fun Ingredient.appendTo(to: Appendable) {
         }
         else {
             val matchingStacksInternal = matchingStacks
-            if (!matchingStacksInternal.isEmpty())
+            if (matchingStacksInternal.isNotEmpty())
                 appendStackListOrSeparatedTo(to, matchingStacksInternal)
             else
                 appendStackListOrSeparatedTo(to, matchingStacksPublic)

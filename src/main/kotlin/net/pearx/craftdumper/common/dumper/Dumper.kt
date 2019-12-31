@@ -21,7 +21,7 @@ class DumpAmounts : MutableMap<String, Int> by hashMapOf() {
     fun sorted(): List<Pair<String, Int>> = toList().sortedByDescending { (_, v) -> v }
 }
 
-class DumpOutput(val translationKey: String, val path: File) {
+class DumpOutput(private val translationKey: String, private val path: File) {
     fun getTextComponent() = TextComponentTranslation("craftdumper.output.$translationKey.name").apply {
         with(style) {
             clickEvent =  ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())
