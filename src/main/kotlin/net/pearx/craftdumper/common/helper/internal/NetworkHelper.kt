@@ -1,6 +1,7 @@
 package net.pearx.craftdumper.common.helper.internal
 
 import io.netty.buffer.ByteBuf
+import net.minecraft.util.text.ITextComponent
 import net.minecraftforge.fml.common.network.ByteBufUtils
 
 internal fun ByteBuf.writeString(string: String) {
@@ -15,6 +16,10 @@ internal fun ByteBuf.writeStringNullable(string: String?) {
         writeString(string)
 }
 
+internal fun ByteBuf.writeTextComponentNullable(component: ITextComponent?) {
+    writeStringNullable(component?.let { ITextComponent.Serializer.componentToJson(it) })
+}
+
 internal fun ByteBuf.readStringNullable(): String? {
     val isNull = readBoolean()
     return if (isNull)
@@ -22,3 +27,5 @@ internal fun ByteBuf.readStringNullable(): String? {
     else
         readString()
 }
+
+internal fun ByteBuf.readTextComponentNullable(): ITextComponent? = readStringNullable()?.let { ITextComponent.Serializer.jsonToComponent(it) }

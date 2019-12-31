@@ -1,9 +1,6 @@
 package net.pearx.craftdumper.server
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import net.minecraft.command.ICommandSender
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.world.WorldServer
@@ -40,45 +37,57 @@ class ServerProxy : CommonProxy {
         takenToastTokens -= i
     }
 
-    override fun createDump(command: CraftDumperCommand, sender: ICommandSender, dumper: Dumper, type: CraftDumperCommand.DumpType) {
+    override fun createDump(command: CraftDumperCommand, sender: ICommandSender, toDump: List<Pair<Dumper, CraftDumperCommand.DumpType>>) {
+        if (toDump.isEmpty())
+            return
         with(command) {
             val token = nextToastToken()
+            val totalProgress = toDump.size.toFloat()
             val reporter = object : DumpProgressReporter {
                 override var progress: Float = 0F
             }
             if (sender is EntityPlayerMP)
-                CHANNEL.sendTo(CPacketCreateToast(token, dumper, "data"), sender)
+                CHANNEL.sendTo(CPacketCreateToast(token), sender)
 
             GlobalScope.launch {
-                if (type.data) {
-                    val updateCoroutine = if (sender is EntityPlayerMP)
-                        async {
-                            while (true) {
-                                (sender.entityWorld as WorldServer).addScheduledTask {
-                                    CHANNEL.sendTo(CPacketUpdateToast(token, reporter.progress), sender)
+                toDump.forEachIndexed { index, (dumper, type) ->
+                    if (type.data) {
+                        var updateCoroutine: Deferred<Unit>? = null
+                        if (sender is EntityPlayerMP) {
+                            (sender.entityWorld as WorldServer).addScheduledTask {
+                                CHANNEL.sendTo(CPacketUpdateToast(token, index.toFloat() / totalProgress, dumper.getTitle(), dumper.getSubtitleData()), sender)
+                            }
+                            updateCoroutine =
+                                async {
+                                    while (true) {
+                                        (sender.entityWorld as WorldServer).addScheduledTask {
+                                            CHANNEL.sendTo(CPacketUpdateToast(token, (index + reporter.progress) / totalProgress, dumper.getTitle(), dumper.getSubtitleData()), sender)
+                                        }
+                                        delay(500)
+                                    }
                                 }
-                                delay(500)
+                        }
+                        dumper.dumpData(reporter)
+                        updateCoroutine?.cancel()
+                    }
+                    if (type.amounts) {
+                        if (sender is EntityPlayerMP) {
+                            (sender.entityWorld as WorldServer).addScheduledTask {
+                                CHANNEL.sendTo(CPacketUpdateToast(token, (index + 1F) / totalProgress, subtitle = dumper.getSubtitleAmounts()), sender)
                             }
                         }
-                    else null
-                    dumper.dumpData(reporter)
-                    updateCoroutine?.cancel()
-                }
-                if (type.amounts) {
-                    if (sender is EntityPlayerMP) {
-                        (sender.entityWorld as WorldServer).addScheduledTask {
-                            CHANNEL.sendTo(CPacketUpdateToast(token, 1F, "amounts"), sender)
-                        }
+                        dumper.dumpAmounts()
                     }
-                    dumper.dumpAmounts()
+                    (sender.entityWorld as WorldServer).addScheduledTask {
+                        for (msg in createSuccessMessage(dumper, listOf(), true))
+                            sender.sendMessage(msg)
+                    }
                 }
-                (sender.entityWorld as WorldServer).addScheduledTask {
-                    if (sender is EntityPlayerMP) {
+                if (sender is EntityPlayerMP) {
+                    (sender.entityWorld as WorldServer).addScheduledTask {
                         CHANNEL.sendTo(CPacketHideToast(token), sender)
                         freeToken(token)
                     }
-                    for (msg in createSuccessMessage(dumper, listOf(), true))
-                        sender.sendMessage(msg)
                 }
             }
         }

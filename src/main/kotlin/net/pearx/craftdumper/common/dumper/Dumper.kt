@@ -38,7 +38,11 @@ interface Dumper : IForgeRegistryEntry<Dumper> {
 
     val translationKey: String
 
-    fun getTextComponent(): ITextComponent = TextComponentTranslation("craftdumper.dumper.$translationKey.name")
+    fun getTitle(): ITextComponent = TextComponentTranslation("craftdumper.dumper.$translationKey.name")
+
+    fun getSubtitleData() = TextComponentTranslation("craftdumper.toast.subtitle.data")
+
+    fun getSubtitleAmounts() = TextComponentTranslation("craftdumper.toast.subtitle.amounts")
 
     fun getAmounts(): DumpAmounts?
 

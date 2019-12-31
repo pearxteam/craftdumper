@@ -5,32 +5,16 @@ import net.minecraft.client.gui.toasts.GuiToast
 import net.minecraft.client.gui.toasts.IToast
 import net.minecraft.client.renderer.GlStateManager.color
 import net.minecraft.client.renderer.GlStateManager.enableBlend
-import net.minecraft.client.resources.I18n
 import net.minecraft.util.math.MathHelper.clampedLerp
+import net.minecraft.util.text.ITextComponent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import net.pearx.craftdumper.common.dumper.Dumper
 
 @SideOnly(Side.CLIENT)
-class DumperToast(private val token: Int, dumper: Dumper, subtitle: String) : IToast {
-    private val title: String = I18n.format("craftdumper.toast.title", dumper.getTextComponent().formattedText)
-    private lateinit var subtitleText: String
+class DumperToast(private val token: Int, @Volatile var progress: Float = 0F, var title: ITextComponent? = null, var subtitle: ITextComponent? = null) : IToast {
     private var visibility = IToast.Visibility.SHOW
     private var lastDelta: Long = 0
     private var displayedProgress = 0f
-
-    @Volatile
-    var progress = 0F
-
-    var subtitle: String = subtitle
-        set(value) {
-            field = value
-            subtitleText = I18n.format("craftdumper.toast.subtitle.$subtitle")
-        }
-
-    init {
-        this.subtitle = subtitle
-    }
 
     override fun draw(toastGui: GuiToast, delta: Long): IToast.Visibility {
         with(toastGui) {
@@ -42,8 +26,8 @@ class DumperToast(private val token: Int, dumper: Dumper, subtitle: String) : IT
                     enableBlend()
                     drawTexturedModalRect(6, 6, 176, 20, 20, 20)
                     enableBlend()
-                    drawString(title, 30, 7, -11534256)
-                    drawString(subtitleText, 30, 18, -16777216)
+                    drawString(title?.formattedText.orEmpty(), 30, 7, -11534256)
+                    drawString(subtitle?.formattedText.orEmpty(), 30, 18, -16777216)
 
                     drawRect(3, 28, 157, 29, -1)
                     val prog = clampedLerp(displayedProgress.toDouble(), progress.toDouble(), ((delta - lastDelta).toFloat() / 100.0f).toDouble()).toFloat()

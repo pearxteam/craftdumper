@@ -36,20 +36,19 @@ class CraftDumperCommand : CommandBase() {
             ?: throw createWrongUsageException(sender)
 
         if (dumperName == "all") {
-            for (dmpr in DumperRegistry)
-                CraftDumper.proxy.createDump(this, sender, dmpr, dumpType)
+            CraftDumper.proxy.createDump(this, sender, DumperRegistry.map { it to dumpType })
         }
         else {
             val dumpers = lookupDumperRegistry(dumperName)
             if (dumpers.size != 1)
                 throw createWrongUsageException(sender)
 
-            CraftDumper.proxy.createDump(this, sender, dumpers[0], dumpType)
+            CraftDumper.proxy.createDump(this, sender, listOf(dumpers[0] to dumpType))
         }
     }
 
     fun createSuccessMessage(dumper: Dumper, outputs: List<DumpOutput>, displayOutputs: Boolean): List<ITextComponent> {
-        val lst = mutableListOf(TextComponentTranslation("commands.craftdumper.success", dumper.getTextComponent().apply { style.color = TextFormatting.GOLD }))
+        val lst = mutableListOf(TextComponentTranslation("commands.craftdumper.success", dumper.getTitle().apply { style.color = TextFormatting.GOLD }))
 
         if (displayOutputs && outputs.isNotEmpty()) {
             val outputComponents = outputs.map {
