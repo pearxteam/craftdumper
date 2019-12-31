@@ -96,7 +96,6 @@ abstract class DumperBase : Dumper {
                             start = false
                         else
                             appendln()
-                        Thread.sleep(10)
                         appendCsvRow(key, value.toString())
                     }
                 }

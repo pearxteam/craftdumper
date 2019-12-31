@@ -17,7 +17,6 @@ interface DumperTable : Dumper {
             with(writer) {
                 appendCsvRow(header)
                 dumpTable().forEachIndexed { index, row ->
-                    Thread.sleep(10)
                     appendln()
                     appendCsvRow(row)
                     reporter.progress = index + 1
