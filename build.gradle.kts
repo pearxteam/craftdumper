@@ -131,6 +131,11 @@ tasks {
         kotlinOptions.jvmTarget = "1.$jdkVersion"
         kotlinOptions.freeCompilerArgs = listOf("-Xno-param-assertions")
     }
+    withType<Jar> {
+        manifest {
+            attributes(mapOf("FMLAT" to "craftdumper_at.cfg"))
+        }
+    }
     register("publishDevelop") {
         group = "publishing"
         dependsOn(withType<PublishToMavenRepository>().matching { it.repository == publishing.repositories["develop"] })
