@@ -14,7 +14,7 @@ import net.pearx.craftdumper.common.helper.internal.writeTextComponentNullable
 
 
 class CPacketUpdateToast(var token: Int, var progress: Float, var title: ITextComponent? = null, var subtitle: ITextComponent? = null) : IMessage {
-    constructor() : this(-1, 1F)
+    constructor() : this(-1, 0F)
 
     override fun toBytes(buf: ByteBuf) {
         buf.writeInt(token)

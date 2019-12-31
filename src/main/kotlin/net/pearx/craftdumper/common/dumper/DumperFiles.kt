@@ -13,7 +13,6 @@ interface DumperFiles : Dumper {
     fun dumpFiles(): DumperFileData
 
     override fun dumpData(reporter: DumpProgressReporter): List<DumpOutput> {
-        val count = getCount()
         val baseDirectory = CraftDumper.getOutputFile(registryName!!)
         dumpFiles().forEachIndexed { index, file ->
             val dumpPath = baseDirectory
@@ -24,7 +23,7 @@ interface DumperFiles : Dumper {
                     dump.copyTo(file)
                 }
             }
-            reporter.progress = (index + 1F) / count
+            reporter.progress = index + 1
         }
         return listOf(DumpOutput("directory", baseDirectory))
     }

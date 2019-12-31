@@ -30,7 +30,7 @@ class DumpOutput(val translationKey: String, val path: File) {
 }
 
 interface DumpProgressReporter {
-    var progress: Float
+    var progress: Int
 }
 
 interface Dumper : IForgeRegistryEntry<Dumper> {
@@ -96,6 +96,7 @@ abstract class DumperBase : Dumper {
                             start = false
                         else
                             appendln()
+                        Thread.sleep(10)
                         appendCsvRow(key, value.toString())
                     }
                 }

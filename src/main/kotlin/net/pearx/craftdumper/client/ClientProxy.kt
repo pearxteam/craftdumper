@@ -11,6 +11,7 @@ import net.pearx.craftdumper.common.CraftDumperCommand
 import net.pearx.craftdumper.common.dumper.DumpOutput
 import net.pearx.craftdumper.common.dumper.DumpProgressReporter
 import net.pearx.craftdumper.common.dumper.Dumper
+import net.pearx.craftdumper.common.helper.internal.getTotalCount
 
 @SideOnly(Side.CLIENT)
 class ClientProxy : CommonProxy {
@@ -18,27 +19,30 @@ class ClientProxy : CommonProxy {
         with(command) {
             Minecraft.getMinecraft().addScheduledTask {
                 val toast = DumperToast(-1)
-                val totalProgress = toDump.size.toFloat()
                 Minecraft.getMinecraft().toastGui.add(toast)
                 GlobalScope.launch {
-                    toDump.forEachIndexed { index, (dumper, type) ->
-                        val reporter = object : DumpProgressReporter {
-                            override var progress: Float = 0F
-                                set(value) {
-                                    field = value
-                                    toast.progress = (index + value) / totalProgress
-                                }
-                        }
+                    val totalCount = toDump.getTotalCount()
+                    var prevCount = 0
+                    val reporter = object : DumpProgressReporter {
+                        override var progress: Int = 0
+                            set(value) {
+                                field = value
+                                toast.progress = (prevCount + value.toFloat()) / totalCount
+                            }
+                    }
+                    toDump.forEach { (dumper, type) ->
                         toast.title = dumper.getTitle()
                         val outputs = mutableListOf<DumpOutput>()
                         if (type.data) {
                             toast.subtitle = dumper.getSubtitleData()
                             outputs += dumper.dumpData(reporter)
+                            prevCount += reporter.progress
                         }
                         if (type.amounts) {
-                            toast.progress = (index + 1F) / totalProgress
+                            toast.progress = (prevCount + 1F) / totalCount
                             toast.subtitle = dumper.getSubtitleAmounts()
                             dumper.dumpAmounts()?.also { outputs += it }
+                            prevCount++
                         }
                         Minecraft.getMinecraft().addScheduledTask {
                             for (msg in createSuccessMessage(dumper, outputs, true))

@@ -11,16 +11,16 @@ interface DumperTable : Dumper {
     fun dumpTable(): DumperTableData
 
     override fun dumpData(reporter: DumpProgressReporter): List<DumpOutput> {
-        val count = getCount()
         val dumpFile = CraftDumper.getOutputFile(registryName!!, ".csv")
         dumpFile.parentFile.mkdirs()
         dumpFile.printWriter().use { writer ->
             with(writer) {
                 appendCsvRow(header)
                 dumpTable().forEachIndexed { index, row ->
+                    Thread.sleep(10)
                     appendln()
                     appendCsvRow(row)
-                    reporter.progress = (index + 1F) / count
+                    reporter.progress = index + 1
                 }
             }
         }
