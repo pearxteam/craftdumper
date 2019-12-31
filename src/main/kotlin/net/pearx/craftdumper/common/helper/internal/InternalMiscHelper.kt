@@ -1,3 +1,6 @@
+@file:JvmMultifileClass
+@file:JvmName("InternalHelper")
+
 package net.pearx.craftdumper.common.helper.internal
 
 import net.minecraft.util.ResourceLocation
