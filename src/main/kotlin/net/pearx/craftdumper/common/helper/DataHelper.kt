@@ -3,6 +3,7 @@ package net.pearx.craftdumper.common.helper
 import net.minecraft.util.ResourceLocation
 import org.apache.commons.lang3.reflect.FieldUtils
 import java.lang.reflect.Field
+import kotlin.reflect.KClass
 
 fun Boolean.toPlusMinusString() = if (this) "+" else "-"
 
@@ -22,21 +23,26 @@ fun <T> mutableListOfNotNull(vararg elements: T?): MutableList<T> {
 
 private val fieldCache = hashMapOf<String, Field?>()
 
-fun Any.readFieldRaw(vararg names: String): Any {
+@PublishedApi
+internal fun readFieldRaw(clazz: Class<*>, reciever: Any?, vararg names: String): Any {
     for (name in names) {
         val field = run {
-            val key = "${this::class.java.name}.$name"
+            val key = "${clazz.name}.$name"
             if (key in fieldCache) // can't use getOrPut here as of values can be null
                 fieldCache[key]
             else {
-                FieldUtils.getField(this::class.java, name, true).also { fieldCache[key] = it }
+                FieldUtils.getField(clazz, name, true).also { fieldCache[key] = it }
             }
         }
         if (field != null) {
-            return field.get(this)
+            return field.get(reciever)
         }
     }
-    throw NoSuchFieldException("No field with names ${names.contentToString()} found in ${this::class.java}.")
+    throw NoSuchFieldException("No field with names ${names.contentToString()} found in ${clazz}.")
 }
 
-inline fun <reified T> Any.readField(vararg names: String): T = readFieldRaw(*names) as T
+inline fun <reified T> Any.readField(vararg names: String): T = readFieldRaw(this::class.java, this, *names) as T
+
+inline fun <reified T> KClass<*>.readField(vararg names: String): T = readFieldRaw(this.java, null, *names) as T
+
+inline fun <reified T> Class<*>.readField(vararg names: String): T = readFieldRaw(this, null, *names) as T

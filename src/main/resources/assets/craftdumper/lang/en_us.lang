@@ -25,6 +25,7 @@ craftdumper.dumper.smelting_recipes.name=Smelting Recipes
 craftdumper.dumper.sound_events.name=Sound Events
 craftdumper.dumper.tile_entities.name=Tile Entities
 craftdumper.dumper.villager_professions.name=Villager Professions
+craftdumper.dumper.world_generators.name=World Generators
 
 craftdumper.toast.title=Dumping %s
 craftdumper.toast.subtitle.data=Dumping data...

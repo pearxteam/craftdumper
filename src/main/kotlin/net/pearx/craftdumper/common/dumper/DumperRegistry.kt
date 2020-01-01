@@ -48,6 +48,7 @@ object DumperRegistryEvents {
             register(DumperSoundEvents)
             register(DumperTileEntities)
             register(DumperVillagerProfessions)
+            register(DumperWorldGenerators)
         }
     }
 }
