@@ -24,6 +24,7 @@ A Minecraft Forge mod that allows you to dump game information such as blocks, i
 * Enchantments (`enchantments`)
 * Capabilities (`capabilities`)
 * Loot Tables (`loot_tables`)
+* World Generators (`world_generators`)
 
 You can submit a feature request [here](https://github.com/pearxteam/craftdumper/issues) :).
 
