@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.item.Item
 import net.minecraft.item.ItemBlock
+import net.minecraft.tileentity.TileEntityFurnace
 import net.minecraftforge.client.ItemModelMesherForge
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.oredict.OreDictionary
@@ -20,7 +21,7 @@ import net.pearx.craftdumper.common.helper.internal.craftdumper
 
 val DumperItemStacks = dumperTable {
     registryName = craftdumper("item_stacks")
-    header = listOfNotNull("ID", "Metadata", "NBT Tag Compound", "Display Name", client("Tooltip"), "Translation Key", "Class Name", "Is ItemBlock", "OreDict Names", "Max Stack Size", "Max Damage", client("Model Name"), ifOrNull(Loader.isModLoaded(PROJECTE_ID), "EMC"))
+    header = listOfNotNull("ID", "Metadata", "NBT Tag Compound", "Display Name", client("Tooltip"), "Translation Key", "Class Name", "Is ItemBlock", "OreDict Names", "Max Stack Size", "Max Damage", "Burn Time", client("Model Name"), ifOrNull(Loader.isModLoaded(PROJECTE_ID), "EMC"))
     amounts {
         eachStack<Item> { item, _ ->
             this += item.registryName
@@ -46,6 +47,7 @@ val DumperItemStacks = dumperTable {
                     }
                     add { getItemStackLimit(stack).toString() }
                     add { getMaxDamage(stack).toString() }
+                    add { TileEntityFurnace.getItemBurnTime(stack).toString() }
                     client { add { (Minecraft.getMinecraft().renderItem.itemModelMesher as ItemModelMesherForge).getLocation(stack).toString() } }
                     if (Loader.isModLoaded(PROJECTE_ID))
                         add { if (EMCHelper.doesItemHaveEmc(stack)) EMCHelper.getEmcValue(stack).toString() else "" }
