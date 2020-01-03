@@ -24,7 +24,7 @@ val DumperItemStacks = dumperTable {
     header = listOfNotNull("ID", "Metadata", "NBT Tag Compound", "Display Name", client("Tooltip"), "Translation Key", "Class Name", "Is ItemBlock", "OreDict Names", "Max Stack Size", "Max Damage", "Burn Time", client("Model Name"), ifOrNull(Loader.isModLoaded(PROJECTE_ID), "EMC"))
     amounts {
         eachStack<Item> { item, _ ->
-            this += item.registryName
+            +item.registryName
         }
     }
     count { stackCount<Item>() }

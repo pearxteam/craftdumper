@@ -18,7 +18,7 @@ val DumperShapedRecipes = dumperTable {
     header = listOf("ID", "Input Pattern", "Input Ingredients", "Output Item", "Width", "Height", "Group", "Is Dynamic")
     amounts {
         eachShaped {
-            this += it.registryName
+            +it.registryName
         }
     }
     count { ForgeRegistries.RECIPES.count { it is IShapedRecipe } }

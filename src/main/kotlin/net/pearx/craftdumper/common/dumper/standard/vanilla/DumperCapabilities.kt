@@ -16,7 +16,7 @@ import java.util.*
 val DumperCapabilities = dumperTable {
     registryName = craftdumper("capabilities")
     header = listOf("Mod ID", "Interface", "Default Instance Class", "Storage Class")
-    amounts { providers().values.forEach { this += it.storage::class.getOwnerModId() } }
+    amounts { providers().values.forEach { +it.storage::class.getOwnerModId() } }
     count { providers().size }
     table {
         providers().forEach { (key, value) ->

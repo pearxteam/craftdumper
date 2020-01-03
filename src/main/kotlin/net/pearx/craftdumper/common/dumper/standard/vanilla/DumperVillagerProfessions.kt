@@ -15,7 +15,7 @@ import net.pearx.craftdumper.common.helper.toAssetsPath
 val DumperVillagerProfessions = dumperTable {
     registryName = craftdumper("villager_professions")
     header = listOf("ID", "Skin", "Zombie Skin", "Career Names")
-    amounts { this += ForgeRegistries.VILLAGER_PROFESSIONS.keys }
+    amounts { +ForgeRegistries.VILLAGER_PROFESSIONS.keys }
     count { ForgeRegistries.VILLAGER_PROFESSIONS.count() }
     table {
         ForgeRegistries.VILLAGER_PROFESSIONS.forEach { profession ->

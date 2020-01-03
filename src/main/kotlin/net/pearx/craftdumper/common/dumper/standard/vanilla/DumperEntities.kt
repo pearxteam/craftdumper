@@ -13,7 +13,7 @@ import net.pearx.craftdumper.common.helper.toHexColorString
 val DumperEntities = dumperTable {
     registryName = craftdumper("entities")
     header = listOf("ID", "Name", "Class Name", "Primary Egg Color", "Secondary Egg Color")
-    amounts { this += ForgeRegistries.ENTITIES.keys }
+    amounts { +ForgeRegistries.ENTITIES.keys }
     count { ForgeRegistries.ENTITIES.count() }
     table {
         ForgeRegistries.ENTITIES.forEach { entity ->

@@ -15,7 +15,7 @@ import net.pearx.craftdumper.common.helper.readField
 val DumperWorldGenerators = dumperTable {
     registryName = craftdumper("world_generators")
     header = listOf("Mod ID", "Class Name", "Weight")
-    amounts { registry().keys.forEach { this += it::class.getOwnerModId() } }
+    amounts { registry().keys.forEach { +it::class.getOwnerModId() } }
     count { registry().count() }
     table {
         registry().entries.forEach { (key, value) ->

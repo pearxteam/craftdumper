@@ -14,14 +14,14 @@ import net.pearx.craftdumper.common.helper.internal.craftdumper
 val DumperPotions = dumperTable {
     registryName = craftdumper("potions")
     header = listOfNotNull("ID", "Display Name", "Name", "Class Name", "Is Bad Effect", "Is Instant", client("Is Beneficial"), client("Status Icon Index"), client("Liquid Color"), "Curative Items", client("Attribute Modifiers"))
-    amounts { this += ForgeRegistries.POTIONS.keys }
+    amounts { +ForgeRegistries.POTIONS.keys }
     count { ForgeRegistries.POTIONS.count() }
     table {
         ForgeRegistries.POTIONS.forEach { potion ->
             row(header.size) {
                 with(potion) {
                     add { registryName.toString() }
-                    add { I18n.translateToLocalFormatted(name) }
+                    add { @Suppress("DEPRECATION") I18n.translateToLocalFormatted(name) }
                     add { name }
                     add { this::class.java.name }
                     add { isBadEffect.toPlusMinusString() }

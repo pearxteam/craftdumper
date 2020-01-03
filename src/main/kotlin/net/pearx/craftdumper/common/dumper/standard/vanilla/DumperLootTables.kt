@@ -16,7 +16,7 @@ import net.pearx.craftdumper.common.helper.toAssetsPath
 
 val DumperLootTables = dumperFiles {
     registryName = craftdumper("loot_tables")
-    amounts { this += LootTableList.getAll() }
+    amounts { +LootTableList.getAll() }
     count { LootTableList.getAll().size  }
     files {
         val manager = LootTableManager(null)

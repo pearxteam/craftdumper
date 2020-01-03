@@ -18,7 +18,7 @@ val DumperFood = dumperTable {
     header = listOf("Item", "Heal Amount", "Saturation Modifier", "Is Wolfs Favorite Meal", "Is Always Edible", "Item Use Duration", "Potion Effect", "Potion Effect Probability")
     amounts {
         eachStack<ItemFood> { item, _ ->
-            this += item.registryName
+            +item.registryName
         }
     }
     count { stackCount<ItemFood>() }

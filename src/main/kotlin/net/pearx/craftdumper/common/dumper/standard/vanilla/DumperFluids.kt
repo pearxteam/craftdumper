@@ -18,8 +18,9 @@ val DumperFluids = dumperTable {
     registryName = craftdumper("fluids")
     header = listOf("ID", "Unlocalized Name", "Display Name", "Still Texture", "Flowing Texture", "Overlay Texture", "Fill Sound", "Empty Sound", "Luminosity", "Density", "Temperature", "Viscosity", "Is Gaseous", "Rarity", "Block", "Color", "Is Lighter than Air", "Can be Placed in World")
     amounts {
-        for (fluid in FluidRegistry.getRegisteredFluids().values)
-            this += FluidRegistry.getModId(FluidStack(fluid, 1)) ?: ""
+        FluidRegistry.getRegisteredFluids().values.forEach {
+            +FluidRegistry.getModId(FluidStack(it, 1))
+        }
     }
     count { FluidRegistry.getRegisteredFluids().count() }
     table {

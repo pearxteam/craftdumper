@@ -14,7 +14,7 @@ import net.pearx.craftdumper.common.helper.toPlusMinusString
 val DumperEnchantments = dumperTable {
     registryName = craftdumper("enchantments")
     header = listOf("ID", "Name", "Class Name", "Levels", "Rarity", "Is Curse", "Type", "Allowed on Books", "Is Treasure", "Localized Name [Min Enchantability - Max Enchantability]")
-    amounts { this += ForgeRegistries.ENCHANTMENTS.keys }
+    amounts { +ForgeRegistries.ENCHANTMENTS.keys }
     count { ForgeRegistries.ENCHANTMENTS.count() }
     table {
         ForgeRegistries.ENCHANTMENTS.forEach { enchantments ->

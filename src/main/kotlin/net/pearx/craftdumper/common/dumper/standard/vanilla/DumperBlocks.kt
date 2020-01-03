@@ -12,7 +12,7 @@ import net.pearx.craftdumper.common.helper.internal.craftdumper
 val DumperBlocks = dumperTable {
     registryName = craftdumper("blocks")
     header = listOf("ID", "Class Name", "BlockState Properties", "BlockState Class Name")
-    amounts { this += ForgeRegistries.BLOCKS.keys }
+    amounts { +ForgeRegistries.BLOCKS.keys }
     count { ForgeRegistries.BLOCKS.count() }
     table {
         ForgeRegistries.BLOCKS.forEach { block ->

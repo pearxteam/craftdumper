@@ -24,7 +24,7 @@ import net.pearx.craftdumper.common.helper.toTexturesPath
 val DumperModels = dumperTableClient {
     registryName = craftdumper("models")
     header = listOf("Variant", "Particle Texture", "Model Textures", "Model Path", "Class Name", "Is Ambient Occlusion", "Is GUI 3D", "Is Built In Renderer")
-    amounts { this += Minecraft.getMinecraft().modelManager.modelRegistry.keys }
+    amounts { +Minecraft.getMinecraft().modelManager.modelRegistry.keys }
     count { Minecraft.getMinecraft().modelManager.modelRegistry.count() }
     table {
         Minecraft.getMinecraft().modelManager.modelRegistry.keys.forEach { key ->

@@ -10,13 +10,63 @@ import net.pearx.craftdumper.common.helper.internal.appendCsvRow
 import java.io.File
 
 class DumpAmounts : MutableMap<String, Int> by hashMapOf() {
-    operator fun plusAssign(value: String) {
-        this[value] = (this[value] ?: 0) + 1
+    private fun incrementBy(key: String, value: Int): Int {
+        val prev = this[key] ?: 0
+        this[key] = prev + value
+        return prev
     }
 
-    operator fun plusAssign(value: ResourceLocation?) = plusAssign(value?.namespace ?: "null")
+    operator fun String?.plusAssign(value: Int) {
+        incrementBy(this ?: "null", value)
+    }
 
-    operator fun plusAssign(values: Collection<ResourceLocation?>) = values.forEach { plusAssign(it) }
+    @JvmName("plusAssignIterableString") // name clash
+    operator fun Iterable<String?>.plusAssign(value: Int) {
+        forEach { it += value }
+    }
+
+    operator fun Array<String?>.plusAssign(value: Int) {
+        forEach { it += value }
+    }
+
+    operator fun String?.unaryPlus() {
+        this += 1
+    }
+
+    @JvmName("unaryPlusIterableString") // name clash
+    operator fun Iterable<String?>.unaryPlus() {
+        forEach { it += 1 }
+    }
+
+    operator fun Array<String?>.unaryPlus() {
+        forEach { it += 1 }
+    }
+
+    operator fun ResourceLocation?.plusAssign(value: Int) {
+        incrementBy(this?.namespace ?: "null", value)
+    }
+
+    @JvmName("plusAssignIterableResourceLocation") // name clash
+    operator fun Iterable<ResourceLocation?>.plusAssign(value: Int) {
+        forEach { it += value }
+    }
+
+    operator fun Array<ResourceLocation?>.plusAssign(value: Int) {
+        forEach { it += value }
+    }
+
+    operator fun ResourceLocation?.unaryPlus() {
+        this += 1
+    }
+
+    @JvmName("unaryPlusIterableResourceLocation") // name clash
+    operator fun Iterable<ResourceLocation?>.unaryPlus() {
+        forEach { it += 1 }
+    }
+
+    operator fun Array<ResourceLocation?>.unaryPlus() {
+        forEach { it += 1 }
+    }
 
     fun sorted(): List<Pair<String, Int>> = toList().sortedByDescending { (_, v) -> v }
 }
@@ -24,7 +74,7 @@ class DumpAmounts : MutableMap<String, Int> by hashMapOf() {
 class DumpOutput(private val translationKey: String, private val path: File) {
     fun getTextComponent() = TextComponentTranslation("craftdumper.output.$translationKey.name").apply {
         with(style) {
-            clickEvent =  ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())
+            clickEvent = ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())
         }
     }
 }

@@ -17,7 +17,7 @@ import net.pearx.craftdumper.common.helper.toAssetsPath
 val DumperSoundEvents = dumperTable {
     registryName = craftdumper("sound_events")
     header = listOfNotNull("ID", client("Subtitle"), client("Raw Subtitle"), client("Sound Path @ Weight"))
-    amounts { this += ForgeRegistries.SOUND_EVENTS.keys }
+    amounts { +ForgeRegistries.SOUND_EVENTS.keys }
     count { ForgeRegistries.SOUND_EVENTS.count() }
     table {
         ForgeRegistries.SOUND_EVENTS.forEach { event ->

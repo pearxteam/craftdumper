@@ -14,7 +14,7 @@ import net.pearx.craftdumper.common.helper.internal.craftdumper
 val DumperAdvancements = dumperTable {
     registryName = craftdumper("advancements")
     header = listOfNotNull("ID", "Display Text", "Title", "Description", client("Icon"), client("X"), client("Y"), client("Background"), "Frame", "Is Hidden", "Should Announce", client("Should Show Toast"), "Criteria", "Requirements", "Parent", "Children", "Reward Experience", "Reward Loot", "Reward Recipes", "Reward Function")
-    amounts { collectAdvancements().forEach { this += it.id } }
+    amounts { collectAdvancements().forEach { +it.id } }
     count { collectAdvancements().size }
     table {
         collectAdvancements().forEach { adv ->

@@ -20,7 +20,7 @@ val DumperBiomes = dumperTable {
         for (type in EnumCreatureType.values())
             it += "${type.toString().toLowerCase().capitalize()} Spawn List: Entity*(Min Group-Max Group):Weight"
     }
-    amounts { this += ForgeRegistries.BIOMES.keys }
+    amounts { +ForgeRegistries.BIOMES.keys }
     count { ForgeRegistries.BIOMES.count() }
     table {
         ForgeRegistries.BIOMES.forEach { biome ->

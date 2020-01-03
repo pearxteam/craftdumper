@@ -20,7 +20,7 @@ val DumperShapelessRecipes = dumperTable {
     header = listOf("ID", "Input Ingredients", "Output Item", "Group", "Is Dynamic")
     amounts {
         eachShapeless {
-            this += it.registryName
+            +it.registryName
         }
     }
     count { ForgeRegistries.RECIPES.count { it !is IShapedRecipe } }
