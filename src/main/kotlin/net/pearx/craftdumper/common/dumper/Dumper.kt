@@ -88,11 +88,12 @@ abstract class DumperBase : Dumper {
         val amounts = getAmounts()
         if (amounts != null) {
             val amountsFile = CraftDumper.getOutputFile(registryName!!, "_amounts.csv")
+            amountsFile.parentFile.mkdirs()
             amountsFile.printWriter().use { writer ->
                 with(writer) {
                     var start = true
                     for ((key, value) in amounts.sorted()) {
-                        if(start)
+                        if (start)
                             start = false
                         else
                             appendln()
