@@ -18,6 +18,7 @@ craftdumper.dumper.food.name=Food
 craftdumper.dumper.item_stacks.name=Item Stacks
 craftdumper.dumper.loot_tables.name=Loot Tables
 craftdumper.dumper.models.name=Models
+craftdumper.dumper.ore_dictionary.name=Ore Dictionary
 craftdumper.dumper.potions.name=Potions
 craftdumper.dumper.shaped_recipes.name=Shaped Recipes
 craftdumper.dumper.shapeless_recipes.name=Shapeless Recipes

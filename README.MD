@@ -11,6 +11,7 @@ A Minecraft Forge mod that allows you to dump game information such as blocks, i
 * Fluids (`fluids`)
 * Entities (`entities`)
 * Models (`models`)
+* Ore Dictionary (`ore_dictionary`)
 * Villager Professions (`villager_professions`)
 * Tile Entities (`tile_entities`)
 * Shaped Recipes (`shaped_recipes`)
