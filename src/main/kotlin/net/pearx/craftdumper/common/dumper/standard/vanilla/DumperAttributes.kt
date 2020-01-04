@@ -3,16 +3,19 @@
 
 package net.pearx.craftdumper.common.dumper.standard.vanilla
 
-import net.minecraft.entity.EntityLiving
+import com.mojang.authlib.GameProfile
+import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.ai.attributes.IAttribute
 import net.minecraft.util.text.translation.I18n
+import net.minecraftforge.common.util.FakePlayer
 import net.minecraftforge.fml.common.registry.ForgeRegistries
-import net.pearx.craftdumper.CraftDumper
 import net.pearx.craftdumper.common.dumper.add
 import net.pearx.craftdumper.common.dumper.dumperTable
 import net.pearx.craftdumper.common.dumper.row
+import net.pearx.craftdumper.common.helper.defaultWorld
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 import net.pearx.craftdumper.common.helper.toPlusMinusString
+import java.util.*
 
 val DumperAttributes = dumperTable {
     registryName = craftdumper("attributes")
@@ -35,13 +38,18 @@ val DumperAttributes = dumperTable {
 
 private fun getAttributes(): Set<IAttribute> {
     val attributes = hashSetOf<IAttribute>()
+    addAttributes(attributes, FakePlayer(defaultWorld, GameProfile(UUID(0, 0), "craftdumper")))
     ForgeRegistries.ENTITIES.forEach { entityEntry ->
-        val entity = entityEntry.newInstance(CraftDumper.proxy.world)
-        if(entity is EntityLiving) {
-            entity.attributeMap.allAttributes.forEach { attrInstance ->
-                attributes += attrInstance.attribute
-            }
+        val entity = entityEntry.newInstance(defaultWorld)
+        if (entity is EntityLivingBase) {
+            addAttributes(attributes, entity)
         }
     }
     return attributes
+}
+
+private fun <T : EntityLivingBase> addAttributes(attributes: MutableSet<IAttribute>, entity: T) {
+    entity.attributeMap.allAttributes.forEach { attrInstance ->
+        attributes += attrInstance.attribute
+    }
 }

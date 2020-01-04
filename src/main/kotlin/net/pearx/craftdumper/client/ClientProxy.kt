@@ -55,7 +55,4 @@ class ClientProxy : CommonProxy {
             }
         }
     }
-
-    override val world: World
-        get() = Minecraft.getMinecraft().world
 }

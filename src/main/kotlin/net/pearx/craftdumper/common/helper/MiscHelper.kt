@@ -12,6 +12,9 @@ fun <V : IForgeRegistryEntry<V>> IForgeRegistry<V>.registerNonNull(v: V?) {
 
 val isClient = FMLCommonHandler.instance().side == Side.CLIENT
 
+val defaultWorld
+    get() = FMLCommonHandler.instance().minecraftServerInstance.worlds[0]
+
 fun <T> ifOrNull(bool: Boolean, value: T) = if (bool) value else null
 inline fun <T> ifOrNull(bool: Boolean, func: () -> T) = if (bool) func() else null
 

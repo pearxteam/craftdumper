@@ -98,7 +98,4 @@ class ServerProxy : CommonProxy {
             }
         }
     }
-
-    override val world: World
-        get() = FMLCommonHandler.instance().minecraftServerInstance.worlds[0]
 }
