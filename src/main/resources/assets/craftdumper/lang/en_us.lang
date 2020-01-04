@@ -8,6 +8,7 @@ craftdumper.output.directory.name=Data Directory
 craftdumper.output.amounts.name=Amounts
 
 craftdumper.dumper.advancements.name=Advancements
+craftdumper.dumper.attributes.name=Attributes
 craftdumper.dumper.biomes.name=Biomes
 craftdumper.dumper.blocks.name=Blocks
 craftdumper.dumper.capabilities.name=Capabilities
