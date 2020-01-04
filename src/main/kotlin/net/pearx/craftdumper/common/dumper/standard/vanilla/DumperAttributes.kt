@@ -3,11 +3,11 @@
 
 package net.pearx.craftdumper.common.dumper.standard.vanilla
 
-import net.minecraft.client.Minecraft
 import net.minecraft.entity.EntityLiving
 import net.minecraft.entity.ai.attributes.IAttribute
 import net.minecraft.util.text.translation.I18n
 import net.minecraftforge.fml.common.registry.ForgeRegistries
+import net.pearx.craftdumper.CraftDumper
 import net.pearx.craftdumper.common.dumper.add
 import net.pearx.craftdumper.common.dumper.dumperTable
 import net.pearx.craftdumper.common.dumper.row
@@ -36,7 +36,7 @@ val DumperAttributes = dumperTable {
 private fun getAttributes(): Set<IAttribute> {
     val attributes = hashSetOf<IAttribute>()
     ForgeRegistries.ENTITIES.forEach { entityEntry ->
-        val entity = entityEntry.newInstance(Minecraft.getMinecraft().world)
+        val entity = entityEntry.newInstance(CraftDumper.proxy.world)
         if(entity is EntityLiving) {
             entity.attributeMap.allAttributes.forEach { attrInstance ->
                 attributes += attrInstance.attribute

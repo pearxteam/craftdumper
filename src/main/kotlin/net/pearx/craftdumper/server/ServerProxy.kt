@@ -3,7 +3,9 @@ package net.pearx.craftdumper.server
 import kotlinx.coroutines.*
 import net.minecraft.command.ICommandSender
 import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.world.World
 import net.minecraft.world.WorldServer
+import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.pearx.craftdumper.common.CommonProxy
@@ -96,4 +98,7 @@ class ServerProxy : CommonProxy {
             }
         }
     }
+
+    override val world: World
+        get() = FMLCommonHandler.instance().minecraftServerInstance.worlds[0]
 }

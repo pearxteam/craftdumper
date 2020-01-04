@@ -4,6 +4,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.minecraft.client.Minecraft
 import net.minecraft.command.ICommandSender
+import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.pearx.craftdumper.common.CommonProxy
@@ -54,4 +55,7 @@ class ClientProxy : CommonProxy {
             }
         }
     }
+
+    override val world: World
+        get() = Minecraft.getMinecraft().world
 }
