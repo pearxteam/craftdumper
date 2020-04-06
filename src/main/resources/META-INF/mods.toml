@@ -1,0 +1,25 @@
+
+    modLoader="kotlinfml"
+    loaderVersion="[1,)"
+    issueTrackerURL="https://github.com/pearxteam/craftdumper/issues"
+    showAsResourcePack=false
+
+    [[mods]]
+      modId="craftdumper"
+      version="${file.jarVersion}"
+      displayName="CraftDumper"
+#      updateJSONURL="minecraftforge.net/versions.json"
+#      displayURL="minecraftforge.net"
+#      logoFile="assets/examplemod/textures/logo.png"
+#      credits="I'd like to thank my mother and father."
+      authors="mrAppleXZ"
+#      description='''
+#      Lets you craft dirt into diamonds. This is a traditional mod that has existed for eons. It is ancient. The holy Notch created it. Jeb rainbowfied it. Dinnerbone made it upside down. Etc.
+#      '''
+
+      [[dependencies.craftdumper]]
+        modId="projecte"
+        mandatory=false
+#        versionRange="["
+        ordering="AFTER"
+        side="BOTH"

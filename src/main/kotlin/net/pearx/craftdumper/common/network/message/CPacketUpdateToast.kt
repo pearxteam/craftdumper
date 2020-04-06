@@ -1,44 +1,35 @@
 package net.pearx.craftdumper.common.network.message
 
-import io.netty.buffer.ByteBuf
 import net.minecraft.client.Minecraft
+import net.minecraft.network.PacketBuffer
 import net.minecraft.util.text.ITextComponent
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.fml.network.NetworkEvent
 import net.pearx.craftdumper.client.DumperToast
-import net.pearx.craftdumper.common.helper.internal.readTextComponentNullable
-import net.pearx.craftdumper.common.helper.internal.writeTextComponentNullable
+import net.pearx.craftdumper.common.helper.internal.network.PacketHandler
+import net.pearx.craftdumper.common.helper.internal.network.readTextComponentNullable
+import net.pearx.craftdumper.common.helper.internal.network.writeTextComponentNullable
 
 
-class CPacketUpdateToast(var token: Int, var progress: Float, var title: ITextComponent? = null, var subtitle: ITextComponent? = null) : IMessage {
-    constructor() : this(-1, 0F)
+data class CPacketUpdateToast(var token: Int, var progress: Float, var title: ITextComponent? = null, var subtitle: ITextComponent? = null) {
+    companion object : PacketHandler<CPacketUpdateToast> {
+        override fun encode(msg: CPacketUpdateToast, buf: PacketBuffer) {
+            buf.writeInt(msg.token)
+            buf.writeFloat(msg.progress)
+            buf.writeTextComponentNullable(msg.title)
+            buf.writeTextComponentNullable(msg.subtitle)
+        }
 
-    override fun toBytes(buf: ByteBuf) {
-        buf.writeInt(token)
-        buf.writeFloat(progress)
-        buf.writeTextComponentNullable(title)
-        buf.writeTextComponentNullable(subtitle)
-    }
+        override fun decode(buf: PacketBuffer): CPacketUpdateToast {
+            return CPacketUpdateToast(buf.readInt(), buf.readFloat(), buf.readTextComponentNullable(), buf.readTextComponentNullable())
+        }
 
-    override fun fromBytes(buf: ByteBuf) {
-        token = buf.readInt()
-        progress = buf.readFloat()
-        title = buf.readTextComponentNullable()
-        subtitle = buf.readTextComponentNullable()
-    }
-
-    class Handler : IMessageHandler<CPacketUpdateToast, IMessage> {
-        @SideOnly(Side.CLIENT)
-        override fun onMessage(message: CPacketUpdateToast, ctx: MessageContext): IMessage? {
-            Minecraft.getMinecraft().addScheduledTask {
-                val token = message.token
-                val progress = message.progress
-                val title = message.title
-                val subtitle = message.subtitle
-                val gui = Minecraft.getMinecraft().toastGui
+        override fun handle(msg: CPacketUpdateToast, ctx: () -> NetworkEvent.Context) {
+            ctx().enqueueWork {
+                val token = msg.token
+                val progress = msg.progress
+                val title = msg.title
+                val subtitle = msg.subtitle
+                val gui = Minecraft.getInstance().toastGui
                 val toast = gui.getToast(DumperToast::class.java, token)
                 if (toast != null) {
                     toast.progress = progress
@@ -48,7 +39,7 @@ class CPacketUpdateToast(var token: Int, var progress: Float, var title: ITextCo
                         toast.subtitle = subtitle
                 }
             }
-            return null
         }
+
     }
 }

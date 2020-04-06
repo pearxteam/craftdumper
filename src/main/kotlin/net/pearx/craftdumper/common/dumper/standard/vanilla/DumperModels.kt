@@ -5,13 +5,15 @@ package net.pearx.craftdumper.common.dumper.standard.vanilla
 
 import com.google.common.collect.ImmutableMap
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.block.model.IBakedModel
-import net.minecraft.client.renderer.block.model.ModelResourceLocation
-import net.minecraft.client.renderer.block.model.MultipartBakedModel
+import net.minecraft.client.renderer.model.IBakedModel
+import net.minecraft.client.renderer.model.ModelManager
+import net.minecraft.client.renderer.model.ModelResourceLocation
+import net.minecraft.client.renderer.model.MultipartBakedModel
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.client.model.data.EmptyModelData
 import net.pearx.craftdumper.common.dumper.add
 import net.pearx.craftdumper.common.dumper.dumperTableClient
 import net.pearx.craftdumper.common.dumper.row
@@ -20,74 +22,47 @@ import net.pearx.craftdumper.common.helper.readField
 import net.pearx.craftdumper.common.helper.toAssetsPath
 import net.pearx.craftdumper.common.helper.toPlusMinusString
 import net.pearx.craftdumper.common.helper.toTexturesPath
+import org.apache.commons.lang3.reflect.FieldUtils.readField
+import java.util.*
 
 val DumperModels = dumperTableClient {
     registryName = craftdumper("models")
-    header = listOf("Variant", "Particle Texture", "Model Textures", "Model Path", "Class Name", "Is Ambient Occlusion", "Is GUI 3D", "Is Built In Renderer")
-    amounts { +Minecraft.getMinecraft().modelManager.modelRegistry.keys }
-    count { Minecraft.getMinecraft().modelManager.modelRegistry.count() }
+    header = listOf("Variant", "Particle Texture", "Model Textures", "Quad Count", "Class Name", "Is Ambient Occlusion", "Is GUI 3D", "Is Built In Renderer", "Overrides")
+    amounts { +Minecraft.getInstance().modelManager.modelRegistry.keys }
+    count { Minecraft.getInstance().modelManager.modelRegistry.count() }
     table {
-        Minecraft.getMinecraft().modelManager.modelRegistry.keys.forEach { key ->
-            val model = Minecraft.getMinecraft().modelManager.modelRegistry.getObject(key)!!
+        Minecraft.getInstance().modelManager.modelRegistry.keys.forEach { key ->
+            val model = Minecraft.getInstance().modelManager.modelRegistry[key]!!
             row(header.size) {
                 add { key.toString() }
                 with(model) {
+                    val quads = getQuads(null, null, Random(0), EmptyModelData.INSTANCE)
                     add {
-                        @Suppress("UNNECESSARY_SAFE_CALL")
-                        particleTexture?.let { ResourceLocation(it.iconName) }?.toTexturesPath().orEmpty()
+                        getParticleTexture(EmptyModelData.INSTANCE)?.iconName?.toTexturesPath().orEmpty()
                     }
                     add {
                         val textures = mutableListOf<TextureAtlasSprite>()
-                        for (quad in getQuads(null, null, 0)) {
+                        for (quad in quads) {
                             if (quad.sprite !in textures)
                                 textures.add(quad.sprite)
                         }
-                        textures.joinToString(separator = System.lineSeparator()) { ResourceLocation(it.iconName).toTexturesPath() }
+                        textures.joinToString(separator = System.lineSeparator()) { it.iconName.toTexturesPath() }
                     }
-                    add { getModelPath(key) }
+                    add { quads.size.toString() }
                     add { this::class.java.name }
                     add { isAmbientOcclusion.toPlusMinusString() }
                     add { isGui3d.toPlusMinusString() }
                     add { isBuiltInRenderer.toPlusMinusString() }
+                    add { overrides.overrides.joinToString(System.lineSeparator()) {
+                        it.location.toString()
+                    } }
                 }
             }
         }
     }
 }
 
-@SideOnly(Side.CLIENT)
-private fun IBakedModel.getModelPath(location: ModelResourceLocation): String {
-    return when (this::class.java.name) {
-        "net.minecraftforge.client.model.ModelLoader\$VanillaModelWrapper\$1" -> this.readField<Any>("this$1").readField<ResourceLocation>("location").toAssetsPath(postfix = ".json")
-        "net.minecraft.client.renderer.block.model.MultipartBakedModel" -> {
-            val lst = mutableListOf<String>()
-            for (subModel in (this as MultipartBakedModel).selectors.values) {
-                val subPath = subModel.getModelPath(location)
-                if (subPath !in lst)
-                    lst.add(subPath)
-            }
-            lst.joinToString(separator = System.lineSeparator())
-        }
-        "net.minecraftforge.client.model.MultiModel\$Baked" -> {
-            val lst = mutableListOf<String>()
-            lst.add(readField<ResourceLocation>("location").toAssetsPath(postfix = ".json"))
-            for (subModel in readField<ImmutableMap<String, IBakedModel>>("parts").values) {
-                val subPath = subModel.getModelPath(location)
-                if (subPath !in lst)
-                    lst.add(subPath)
-            }
-            lst.joinToString(separator = System.lineSeparator())
-        }
-        "net.minecraft.client.renderer.block.model.WeightedBakedModel" -> {
-            val lst = mutableListOf<String>()
-            for (model in readField<List<Any>>("models", "field_177565_b")) {
-                val path = model.readField<IBakedModel>("model", "field_185281_b").getModelPath(location)
-                if (path !in lst)
-                    lst.add(path)
-            }
-            lst.joinToString(separator = System.lineSeparator())
-        }
-        "net.minecraftforge.client.model.BakedItemModel" -> location.toAssetsPath("models/item", ".json")
-        else -> ""
-    }
-}
+
+private val ModelManager.modelRegistry
+    @OnlyIn(Dist.CLIENT)
+    get() = readField<Map<ResourceLocation, IBakedModel>>("field_174958_a", "modelRegistry")

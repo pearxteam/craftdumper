@@ -1,34 +1,28 @@
 package net.pearx.craftdumper.common.network.message
 
-import io.netty.buffer.ByteBuf
 import net.minecraft.client.Minecraft
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraft.network.PacketBuffer
+import net.minecraftforge.fml.network.NetworkEvent
 import net.pearx.craftdumper.client.DumperToast
+import net.pearx.craftdumper.common.helper.internal.network.PacketHandler
 
 
-class CPacketHideToast(var token: Int) : IMessage {
-    constructor() : this(-1)
+data class CPacketHideToast(var token: Int) {
 
-    override fun toBytes(buf: ByteBuf) {
-        buf.writeInt(token)
-    }
+    companion object : PacketHandler<CPacketHideToast> {
+        override fun encode(msg: CPacketHideToast, buf: PacketBuffer) {
+            buf.writeInt(msg.token)
+        }
 
-    override fun fromBytes(buf: ByteBuf) {
-        token = buf.readInt()
-    }
+        override fun decode(buf: PacketBuffer): CPacketHideToast {
+            return CPacketHideToast(buf.readInt())
+        }
 
-    class Handler : IMessageHandler<CPacketHideToast, IMessage> {
-        @SideOnly(Side.CLIENT)
-        override fun onMessage(message: CPacketHideToast, ctx: MessageContext): IMessage? {
-            Minecraft.getMinecraft().addScheduledTask {
-                val toast = Minecraft.getMinecraft().toastGui.getToast(DumperToast::class.java, message.token)
+        override fun handle(msg: CPacketHideToast, ctx: () -> NetworkEvent.Context) {
+            ctx().enqueueWork {
+                val toast = Minecraft.getInstance().toastGui.getToast(DumperToast::class.java, msg.token)
                 toast?.hide()
             }
-            return null
         }
     }
 }

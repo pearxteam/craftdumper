@@ -4,8 +4,8 @@
 package net.pearx.craftdumper.common.dumper.standard.vanilla
 
 import net.minecraft.client.Minecraft
-import net.minecraft.util.text.TextComponentTranslation
-import net.minecraftforge.fml.common.registry.ForgeRegistries
+import net.minecraft.util.text.TranslationTextComponent
+import net.minecraftforge.registries.ForgeRegistries
 import net.pearx.craftdumper.common.dumper.add
 import net.pearx.craftdumper.common.dumper.dumperTable
 import net.pearx.craftdumper.common.dumper.row
@@ -24,13 +24,13 @@ val DumperSoundEvents = dumperTable {
             row(header.size) {
                 add { event.registryName.toString() }
                 client {
-                    val accessor = Minecraft.getMinecraft().soundHandler.getAccessor(event.soundName)!!
+                    val accessor = Minecraft.getInstance().soundHandler.getAccessor(event.name)!!
                     val subtitle = accessor.subtitle
                     add {
-                        subtitle?.unformattedText.orEmpty()
+                        subtitle?.unformattedComponentText.orEmpty()
                     }
                     add {
-                        if (subtitle is TextComponentTranslation) {
+                        if (subtitle is TranslationTextComponent) {
                             subtitle.key
                         }
                         else

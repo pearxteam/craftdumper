@@ -1,11 +1,13 @@
 import com.github.breadmoirai.githubreleaseplugin.GithubReleaseExtension
 import com.matthewprenger.cursegradle.*
-import net.minecraftforge.gradle.user.UserBaseExtension
+import net.minecraftforge.gradle.common.util.MinecraftExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.time.OffsetDateTime
 
 plugins {
-    id("net.minecraftforge.gradle.forge")
+    id("net.minecraftforge.gradle")
     id("com.matthewprenger.cursegradle")
+    id("com.wynprice.cursemaven")
     id("com.github.breadmoirai.github-release")
     id("org.jetbrains.kotlin.jvm")
     `maven-publish`
@@ -20,13 +22,13 @@ val modAcceptedMcVersions: String by project
 
 val forgeVersion: String by project
 val minecraftVersion: String by project
+val mcpMappingsChannel: String by project
 val mcpMappingsVersion: String by project
 
 val jeiVersion: String by project
 val jeiMcVersion: String by project
-val forgelinVersion: String by project
-val projectEMcVersion: String by project
-val projectEVersion: String by project
+val kottleFileId: String by project
+val projectEFileId: String by project
 
 val jdkVersion: String by project
 
@@ -49,27 +51,52 @@ java {
 }
 
 repositories {
-    maven { url = uri("https://maven.shadowfacts.net/") } // Forgelin
-    maven { url = uri("http://dvs1.progwml6.com/files/maven") } // JEI
-    maven { url = uri("https://minecraft.curseforge.com/api/maven") } // ProjectE
+    maven { url = uri("https://files.minecraftforge.net/maven") }
+    maven { url = uri("https://dvs1.progwml6.com/files/maven") } // JEI
 }
 
 dependencies {
-    "runtime"("mezz.jei:jei_$jeiMcVersion:$jeiVersion")
-    "compile"("net.shadowfacts:Forgelin:$forgelinVersion")
-    "compile"("projecte:ProjectE:$projectEMcVersion:$projectEVersion")
+    "minecraft"("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
+    "runtimeOnly"(fg.deobf("mezz.jei:jei-$jeiMcVersion:$jeiVersion"))
+    "compile"(fg.deobf("curse.maven:kottle:$kottleFileId"))
+    "compile"(fg.deobf("curse.maven:projecte:$projectEFileId"))
 }
 
-configure<UserBaseExtension> {
-    version = "$minecraftVersion-$forgeVersion"
-    runDir = "run"
-    mappings = mcpMappingsVersion
-    replace("VERSION = \"\"", "VERSION = \"$modVersion\"")
-    replace("DESCRIPTION = \"\"", "DESCRIPTION = \"$modDescription\"")
-    replace("ACCEPTED_MINECRAFT_VERSIONS = \"\"", "ACCEPTED_MINECRAFT_VERSIONS = \"$modAcceptedMcVersions\"")
-    replace("DEPENDENCIES = \"\"", "DEPENDENCIES = \"$modDependencies\"")
-    replaceIn("Reference.kt")
+configure<MinecraftExtension> {
+    mappings(mcpMappingsChannel, "$mcpMappingsVersion-$minecraftVersion")
+    accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
+
+    runs {
+        create("client")
+        create("server")
+        create("data") {
+            args("--mod", "craftdumper", "-all", "--output", file("src/generated/resources"))
+        }
+
+        configureEach {
+            workingDirectory(project.file("run/$name"))
+            property("forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP")
+            property("forge.logging.console.level", "debug")
+
+            mods {
+                create("craftdumper") {
+                    source(sourceSets["main"])
+                }
+            }
+        }
+    }
 }
+
+//configure<UserBaseExtension> {
+//    version = "$minecraftVersion-$forgeVersion"
+//    runDir = "run"
+//    mappings = mcpMappingsVersion
+//    replace("VERSION = \"\"", "VERSION = \"$modVersion\"")
+//    replace("DESCRIPTION = \"\"", "DESCRIPTION = \"$modDescription\"")
+//    replace("ACCEPTED_MINECRAFT_VERSIONS = \"\"", "ACCEPTED_MINECRAFT_VERSIONS = \"$modAcceptedMcVersions\"")
+//    replace("DEPENDENCIES = \"\"", "DEPENDENCIES = \"$modDependencies\"")
+//    replaceIn("Reference.kt")
+//}
 
 publishing {
     repositories {
@@ -105,7 +132,7 @@ configure<CurseExtension> {
         releaseType = "release"
         changelog = modChangelog
         relations(closureOf<CurseRelation> {
-            requiredDependency("shadowfacts-forgelin")
+            requiredDependency("kottle")
         })
         mainArtifact(tasks.named("jar").get(), closureOf<CurseArtifact> {
             displayName = "[$minecraftVersion] CraftDumper $version"
@@ -133,7 +160,15 @@ tasks {
     }
     withType<Jar> {
         manifest {
-            attributes(mapOf("FMLAT" to "craftdumper_at.cfg"))
+            attributes(mapOf(
+                "Specification-Title" to "CraftDumper",
+                "Specification-Vendor" to "PearX Team",
+                "Specification-Version" to modVersion,
+                "Implementation-Title" to project.name,
+                "Implementation-Version" to project.version,
+                "Implementation-Vendor" to "PearX Team",
+                "Implementation-Timestamp" to OffsetDateTime.now().toString()
+            ))
         }
     }
     register("publishDevelop") {

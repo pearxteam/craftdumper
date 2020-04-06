@@ -1,7 +1,6 @@
 package net.pearx.craftdumper.common.helper
 
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.fml.common.Loader
 import org.apache.commons.lang3.reflect.FieldUtils
 import java.lang.reflect.Field
 import kotlin.reflect.KClass
@@ -48,10 +47,10 @@ inline fun <reified T> KClass<*>.readField(vararg names: String): T = readFieldR
 
 inline fun <reified T> Class<*>.readField(vararg names: String): T = readFieldRaw(this, null, *names) as T
 
-fun Class<*>.getOwnerModId(): String {
-    return Loader.instance().modList.firstOrNull { mod -> mod.ownedPackages.any {  ownedPackage ->
-        name.substringBeforeLast('.') == ownedPackage
-    } }?.modId ?: "unknown"
-}
+//fun Class<*>.getOwnerModId(): String {
+//    return Loader.instance().modList.firstOrNull { mod -> mod.ownedPackages.any {  ownedPackage ->
+//        name.substringBeforeLast('.') == ownedPackage
+//    } }?.modId ?: "unknown"
+//}
 
-inline fun KClass<*>.getOwnerModId() = this.java.getOwnerModId()
+//inline fun KClass<*>.getOwnerModId() = this.java.getOwnerModId()

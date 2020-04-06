@@ -5,9 +5,7 @@ package net.pearx.craftdumper.common.dumper.standard.vanilla
 
 import com.google.gson.GsonBuilder
 import net.minecraft.world.storage.loot.*
-import net.minecraft.world.storage.loot.conditions.LootCondition
 import net.minecraft.world.storage.loot.conditions.LootConditionManager
-import net.minecraft.world.storage.loot.functions.LootFunction
 import net.minecraft.world.storage.loot.functions.LootFunctionManager
 import net.pearx.craftdumper.common.dumper.dumperFiles
 import net.pearx.craftdumper.common.dumper.file
@@ -16,15 +14,16 @@ import net.pearx.craftdumper.common.helper.toAssetsPath
 
 val DumperLootTables = dumperFiles {
     registryName = craftdumper("loot_tables")
-    amounts { +LootTableList.getAll() }
-    count { LootTableList.getAll().size  }
+    amounts { +getLootTables() }
+    count { getLootTables().size  }
     files {
-        val manager = LootTableManager(null)
-        val gs = GsonBuilder().registerTypeAdapter(RandomValueRange::class.java, RandomValueRange.Serializer()).registerTypeAdapter(LootPool::class.java, LootPool.Serializer()).registerTypeAdapter(LootTable::class.java, LootTable.Serializer()).registerTypeHierarchyAdapter(LootEntry::class.java, LootEntry.Serializer()).registerTypeHierarchyAdapter(LootFunction::class.java, LootFunctionManager.Serializer()).registerTypeHierarchyAdapter(LootCondition::class.java, LootConditionManager.Serializer()).registerTypeHierarchyAdapter(LootContext.EntityTarget::class.java, LootContext.EntityTarget.Serializer()).setPrettyPrinting().create()
-        for (loc in LootTableList.getAll()) {
+        val manager = LootTableManager()
+        for (loc in getLootTables()) {
             file({ loc.toAssetsPath("loot_tables", ".json") }) {
-                gs.toJson(manager.getLootTableFromLocation(loc)).toByteArray().inputStream()
+                LootTableManager.toJson(manager.getLootTableFromLocation(loc)).toString().byteInputStream()
             }
         }
     }
 }
+
+private fun getLootTables() = LootTables.func_215796_a()

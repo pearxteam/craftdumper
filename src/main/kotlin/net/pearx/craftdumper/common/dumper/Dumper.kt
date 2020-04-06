@@ -2,7 +2,7 @@ package net.pearx.craftdumper.common.dumper
 
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.util.text.event.ClickEvent
 import net.minecraftforge.registries.IForgeRegistryEntry
 import net.pearx.craftdumper.CraftDumper
@@ -72,7 +72,7 @@ class DumpAmounts : MutableMap<String, Int> by hashMapOf() {
 }
 
 class DumpOutput(private val translationKey: String, private val path: File) {
-    fun getTextComponent() = TextComponentTranslation("craftdumper.output.$translationKey.name").apply {
+    fun getTextComponent() = TranslationTextComponent("craftdumper.output.$translationKey.name").apply {
         with(style) {
             clickEvent = ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())
         }
@@ -88,11 +88,11 @@ interface Dumper : IForgeRegistryEntry<Dumper> {
 
     val translationKey: String
 
-    fun getTitle(): ITextComponent = TextComponentTranslation("craftdumper.dumper.$translationKey.name")
+    fun getTitle(): ITextComponent = TranslationTextComponent("craftdumper.dumper.$translationKey.name")
 
-    fun getSubtitleData() = TextComponentTranslation("craftdumper.toast.subtitle.data")
+    fun getSubtitleData() = TranslationTextComponent("craftdumper.toast.subtitle.data")
 
-    fun getSubtitleAmounts() = TextComponentTranslation("craftdumper.toast.subtitle.amounts")
+    fun getSubtitleAmounts() = TranslationTextComponent("craftdumper.toast.subtitle.amounts")
 
     fun getAmounts(): DumpAmounts?
 

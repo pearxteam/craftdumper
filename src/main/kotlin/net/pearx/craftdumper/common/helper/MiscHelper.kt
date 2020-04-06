@@ -1,7 +1,7 @@
 package net.pearx.craftdumper.common.helper
 
-import net.minecraftforge.fml.common.FMLCommonHandler
-import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.fml.loading.FMLEnvironment
 import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.IForgeRegistryEntry
 
@@ -10,10 +10,11 @@ fun <V : IForgeRegistryEntry<V>> IForgeRegistry<V>.registerNonNull(v: V?) {
         register(v)
 }
 
-val isClient = FMLCommonHandler.instance().side == Side.CLIENT
+val isClient = FMLEnvironment.dist == Dist.CLIENT
 
-val defaultWorld
-    get() = FMLCommonHandler.instance().minecraftServerInstance.worlds[0]
+//val defaultWorld
+//    get() = FMLEnvironment.instance().minecraftServerInstance.worlds[0]
+//todo
 
 fun <T> ifOrNull(bool: Boolean, value: T) = if (bool) value else null
 inline fun <T> ifOrNull(bool: Boolean, func: () -> T) = if (bool) func() else null
