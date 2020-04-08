@@ -2,10 +2,30 @@ package net.pearx.craftdumper.common.dumper
 
 import net.pearx.craftdumper.CraftDumper
 import net.pearx.craftdumper.common.helper.client
+import java.io.File
 import java.io.InputStream
+import java.io.OutputStream
 import kotlin.random.Random
 
-data class DumpFile(val path: String, val data: InputStream)
+sealed class DumpFile(val path: String) {
+    abstract fun write(absolutePath: File)
+
+    class Copying(path: String, val data: InputStream) : DumpFile(path) {
+        override fun write(absolutePath: File) {
+            data.use { dump ->
+                absolutePath.outputStream().buffered().use { file ->
+                    dump.copyTo(file)
+                }
+            }
+        }
+    }
+
+    class Direct(path: String, val writer: (File) -> Unit) : DumpFile(path) {
+        override fun write(absolutePath: File) {
+            writer(absolutePath)
+        }
+    }
+}
 
 typealias DumperFileData = Iterable<DumpFile>
 
@@ -18,11 +38,7 @@ interface DumperFiles : Dumper {
             val dumpPath = baseDirectory
                 .resolve(file.path)
             dumpPath.parentFile.mkdirs()
-            file.data.use { dump ->
-                dumpPath.outputStream().buffered().use { file ->
-                    dump.copyTo(file)
-                }
-            }
+            file.write(dumpPath)
             reporter.progress = index + 1
         }
         return listOf(DumpOutput("directory", baseDirectory))
@@ -45,8 +61,28 @@ inline fun dumperFiles(init: DumperFilesContext.() -> Unit): DumperFiles = Dumpe
 
 inline fun dumperFilesClient(init: DumperFilesContext.() -> Unit): DumperFiles? = client { DumperFilesContext().apply(init) }
 
-suspend inline fun SequenceScope<DumpFile>.file(getPath: () -> String, getData: () -> InputStream) {
-    val path = try { getPath() } catch(e: Throwable) { "error_${Random.nextInt()}" }
-    val data = try { getData() } catch(e: Throwable) { ByteArray(0).inputStream() }
-    yield(DumpFile(path, data))
+suspend inline fun SequenceScope<DumpFile>.fileReading(getPath: () -> String, getData: () -> InputStream) {
+    val path = try {
+        getPath()
+    }
+    catch (e: Throwable) {
+        "error_${Random.nextInt()}"
+    }
+    val data = try {
+        getData()
+    }
+    catch (e: Throwable) {
+        ByteArray(0).inputStream()
+    }
+    yield(DumpFile.Copying(path, data))
+}
+
+suspend inline fun SequenceScope<DumpFile>.fileDirect(getPath: () -> String, noinline writer: (File) -> Unit) {
+    val path = try {
+        getPath()
+    }
+    catch (e: Throwable) {
+        "error_${Random.nextInt()}"
+    }
+    yield(DumpFile.Direct(path, writer))
 }

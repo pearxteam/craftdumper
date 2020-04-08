@@ -30,11 +30,11 @@ val DumperSoundEvents = dumperTable {
                         subtitle?.unformattedComponentText.orEmpty()
                     }
                     add {
-                        if (subtitle is TranslationTextComponent) {
-                            subtitle.key
+                        when(subtitle) {
+                            null -> ""
+                            is TranslationTextComponent -> subtitle.key
+                            else -> subtitle.toString()
                         }
-                        else
-                            subtitle.toString()
                     }
                     add {
                         buildMultilineString(accessor.accessorList) {

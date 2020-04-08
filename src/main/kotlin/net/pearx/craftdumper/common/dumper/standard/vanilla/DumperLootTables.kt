@@ -3,24 +3,33 @@
 
 package net.pearx.craftdumper.common.dumper.standard.vanilla
 
-import com.google.gson.GsonBuilder
-import net.minecraft.world.storage.loot.*
-import net.minecraft.world.storage.loot.conditions.LootConditionManager
-import net.minecraft.world.storage.loot.functions.LootFunctionManager
+import com.google.gson.internal.Streams
+import com.google.gson.stream.JsonWriter
+import net.minecraft.world.storage.loot.LootTableManager
+import net.minecraft.world.storage.loot.LootTables
+import net.minecraftforge.fml.server.ServerLifecycleHooks
 import net.pearx.craftdumper.common.dumper.dumperFiles
-import net.pearx.craftdumper.common.dumper.file
+import net.pearx.craftdumper.common.dumper.fileDirect
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 import net.pearx.craftdumper.common.helper.toAssetsPath
 
 val DumperLootTables = dumperFiles {
     registryName = craftdumper("loot_tables")
     amounts { +getLootTables() }
-    count { getLootTables().size  }
+    count { getLootTables().size }
     files {
-        val manager = LootTableManager()
+        val manager = ServerLifecycleHooks.getCurrentServer().lootTableManager
         for (loc in getLootTables()) {
-            file({ loc.toAssetsPath("loot_tables", ".json") }) {
-                LootTableManager.toJson(manager.getLootTableFromLocation(loc)).toString().byteInputStream()
+            fileDirect({ loc.toAssetsPath("loot_tables", ".json") }) { file ->
+                val json = LootTableManager.toJson(manager.getLootTableFromLocation(loc))
+                file.bufferedWriter().use { writer ->
+                    val jsonWriter = JsonWriter(writer).apply {
+                        isLenient = true
+                        setIndent("  ")
+                    }
+                    jsonWriter.isLenient = true
+                    Streams.write(json, jsonWriter)
+                }
             }
         }
     }

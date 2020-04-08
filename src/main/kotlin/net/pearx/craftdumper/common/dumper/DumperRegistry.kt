@@ -46,7 +46,7 @@ object DumperRegistryEvents {
 //            register(DumperShapelessRecipes)
 //            register(DumperSmeltingRecipes)
             register(DumperSoundEvents)
-//            register(DumperTileEntities)
+            register(DumperTileEntities)
 //            register(DumperVillagerProfessions)
 //            register(DumperWorldGenerators)
         }
