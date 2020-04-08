@@ -1,0 +1,35 @@
+{
+    "commands.craftdumper.start": "Dumping %s...",
+    "commands.craftdumper.success": "Successfully created the %s dump!",
+    "commands.craftdumper.outputs": "Outputs: %s.",
+
+    "craftdumper.output.table": "CSV Table",
+    "craftdumper.output.directory": "Data Directory",
+    "craftdumper.output.amounts": "Amounts",
+
+    "craftdumper.dumper.advancements": "Advancements",
+    "craftdumper.dumper.attributes": "Attributes",
+    "craftdumper.dumper.biomes": "Biomes",
+    "craftdumper.dumper.blocks": "Blocks",
+    "craftdumper.dumper.capabilities": "Capabilities",
+    "craftdumper.dumper.enchantments": "Enchantments",
+    "craftdumper.dumper.entities": "Entities",
+    "craftdumper.dumper.fluids": "Fluids",
+    "craftdumper.dumper.food": "Food",
+    "craftdumper.dumper.item_stacks": "Item Stacks",
+    "craftdumper.dumper.loot_tables": "Loot Tables",
+    "craftdumper.dumper.models": "Models",
+    "craftdumper.dumper.ore_dictionary": "Ore Dictionary",
+    "craftdumper.dumper.potions": "Potions",
+    "craftdumper.dumper.shaped_recipes": "Shaped Recipes",
+    "craftdumper.dumper.shapeless_recipes": "Shapeless Recipes",
+    "craftdumper.dumper.smelting_recipes": "Smelting Recipes",
+    "craftdumper.dumper.sound_events": "Sound Events",
+    "craftdumper.dumper.tile_entities": "Tile Entities",
+    "craftdumper.dumper.villager_professions": "Villager Professions",
+    "craftdumper.dumper.world_generators": "World Generators",
+
+    "craftdumper.toast.title": "Dumping %s",
+    "craftdumper.toast.subtitle.data": "Dumping data...",
+    "craftdumper.toast.subtitle.amounts": "Generating amounts file..."
+}

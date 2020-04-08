@@ -72,7 +72,7 @@ class DumpAmounts : MutableMap<String, Int> by hashMapOf() {
 }
 
 class DumpOutput(private val translationKey: String, private val path: File) {
-    fun getTextComponent() = TranslationTextComponent("craftdumper.output.$translationKey.name").apply {
+    fun getTextComponent() = TranslationTextComponent("craftdumper.output.$translationKey").apply {
         with(style) {
             clickEvent = ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())
         }
@@ -88,7 +88,7 @@ interface Dumper : IForgeRegistryEntry<Dumper> {
 
     val translationKey: String
 
-    fun getTitle(): ITextComponent = TranslationTextComponent("craftdumper.dumper.$translationKey.name")
+    fun getTitle(): ITextComponent = TranslationTextComponent("craftdumper.dumper.$translationKey")
 
     fun getSubtitleData() = TranslationTextComponent("craftdumper.toast.subtitle.data")
 
