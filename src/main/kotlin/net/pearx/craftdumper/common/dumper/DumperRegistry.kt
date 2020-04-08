@@ -29,7 +29,7 @@ object DumperRegistryEvents {
     fun onRegisterDumpers(event: RegistryEvent.Register<Dumper>) {
         with(event.registry) {
 //            register(DumperAdvancements)
-//            register(DumperAttributes)
+            register(DumperAttributes)
 //            register(DumperBiomes)
 //            register(DumperBlocks)
 //            register(DumperCapabilities)
@@ -41,7 +41,7 @@ object DumperRegistryEvents {
             register(DumperLootTables)
 //            register(DumperOreDictionary)
             registerNonNull(DumperModels)
-//            register(DumperPotions)
+            register(DumperPotions)
 //            register(DumperShapedRecipes)
 //            register(DumperShapelessRecipes)
 //            register(DumperSmeltingRecipes)

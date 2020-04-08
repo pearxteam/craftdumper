@@ -2,6 +2,7 @@ package net.pearx.craftdumper.common.helper
 
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.fml.loading.FMLEnvironment
+import net.minecraftforge.fml.server.ServerLifecycleHooks
 import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.IForgeRegistryEntry
 
@@ -12,9 +13,8 @@ fun <V : IForgeRegistryEntry<V>> IForgeRegistry<V>.registerNonNull(v: V?) {
 
 val isClient = FMLEnvironment.dist == Dist.CLIENT
 
-//val defaultWorld
-//    get() = FMLEnvironment.instance().minecraftServerInstance.worlds[0]
-//todo
+val defaultWorld
+    get() = ServerLifecycleHooks.getCurrentServer().worlds.first()
 
 fun <T> ifOrNull(bool: Boolean, value: T) = if (bool) value else null
 inline fun <T> ifOrNull(bool: Boolean, func: () -> T) = if (bool) func() else null
