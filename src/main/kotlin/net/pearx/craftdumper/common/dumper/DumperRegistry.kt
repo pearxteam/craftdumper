@@ -28,7 +28,7 @@ object DumperRegistryEvents {
     @SubscribeEvent
     fun onRegisterDumpers(event: RegistryEvent.Register<Dumper>) {
         with(event.registry) {
-//            register(DumperAdvancements)
+            register(DumperAdvancements)
             register(DumperAttributes)
 //            register(DumperBiomes)
 //            register(DumperBlocks)
