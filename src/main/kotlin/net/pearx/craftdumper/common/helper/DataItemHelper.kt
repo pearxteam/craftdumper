@@ -26,7 +26,7 @@ fun ItemStack.appendTo(to: Appendable) {
 
 fun ItemStack.toFullString() = buildString { appendTo(this) }
 
-inline fun eachStack(filter: (Item) -> Boolean, block: (item: Item, stack: ItemStack) -> Unit) {
+inline fun eachStack(filter: (Item) -> Boolean = { true }, block: (item: Item, stack: ItemStack) -> Unit) {
     for (item in ForgeRegistries.ITEMS) {
         if (filter(item)) {
             val stacks = NonNullList.create<ItemStack>().also { item.fillItemGroup(it) }
@@ -37,7 +37,7 @@ inline fun eachStack(filter: (Item) -> Boolean, block: (item: Item, stack: ItemS
     }
 }
 
-inline fun stackCount(filter: (Item) -> Boolean): Int {
+inline fun stackCount(filter: (Item) -> Boolean = { true }): Int {
     var count = 0
     for(item in ForgeRegistries.ITEMS) {
         if(filter(item)) {

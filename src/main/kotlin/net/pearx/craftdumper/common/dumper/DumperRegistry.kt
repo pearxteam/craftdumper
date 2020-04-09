@@ -37,7 +37,7 @@ object DumperRegistryEvents {
 //            register(DumperEntities)
 //            register(DumperFluids)
             register(DumperFood)
-//            register(DumperItemStacks)
+            register(DumperItemStacks)
             register(DumperLootTables)
 //            register(DumperOreDictionary)
             registerNonNull(DumperModels)
