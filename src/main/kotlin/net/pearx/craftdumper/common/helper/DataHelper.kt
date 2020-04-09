@@ -6,6 +6,9 @@ import net.minecraftforge.forgespi.language.ModFileScanData
 import org.apache.commons.lang3.reflect.FieldUtils
 import org.objectweb.asm.Type
 import java.lang.reflect.Field
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 
 fun Boolean.toPlusMinusString() = if (this) "+" else "-"
@@ -58,3 +61,5 @@ fun Class<*>.getOwnerModId(): String {
 }
 
 inline fun KClass<*>.getOwnerModId() = this.java.getOwnerModId()
+
+fun Float.toPercents(): Float = (this * 10000).roundToInt() / 100F

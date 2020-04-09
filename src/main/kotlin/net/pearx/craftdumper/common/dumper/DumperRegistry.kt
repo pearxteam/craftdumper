@@ -30,7 +30,7 @@ object DumperRegistryEvents {
         with(event.registry) {
             register(DumperAdvancements)
             register(DumperAttributes)
-//            register(DumperBiomes)
+            register(DumperBiomes)
 //            register(DumperBlocks)
             register(DumperCapabilities)
 //            register(DumperEnchantments)
