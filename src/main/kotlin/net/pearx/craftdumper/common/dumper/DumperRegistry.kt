@@ -31,7 +31,7 @@ object DumperRegistryEvents {
             register(DumperAdvancements)
             register(DumperAttributes)
             register(DumperBiomes)
-//            register(DumperBlocks)
+            register(DumperBlocks)
             register(DumperCapabilities)
 //            register(DumperEnchantments)
 //            register(DumperEntities)
