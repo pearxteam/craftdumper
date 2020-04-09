@@ -1,44 +1,48 @@
-//@file:JvmMultifileClass
-//@file:JvmName("VanillaDumpers")
-//
-//package net.pearx.craftdumper.common.dumper.standard.vanilla
-//
-//import net.minecraft.item.ItemFood
-//import net.pearx.craftdumper.common.dumper.add
-//import net.pearx.craftdumper.common.dumper.dumperTable
-//import net.pearx.craftdumper.common.dumper.row
-//import net.pearx.craftdumper.common.helper.eachStack
-//import net.pearx.craftdumper.common.helper.internal.craftdumper
-//import net.pearx.craftdumper.common.helper.stackCount
-//import net.pearx.craftdumper.common.helper.toFullString
-//import net.pearx.craftdumper.common.helper.toPlusMinusString
-//
-//val DumperFood = dumperTable {
-//    registryName = craftdumper("food")
-//    header = listOf("Item", "Heal Amount", "Saturation Modifier", "Is Wolfs Favorite Meal", "Is Always Edible", "Item Use Duration", "Potion Effect", "Potion Effect Probability")
-//    amounts {
-//        eachStack<ItemFood> { item, _ ->
-//            +item.registryName
-//        }
-//    }
-//    count { stackCount<ItemFood>() }
-//    table {
-//        eachStack<ItemFood> { item, stack ->
-//            row(header.size) {
-//                with(item) {
-//                    add { stack.toFullString() }
-//                    add { getHealAmount(stack).toString() }
-//                    add { getSaturationModifier(stack).toString() }
-//                    add { isWolfsFavoriteMeat.toPlusMinusString() }
-//                    add { alwaysEdible.toPlusMinusString() }
-//                    add { itemUseDuration.toString() }
-//                    if (potionId != null) {
-//                        add { potionId.toString() }
-//                        add { potionEffectProbability.toString() }
-//                    }
-//                    else repeat(2) { add("") }
-//                }
-//            }
-//        }
-//    }
-//}
+@file:JvmMultifileClass
+@file:JvmName("VanillaDumpers")
+
+package net.pearx.craftdumper.common.dumper.standard.vanilla
+
+import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
+import net.pearx.craftdumper.common.dumper.add
+import net.pearx.craftdumper.common.dumper.dumperTable
+import net.pearx.craftdumper.common.dumper.row
+import net.pearx.craftdumper.common.helper.*
+import net.pearx.craftdumper.common.helper.internal.craftdumper
+
+val DumperFood = dumperTable {
+    registryName = craftdumper("food")
+    header = listOf("Item", "Healing", "Saturation", "Is Meat", "Can Eat When Full", "Is Fast Eating", "Use Duration", "Effects")
+    amounts {
+        eachFood { item, _ ->
+            +item.registryName
+        }
+    }
+    count { foodCount() }
+    table {
+        eachFood { item, stack ->
+            row(header.size) {
+                with(item) {
+                    add { stack.toFullString() }
+                    with(food!!) {
+                        add { healing.toString() }
+                        add { saturation.toString() }
+                        add { isMeat.toPlusMinusString() }
+                        add { canEatWhenFull().toPlusMinusString() }
+                        add { isFastEating.toPlusMinusString() }
+                        add { getUseDuration(stack).toString() }
+                        add {
+                            effects.joinToString(System.lineSeparator()) { (potion, probability) ->
+                                "${potion.effectName} - ${probability.toPercents()}%"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+private fun foodCount() = stackCount { it.food != null }
+private inline fun eachFood(block: (item: Item, stack: ItemStack) -> Unit) = eachStack({ it.food != null }, block)

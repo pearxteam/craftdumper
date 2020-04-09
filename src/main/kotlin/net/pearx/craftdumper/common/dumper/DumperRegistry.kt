@@ -36,7 +36,7 @@ object DumperRegistryEvents {
 //            register(DumperEnchantments)
 //            register(DumperEntities)
 //            register(DumperFluids)
-//            register(DumperFood)
+            register(DumperFood)
 //            register(DumperItemStacks)
             register(DumperLootTables)
 //            register(DumperOreDictionary)
