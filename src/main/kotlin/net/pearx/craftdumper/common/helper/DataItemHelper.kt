@@ -3,6 +3,7 @@ package net.pearx.craftdumper.common.helper
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
+import net.minecraft.item.crafting.Ingredient
 import net.minecraft.util.NonNullList
 import net.minecraftforge.registries.ForgeRegistries
 
@@ -51,41 +52,32 @@ fun Item.fillItemGroup(list: NonNullList<ItemStack>) {
     fillItemGroup(group ?: ItemGroup.SEARCH, list)
 }
 
-//fun Ingredient.appendTo(to: Appendable) {
-//    val matchingStacksPublic = getMatchingStacks()
-//    if (matchingStacksPublic.isNotEmpty()) {
-//        if (this is OreIngredient) {
-//            to.append("ore:")
-//            to.append(run {
-//                val ores = readField<NonNullList<ItemStack>>("ores")
-//                for (oreId in OreDictionary.getOreIDs(matchingStacksPublic[0])) {
-//                    val oreName = OreDictionary.getOreName(oreId)
-//                    val ores1 = OreDictionary.getOres(oreName)
-//                    if (ores == ores1)
-//                        return@run oreName
-//                }
-//                return@run ""
-//            })
-//        }
-//        else {
-//            val matchingStacksInternal = matchingStacks
-//            if (matchingStacksInternal.isNotEmpty())
-//                appendStackListOrSeparatedTo(to, matchingStacksInternal)
-//            else
-//                appendStackListOrSeparatedTo(to, matchingStacksPublic)
-//        }
-//    }
-//}
+fun Ingredient.appendTo(to: Appendable) {
+    var startLists = true
+    for(list in acceptedItems) {
+        if(startLists)
+            startLists = false
+        else
+            to.append(" | ")
+        if(list is Ingredient.TagList) {
+            to.append("[")
+            to.append(list.tag.id.toString())
+            to.append("]")
+        }
+        else
+            appendStackListOrSeparatedTo(to, list.stacks)
+    }
+}
 
-//private fun appendStackListOrSeparatedTo(to: Appendable, stacks: Array<ItemStack>) {
-//    var startStacks = true
-//    for (stack in stacks) {
-//        if (startStacks)
-//            startStacks = false
-//        else
-//            to.append(" | ")
-//        to.append(stack.toFullString(true))
-//    }
-//}
-//
-//fun Ingredient.toFullString() = buildString { appendTo(this) }
+private fun appendStackListOrSeparatedTo(to: Appendable, stacks: Collection<ItemStack>) {
+    var startStacks = true
+    for (stack in stacks) {
+        if (startStacks)
+            startStacks = false
+        else
+            to.append(" | ")
+        to.append(stack.toFullString())
+    }
+}
+
+fun Ingredient.toFullString() = buildString { appendTo(this) }
