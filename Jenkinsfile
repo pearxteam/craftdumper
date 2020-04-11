@@ -5,7 +5,7 @@ pipeline {
         stage('prepare') { steps { ciSkip 'check' } }
         stage('build') {
             steps {
-                sh './gradlew clean setupCiWorkspace build'
+                sh './gradlew clean build'
             }
         }
         stage('deploy-develop') {
