@@ -54,7 +54,12 @@ object DumperRegistryEvents {
             register(DumperShapedRecipes)
             register(DumperSoundEvents)
             register(DumperTileEntities)
-//            register(DumperVillagerProfessions)
+            register(DumperVillagerProfessions)
+            register(DumperVillagerPointsOfInterest)
+            register(DumperVillagerMemoryModules)
+            register(DumperVillagerSensors)
+            register(DumperVillagerSchedules)
+            register(DumperVillagerActivities)
 //            register(DumperWorldGenerators)
         }
     }
