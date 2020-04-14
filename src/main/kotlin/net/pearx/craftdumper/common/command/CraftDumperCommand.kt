@@ -13,6 +13,7 @@ import net.pearx.craftdumper.common.dumper.Dumper
 import net.pearx.craftdumper.common.dumper.DumperRegistry
 import net.pearx.craftdumper.common.helper.internal.getTotalCount
 
+
 object CraftDumperCommand {
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         dispatcher.register(
@@ -52,10 +53,13 @@ object CraftDumperCommand {
             }
             val first: ITextComponent = outputComponents[0]
             for (comp in outputComponents.subList(1, outputComponents.size)) {
-                val comma = StringTextComponent(", ")
-                first.appendSibling(comma)
-                @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-                comma.style.setParentStyle(null)
+                first.appendSibling(StringTextComponent(", ").apply {
+                    with(style) {
+                        underlined = false
+                        color = TextFormatting.RESET
+                        clickEvent = null
+                    }
+                })
                 first.appendSibling(comp)
             }
             lst += TranslationTextComponent("commands.craftdumper.outputs", first)
