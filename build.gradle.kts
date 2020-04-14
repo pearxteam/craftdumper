@@ -33,6 +33,7 @@ val projectEFileId: String by project
 val jdkVersion: String by project
 
 val curseforgeProjectId: String by project
+val curseforgeReleaseType: String by project
 
 val githubReleaseBranch: String by project
 
@@ -129,7 +130,7 @@ configure<CurseExtension> {
     apiKey = curseforgeApiKey ?: "0"
     project(closureOf<CurseProject> {
         id = curseforgeProjectId
-        releaseType = "release"
+        releaseType = curseforgeReleaseType
         changelog = modChangelog
         relations(closureOf<CurseRelation> {
             requiredDependency("kottle")
