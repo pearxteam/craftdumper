@@ -34,6 +34,7 @@
     "craftdumper.dumper.shaped_recipes": "Shaped Recipes",
     "craftdumper.dumper.sound_events": "Sound Events",
     "craftdumper.dumper.tile_entities": "Tile Entities",
+    "craftdumper.dumper.villager_activities": "Villager Activities",
     "craftdumper.dumper.villager_schedules": "Villager Schedules",
     "craftdumper.dumper.villager_sensors": "Villager Sensors",
     "craftdumper.dumper.villager_points_of_interest": "Villager Points of Interest",
@@ -43,6 +44,7 @@
     "craftdumper.dumper.paintings": "Paintings",
     "craftdumper.dumper.particles": "Particles",
     "craftdumper.dumper.dimensions": "Dimensions",
+    "craftdumper.dumper.containers": "Containers",
 
     "dump_type.unknown": "Unknown Dump Type",
     "dumper.unknown": "Unknown Dumper",
