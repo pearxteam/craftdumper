@@ -9,17 +9,18 @@ import net.pearx.craftdumper.common.dumper.dumperTable
 import net.pearx.craftdumper.common.dumper.row
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 
-val DumperPotions = dumperTable {
-    registryName = craftdumper("potions")
-    header = listOf("ID")
-    amounts { +ForgeRegistries.POTION_TYPES.keys }
-    count { ForgeRegistries.POTION_TYPES.count() }
+val DumperPaintings = dumperTable {
+    registryName = craftdumper("paintings")
+    header = listOf("ID", "Width", "Height")
+    amounts { +ForgeRegistries.PAINTING_TYPES.keys }
+    count { ForgeRegistries.PAINTING_TYPES.count() }
     table {
-        ForgeRegistries.POTION_TYPES.forEach { potion ->
+        ForgeRegistries.PAINTING_TYPES.forEach { painting ->
             row(header.size) {
-                with(potion) {
+                with(painting) {
                     add { registryName.toString() }
-                    add { effects.joinToString(System.lineSeparator()) }
+                    add { width.toString() }
+                    add { height.toString() }
                 }
             }
         }
