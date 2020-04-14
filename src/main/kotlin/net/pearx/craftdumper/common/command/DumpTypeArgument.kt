@@ -7,8 +7,10 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.minecraft.command.ISuggestionProvider
+import net.minecraft.command.arguments.ArgumentSerializer
+import net.minecraft.command.arguments.ArgumentTypes
 import net.minecraft.util.text.TranslationTextComponent
-import net.pearx.craftdumper.common.dumper.Dumper
+import net.pearx.craftdumper.common.helper.internal.craftdumper
 import java.util.concurrent.CompletableFuture
 
 fun CommandContext<out Any?>.dumpType(name: String) = getArgument(name, DumpType::class.java)
@@ -25,4 +27,8 @@ object DumpTypeArgument : ArgumentType<DumpType> {
     }
 
     override fun getExamples(): Collection<String> = DumpType.values().map { it.value }
+
+    fun register() {
+        ArgumentTypes.register(craftdumper("dump_type").toString(), DumpTypeArgument::class.java, ArgumentSerializer { this })
+    }
 }

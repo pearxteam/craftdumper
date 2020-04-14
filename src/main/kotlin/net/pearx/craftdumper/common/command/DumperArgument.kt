@@ -7,10 +7,13 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.minecraft.command.ISuggestionProvider
+import net.minecraft.command.arguments.ArgumentSerializer
+import net.minecraft.command.arguments.ArgumentTypes
 import net.minecraft.util.text.TranslationTextComponent
 import net.pearx.craftdumper.common.dumper.Dumper
 import net.pearx.craftdumper.common.dumper.getDumperNames
 import net.pearx.craftdumper.common.dumper.lookupDumperRegistry
+import net.pearx.craftdumper.common.helper.internal.craftdumper
 import java.util.concurrent.CompletableFuture
 
 fun CommandContext<out Any?>.dumper(name: String) = getArgument(name, Dumper::class.java)
@@ -32,5 +35,9 @@ object DumperArgument : ArgumentType<Dumper> {
 
     override fun <S : Any> listSuggestions(context: CommandContext<S>, builder: SuggestionsBuilder): CompletableFuture<Suggestions> {
         return ISuggestionProvider.suggest(getDumperNames().toMutableList().apply { add("all") }, builder)
+    }
+
+    fun register() {
+        ArgumentTypes.register(craftdumper("dumper").toString(), DumperArgument::class.java, ArgumentSerializer { this })
     }
 }

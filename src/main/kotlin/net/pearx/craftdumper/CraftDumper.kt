@@ -5,17 +5,16 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 import net.pearx.craftdumper.client.ClientProxy
 import net.pearx.craftdumper.common.CommonProxy
-import net.pearx.craftdumper.common.command.CraftDumperCommand
+import net.pearx.craftdumper.common.command.DumpTypeArgument
+import net.pearx.craftdumper.common.command.DumperArgument
 import net.pearx.craftdumper.common.dumper.DumperRegistry
 import net.pearx.craftdumper.common.helper.internal.currentDateTime
 import net.pearx.craftdumper.common.helper.internal.getRegistryElementName
 import net.pearx.craftdumper.common.network.initNetwork
 import net.pearx.craftdumper.server.ServerProxy
 import org.apache.logging.log4j.LogManager
-import java.io.File
 import java.util.function.Supplier
 
 @Mod("craftdumper")
@@ -32,6 +31,7 @@ object CraftDumper {
     @SubscribeEvent
     fun init(event: FMLCommonSetupEvent) {
         initNetwork()
-//        outputDirectory = event.modConfigurationDirectory.parentFile.resolve(ID) todo!
+        DumperArgument.register()
+        DumpTypeArgument.register()
     }
 }
