@@ -64,7 +64,8 @@ object DumperRegistryEvents {
             register(DumperVillagerSensors)
             register(DumperVillagerSchedules)
             register(DumperVillagerActivities)
-//            register(DumperWorldGenerators)
+            register(DumperStats)
+            register(DumperDimensions)
         }
     }
 }
