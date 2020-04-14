@@ -4,7 +4,6 @@ import net.pearx.craftdumper.CraftDumper
 import net.pearx.craftdumper.common.helper.client
 import java.io.File
 import java.io.InputStream
-import java.io.OutputStream
 import kotlin.random.Random
 
 sealed class DumpFile(val path: String) {
@@ -38,7 +37,11 @@ interface DumperFiles : Dumper {
             val dumpPath = baseDirectory
                 .resolve(file.path)
             dumpPath.parentFile.mkdirs()
-            file.write(dumpPath)
+            try {
+                file.write(dumpPath)
+            } catch(e: Exception) {
+                CraftDumper.log.error("An error occurred while creating a dump!", e)
+            }
             reporter.progress = index + 1
         }
         return listOf(DumpOutput("directory", baseDirectory))
