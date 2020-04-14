@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.Ingredient
 import net.minecraft.util.NonNullList
 import net.minecraftforge.registries.ForgeRegistries
+import net.pearx.craftdumper.CraftDumper
 
 fun ItemStack.appendTo(to: Appendable) {
     to.apply {
@@ -49,7 +50,12 @@ inline fun stackCount(filter: (Item) -> Boolean = { true }): Int {
 }
 
 fun Item.fillItemGroup(list: NonNullList<ItemStack>) {
-    fillItemGroup(group ?: ItemGroup.SEARCH, list)
+    try {
+        fillItemGroup(group ?: ItemGroup.SEARCH, list)
+    }
+    catch(e: Throwable) {
+        CraftDumper.log.error("An error occurred while filling an ItemGroup!", e)
+    }
 }
 
 fun Ingredient.appendTo(to: Appendable) {
