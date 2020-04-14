@@ -1,7 +1,7 @@
 # CraftDumper [![CurseForge Downloads](http://cf.way2muchnoise.eu/full_354281_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/craftdumper)
 [![Discord](https://img.shields.io/discord/136085738151346176?color=7289DA&logo=discord&logoColor=white)](https://discord.gg/tkDUmpQ)
-[![Build Status](https://ci.pearx.net/job/pearxteam/job/craftdumper/job/1.12-master/badge/icon?subject=1.12-master)](https://ci.pearx.net/job/pearxteam/job/craftdumper/job/1.12-master/)
-[![Build Status](https://ci.pearx.net/job/pearxteam/job/craftdumper/job/1.12-develop/badge/icon?subject=1.12-develop)](https://ci.pearx.net/job/pearxteam/job/craftdumper/job/1.12-develop/)
+[![Build Status](https://ci.pearx.net/job/pearxteam/job/craftdumper/job/1.14-master/badge/icon?subject=1.14-master)](https://ci.pearx.net/job/pearxteam/job/craftdumper/job/1.14-master/)
+[![Build Status](https://ci.pearx.net/job/pearxteam/job/craftdumper/job/1.14-develop/badge/icon?subject=1.14-develop)](https://ci.pearx.net/job/pearxteam/job/craftdumper/job/1.14-develop/)
 
 A Minecraft Forge mod that allows you to dump game information such as blocks, items and many more.
 
@@ -9,24 +9,39 @@ A Minecraft Forge mod that allows you to dump game information such as blocks, i
 * Advancements (`advancements`)
 * Attributes (`attributes`)
 * Biomes (`biomes`)
+* Blasting Recipes (`blasting_recipes`)
+* Block Tags (`tags_block`)
 * Blocks (`blocks`)
+* Campfire Cooking Recipes (`campfire_cooking_recipes`)
 * Capabilities (`capabilities`)
+* Dimensions (`dimensions`)
 * Enchantments (`enchantments`)
 * Entities (`entities`)
+* Entity Tags (`tags_entity`)
+* Fluid Tags (`tags_fluid`)
 * Fluids (`fluids`)
 * Food (`food`)
 * Item Stacks (`item_stacks`)
+* Item Tags (`tags_item`)
 * Loot Tables (`loot_tables`)
 * Models (`models`)
-* Ore Dictionary (`ore_dictionary`)
+* Paintings (`paintings`)
+* Particles (`particles`)
+* Potion Effects (`potion_effects`)
 * Potions (`potions`)
 * Shaped Recipes (`shaped_recipes`)
 * Shapeless Recipes (`shapeless_recipes`)
 * Smelting Recipes (`smelting_recipes`)
+* Smoking Recipes (`smoking_recipes`)
 * Sound Events (`sound_events`)
+* Stats (`stats`)
+* Stonecutting Recipes (`stonecutting_recipes`)
 * Tile Entities (`tile_entities`)
+* Villager Memory Modules (`villager_memory_modules`)
+* Villager Points of Interest (`villager_points_of_interest`)
 * Villager Professions (`villager_professions`)
-* World Generators (`world_generators`)
+* Villager Schedules (`villager_schedules`)
+* Villager Sensors (`villager_sensors`)
 
 You can submit a feature request [here](https://github.com/pearxteam/craftdumper/issues) :).
 
@@ -40,7 +55,7 @@ To create a dump, use the `/craftdumper <dumper name> [full|amounts|data]` comma
 All the dumper outputs will be placed in the `.minecraft/craftdumper` directory.
 
 ## Dependencies
-This mod requires [Shadowfacts' Forgelin](https://www.curseforge.com/minecraft/mc-mods/shadowfacts-forgelin).
+This mod requires [Kottle](https://www.curseforge.com/minecraft/mc-mods/kottle).
 
 ## Usage in Modpacks
 You can use this mod in any modpack!
