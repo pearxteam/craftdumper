@@ -39,7 +39,7 @@ interface DumperFiles : Dumper {
             dumpPath.parentFile.mkdirs()
             try {
                 file.write(dumpPath)
-            } catch(e: Exception) {
+            } catch(e: Throwable) {
                 CraftDumper.log.error("An error occurred while creating a dump!", e)
             }
             reporter.progress = index + 1
