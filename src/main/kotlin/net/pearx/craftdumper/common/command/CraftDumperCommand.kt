@@ -36,7 +36,7 @@ object CraftDumperCommand {
     private fun execute(source: CommandSource, dumpers: Collection<Dumper>, dumpType: DumpType): Int {
         val mapped = dumpers.map { it to dumpType }
         CraftDumper.proxy.createDump(source, mapped)
-        return mapped.getTotalCount() // todo
+        return mapped.getTotalCount()
     }
 
     fun createSuccessMessage(dumper: Dumper, outputs: List<DumpOutput>, displayOutputs: Boolean): List<ITextComponent> {
