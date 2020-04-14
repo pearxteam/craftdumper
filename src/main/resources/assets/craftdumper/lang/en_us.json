@@ -44,6 +44,9 @@
     "craftdumper.dumper.particles": "Particles",
     "craftdumper.dumper.dimensions": "Dimensions",
 
+    "dump_type.unknown": "Unknown Dump Type",
+    "dumper.unknown": "Unknown Dumper",
+
     "craftdumper.toast.title": "Dumping %s",
     "craftdumper.toast.subtitle.data": "Dumping data...",
     "craftdumper.toast.subtitle.amounts": "Generating amounts file..."
