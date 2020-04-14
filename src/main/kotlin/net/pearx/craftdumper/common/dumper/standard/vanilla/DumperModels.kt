@@ -3,12 +3,9 @@
 
 package net.pearx.craftdumper.common.dumper.standard.vanilla
 
-import com.google.common.collect.ImmutableMap
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.model.IBakedModel
 import net.minecraft.client.renderer.model.ModelManager
-import net.minecraft.client.renderer.model.ModelResourceLocation
-import net.minecraft.client.renderer.model.MultipartBakedModel
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.api.distmarker.Dist
@@ -19,10 +16,8 @@ import net.pearx.craftdumper.common.dumper.dumperTableClient
 import net.pearx.craftdumper.common.dumper.row
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 import net.pearx.craftdumper.common.helper.readField
-import net.pearx.craftdumper.common.helper.toAssetsPath
 import net.pearx.craftdumper.common.helper.toPlusMinusString
 import net.pearx.craftdumper.common.helper.toTexturesPath
-import org.apache.commons.lang3.reflect.FieldUtils.readField
 import java.util.*
 
 val DumperModels = dumperTableClient {

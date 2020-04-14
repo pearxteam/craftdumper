@@ -15,13 +15,15 @@ import net.pearx.craftdumper.common.helper.internal.getRegistryElementName
 import net.pearx.craftdumper.common.network.initNetwork
 import net.pearx.craftdumper.server.ServerProxy
 import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import java.util.function.Supplier
 
 @Mod("craftdumper")
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 object CraftDumper {
-    val log = LogManager.getLogger()
+    val log: Logger = LogManager.getLogger()
 
+    @Suppress("RemoveExplicitTypeArguments") // if we remove explicit type argument, the kotlin compiler won't automatically infer it
     val proxy: CommonProxy = DistExecutor.runForDist<CommonProxy>({ Supplier { ClientProxy() } }, { Supplier { ServerProxy() } })
 
     fun getOutputFile(prefix: String, postfix: String = "") = proxy.outputDirectory.resolve("${prefix}_${currentDateTime()}$postfix")

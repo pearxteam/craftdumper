@@ -3,7 +3,6 @@
 
 package net.pearx.craftdumper.common.helper.internal
 
-import net.pearx.craftdumper.common.command.CraftDumperCommand
 import net.pearx.craftdumper.common.command.DumpType
 import net.pearx.craftdumper.common.dumper.Dumper
 

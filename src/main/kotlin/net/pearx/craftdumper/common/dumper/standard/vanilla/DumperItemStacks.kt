@@ -7,8 +7,6 @@ import moze_intel.projecte.utils.EMCHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
-import net.minecraft.tileentity.FurnaceTileEntity
 import net.minecraft.util.text.ITextComponent
 import net.minecraftforge.client.ItemModelMesherForge
 import net.minecraftforge.common.ForgeHooks

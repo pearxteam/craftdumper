@@ -33,7 +33,7 @@ object CraftDumperCommand {
         )
     }
 
-    fun execute(source: CommandSource, dumpers: Collection<Dumper>, dumpType: DumpType): Int {
+    private fun execute(source: CommandSource, dumpers: Collection<Dumper>, dumpType: DumpType): Int {
         val mapped = dumpers.map { it to dumpType }
         CraftDumper.proxy.createDump(source, mapped)
         return mapped.getTotalCount() // todo

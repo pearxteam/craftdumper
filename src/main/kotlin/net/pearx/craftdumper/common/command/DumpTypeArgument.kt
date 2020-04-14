@@ -13,7 +13,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 import java.util.concurrent.CompletableFuture
 
-fun CommandContext<out Any?>.dumpType(name: String) = getArgument(name, DumpType::class.java)
+fun CommandContext<out Any?>.dumpType(name: String): DumpType = getArgument(name, DumpType::class.java)
 val DUMP_TYPE_UNKNOWN = DynamicCommandExceptionType { obj -> TranslationTextComponent("dump_type.unknown", obj) }
 
 object DumpTypeArgument : ArgumentType<DumpType> {

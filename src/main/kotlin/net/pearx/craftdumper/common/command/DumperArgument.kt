@@ -16,7 +16,7 @@ import net.pearx.craftdumper.common.dumper.lookupDumperRegistry
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 import java.util.concurrent.CompletableFuture
 
-fun CommandContext<out Any?>.dumper(name: String) = getArgument(name, Dumper::class.java)
+fun CommandContext<out Any?>.dumper(name: String): Dumper = getArgument(name, Dumper::class.java)
 val DUMPER_UNKNOWN = DynamicCommandExceptionType { obj -> TranslationTextComponent("dumper.unknown", obj) }
 
 object DumperArgument : ArgumentType<Dumper> {

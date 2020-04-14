@@ -1,15 +1,8 @@
 package net.pearx.craftdumper.common.helper
 
-import net.minecraft.inventory.CraftingInventory
 import net.minecraft.inventory.IInventory
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.item.crafting.ICraftingRecipe
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.item.crafting.IRecipeType
-import net.minecraft.util.NonNullList
-import net.minecraftforge.common.crafting.IShapedRecipe
-import net.minecraftforge.registries.ForgeRegistries
 
 inline fun <C : IInventory, T : IRecipe<C>> eachRecipe(type: IRecipeType<T>, filter: (T) -> Boolean = { true }, block: (recipe: T) -> Unit) {
     for (recipe in defaultWorld.recipeManager.getRecipes(type).values) {

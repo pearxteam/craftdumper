@@ -4,15 +4,16 @@
 package net.pearx.craftdumper.common.dumper.standard.vanilla
 
 import net.minecraft.entity.EntityClassification
-import net.minecraft.world.gen.GenerationStage
-import net.minecraft.world.gen.feature.ProbabilityConfig
 import net.minecraftforge.registries.ForgeRegistries
 import net.pearx.craftdumper.common.dumper.add
 import net.pearx.craftdumper.common.dumper.dumperTable
 import net.pearx.craftdumper.common.dumper.row
-import net.pearx.craftdumper.common.helper.*
+import net.pearx.craftdumper.common.helper.client
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 import net.pearx.craftdumper.common.helper.internal.mapArray
+import net.pearx.craftdumper.common.helper.mutableListOfNotNull
+import net.pearx.craftdumper.common.helper.toHexColorString
+import net.pearx.craftdumper.common.helper.toPlusMinusString
 
 val DumperBiomes = dumperTable {
     registryName = craftdumper("biomes")

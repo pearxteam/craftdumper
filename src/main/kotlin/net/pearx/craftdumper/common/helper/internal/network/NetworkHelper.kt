@@ -7,8 +7,6 @@ import net.minecraft.network.PacketBuffer
 import net.minecraft.util.text.ITextComponent
 import net.minecraftforge.fml.network.NetworkEvent
 import net.minecraftforge.fml.network.simple.SimpleChannel
-import java.util.function.BiConsumer
-import java.util.function.Function
 
 internal interface PacketHandler<T> {
     fun encode(msg: T, buf: PacketBuffer)
@@ -17,7 +15,7 @@ internal interface PacketHandler<T> {
 }
 
 internal inline fun <reified T> SimpleChannel.register(id: Int, serializer: PacketHandler<T>) {
-    registerMessage(id, T::class.java, BiConsumer { msg: T, buffer: PacketBuffer -> serializer.encode(msg, buffer) }, Function { buffer: PacketBuffer -> serializer.decode(buffer) }, BiConsumer { msg, ctx -> serializer.handle(msg, { ctx.get() }) })
+    registerMessage(id, T::class.java, { msg: T, buffer: PacketBuffer -> serializer.encode(msg, buffer) }, { buffer: PacketBuffer -> serializer.decode(buffer) }, { msg, ctx -> serializer.handle(msg, { ctx.get() }) })
 }
 
 internal fun PacketBuffer.writeTextComponentNullable(component: ITextComponent?) {
