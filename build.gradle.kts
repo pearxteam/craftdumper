@@ -39,7 +39,7 @@ val githubReleaseBranch: String by project
 
 val pearxRepoUsername: String? by project
 val pearxRepoPassword: String? by project
-val curseforgeApiKey: String? by project
+    val curseforgeApiKey: String? by project
 val devBuildNumber: String? by project
 val githubAccessToken: String? by project
 
@@ -179,7 +179,8 @@ tasks {
     register("publishRelease") {
         group = "publishing"
         dependsOn(withType<PublishToMavenRepository>().matching { it.repository == publishing.repositories["release"] })
-        dependsOn(named("curseforge"))
+//        dependsOn(named("curseforge"))
+        // Line above is commented because
         dependsOn(named("githubRelease"))
     }
 }
