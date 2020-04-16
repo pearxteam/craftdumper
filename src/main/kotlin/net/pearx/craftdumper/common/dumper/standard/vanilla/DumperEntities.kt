@@ -23,7 +23,7 @@ val DumperEntities = dumperTable {
                     add { registryName.toString() }
                     add { name.unformattedComponentText }
                     add { create(defaultWorld)?.let { it::class.java.name } ?: "<unknown>" }
-                    add { classification.func_220363_a() }
+                    add { classification.getName() }
                     add { isSerializable.toPlusMinusString() }
                     add { isSummonable.toPlusMinusString() }
                     add { isImmuneToFire.toPlusMinusString() }

@@ -1,9 +1,10 @@
 package net.pearx.craftdumper.client
 
-import com.mojang.blaze3d.platform.GlStateManager.color3f
-import com.mojang.blaze3d.platform.GlStateManager.enableBlend
+import com.mojang.blaze3d.systems.RenderSystem.color3f
+import com.mojang.blaze3d.systems.RenderSystem.enableBlend
 import net.minecraft.client.gui.AbstractGui
 import net.minecraft.client.gui.toasts.IToast
+import net.minecraft.client.gui.toasts.IToast.TEXTURE_TOASTS
 import net.minecraft.client.gui.toasts.ToastGui
 import net.minecraft.util.math.MathHelper.clampedLerp
 import net.minecraft.util.text.ITextComponent
@@ -20,7 +21,7 @@ class DumperToast(private val token: Int, @Volatile var progress: Float = 0F, va
         with(toastGui) {
             with(minecraft.textureManager) {
                 with(minecraft.fontRenderer) {
-                    bindTexture(IToast.TEXTURE_TOASTS)
+                    bindTexture(TEXTURE_TOASTS)
                     color3f(1.0f, 1.0f, 1.0f)
                     toastGui.blit(0, 0, 0, 96, 160, 32)
                     enableBlend()

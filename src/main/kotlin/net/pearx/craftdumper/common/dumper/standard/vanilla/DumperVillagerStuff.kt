@@ -32,7 +32,7 @@ val DumperVillagerProfessions = dumperTable {
 
 val DumperVillagerPointsOfInterest = dumperTable {
     registryName = craftdumper("villager_points_of_interest")
-    header = listOf("ID", "Name", "BlockStates", "Max Tickets", "Work Sound", "Valid Range")
+    header = listOf("ID", "Name", "BlockStates", "Max Tickets", /*"Work Sound", */"Valid Range")
     amounts { +ForgeRegistries.POI_TYPES.keys }
     count { ForgeRegistries.POI_TYPES.count() }
     table {
@@ -43,7 +43,7 @@ val DumperVillagerPointsOfInterest = dumperTable {
                     add { toString() }
                     add {
                         val result = mutableListOf<String>()
-                        val states = field_221075_w.toMutableSet()
+                        val states = blockStates.toMutableSet()
 
                         while(states.isNotEmpty()) {
                             val first = states.first()
@@ -60,7 +60,7 @@ val DumperVillagerPointsOfInterest = dumperTable {
                         result.joinToString(System.lineSeparator())
                     }
                     add { maxFreeTickets.toString() }
-                    add { workSound?.registryName?.toString().orEmpty() }
+//                    add { workSound?.registryName?.toString().orEmpty() }
                     add { func_225478_d().toString() }
                 }
             }
@@ -116,7 +116,7 @@ val DumperVillagerSchedules = dumperTable {
                         for((activity, schedule) in field_221387_e) {
                             for(time in schedule.field_221396_a) {
                                 if(time.func_221389_b() > 0)
-                                    sched[time.func_221388_a()] = activity
+                                    sched[time.duration] = activity
                             }
                         }
                         sched.entries.joinToString(System.lineSeparator()) { (key, value) -> "$key - ${value.registryName}" }

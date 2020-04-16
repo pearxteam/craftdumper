@@ -33,15 +33,15 @@ val DumperModels = dumperTableClient {
                 with(model) {
                     val quads = getQuads(null, null, Random(0), EmptyModelData.INSTANCE)
                     add {
-                        getParticleTexture(EmptyModelData.INSTANCE)?.iconName?.toTexturesPath().orEmpty()
+                        getParticleTexture(EmptyModelData.INSTANCE)?.name?.toTexturesPath().orEmpty()
                     }
                     add {
                         val textures = mutableListOf<TextureAtlasSprite>()
                         for (quad in quads) {
-                            if (quad.sprite !in textures)
-                                textures.add(quad.sprite)
+                            if (quad.func_187508_a() !in textures)
+                                textures.add(quad.func_187508_a())
                         }
-                        textures.joinToString(separator = System.lineSeparator()) { it.iconName.toTexturesPath() }
+                        textures.joinToString(separator = System.lineSeparator()) { it.name.toTexturesPath() }
                     }
                     add { quads.size.toString() }
                     add { this::class.java.name }

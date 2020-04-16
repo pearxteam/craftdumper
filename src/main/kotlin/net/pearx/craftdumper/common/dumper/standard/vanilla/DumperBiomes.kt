@@ -35,7 +35,7 @@ val DumperBiomes = dumperTable {
         "Under Block",
         "River Biome",
         "Spawning Chance",
-        *enumValues<EntityClassification>().mapArray { classification -> "${classification.func_220363_a().capitalize()} Spawn List: Entity*(Min Group-Max Group):Weight" }
+        *enumValues<EntityClassification>().mapArray { classification -> "${classification.getName().capitalize()} Spawn List: Entity*(Min Group-Max Group):Weight" }
     )
     amounts { +ForgeRegistries.BIOMES.keys }
     count { ForgeRegistries.BIOMES.count() }

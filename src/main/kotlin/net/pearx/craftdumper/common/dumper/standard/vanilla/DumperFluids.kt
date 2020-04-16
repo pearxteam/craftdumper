@@ -28,8 +28,8 @@ val DumperFluids = dumperTable {
                     with(attributes) {
                         add { getDisplayName(stack).unformattedComponentText }
                         add { getTranslationKey(stack) }
-                        add { getStill(stack)?.toTexturesPath().orEmpty() }
-                        add { getFlowing(stack)?.toTexturesPath().orEmpty() }
+                        add { getStillTexture(stack)?.toTexturesPath().orEmpty() }
+                        add { getFlowingTexture(stack)?.toTexturesPath().orEmpty() }
                         add { overlayTexture?.toTexturesPath().orEmpty() }
                         add { getFillSound(stack)?.registryName?.toString().orEmpty() }
                         add { getEmptySound(stack)?.registryName?.toString().orEmpty() }

@@ -23,6 +23,7 @@ val modAcceptedMcVersions: String by project
 val forgeVersion: String by project
 val minecraftVersion: String by project
 val mcpMappingsChannel: String by project
+val mcpMappingsMinecraftVersion: String by project
 val mcpMappingsVersion: String by project
 
 val jeiVersion: String by project
@@ -64,7 +65,7 @@ dependencies {
 }
 
 configure<MinecraftExtension> {
-    mappings(mcpMappingsChannel, "$mcpMappingsVersion-$minecraftVersion")
+    mappings(mcpMappingsChannel, "$mcpMappingsVersion-$mcpMappingsMinecraftVersion")
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
 
     runs {
