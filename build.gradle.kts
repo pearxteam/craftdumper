@@ -142,7 +142,7 @@ tasks {
     register("publishRelease") {
         group = "publishing"
         dependsOn(withType<PublishToMavenRepository>().matching { it.repository == publishing.repositories["release"] })
-        dependsOn(named("curseforge"))
+//        dependsOn(named("curseforge"))
         dependsOn(named("githubRelease"))
     }
 }
