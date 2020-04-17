@@ -44,7 +44,7 @@ val DumperItemStacks = dumperTable {
                     add { getItemStackLimit(stack).toString() }
                     add { getMaxDamage(stack).toString() }
                     add { ForgeHooks.getBurnTime(stack).toString() }
-                    add { itemEnchantability.toString() }
+                    add { getItemEnchantability(stack).toString() }
                     client { add { (Minecraft.getInstance().itemRenderer.itemModelMesher as ItemModelMesherForge).getLocation(stack).toString() } }
                     if (ModList.get().isLoaded(PROJECTE_ID))
                         add { if (EMCHelper.doesItemHaveEmc(stack)) EMCHelper.getEmcValue(stack).toString() else "" }
