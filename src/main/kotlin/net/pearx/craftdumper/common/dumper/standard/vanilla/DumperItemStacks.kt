@@ -20,7 +20,7 @@ import net.pearx.craftdumper.common.helper.internal.craftdumper
 
 val DumperItemStacks = dumperTable {
     registryName = craftdumper("item_stacks")
-    header = listOfNotNull("ID", "Tag", "Display Name", client("Tooltip"), "Translation Key", "Class Name", "Is BlockItem", "Tags", "Max Stack Size", "Max Damage", "Burn Time", client("Model Name"), ifOrNull(ModList.get().isLoaded(PROJECTE_ID), "EMC"))
+    header = listOfNotNull("ID", "Tag", "Display Name", client("Tooltip"), "Translation Key", "Class Name", "Is BlockItem", "Tags", "Max Stack Size", "Max Damage", "Burn Time", "Enchantability", client("Model Name"), ifOrNull(ModList.get().isLoaded(PROJECTE_ID), "EMC"))
     amounts {
         eachStack { item, _ ->
             +item.registryName
@@ -44,6 +44,7 @@ val DumperItemStacks = dumperTable {
                     add { getItemStackLimit(stack).toString() }
                     add { getMaxDamage(stack).toString() }
                     add { ForgeHooks.getBurnTime(stack).toString() }
+                    add { itemEnchantability.toString() }
                     client { add { (Minecraft.getInstance().itemRenderer.itemModelMesher as ItemModelMesherForge).getLocation(stack).toString() } }
                     if (ModList.get().isLoaded(PROJECTE_ID))
                         add { if (EMCHelper.doesItemHaveEmc(stack)) EMCHelper.getEmcValue(stack).toString() else "" }
