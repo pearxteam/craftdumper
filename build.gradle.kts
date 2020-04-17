@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("net.minecraftforge.gradle.forge")
     id("com.matthewprenger.cursegradle")
+    id("com.wynprice.cursemaven")
     id("com.github.breadmoirai.github-release")
     id("org.jetbrains.kotlin.jvm")
     `maven-publish`
@@ -25,8 +26,7 @@ val mcpMappingsVersion: String by project
 val jeiVersion: String by project
 val jeiMcVersion: String by project
 val forgelinVersion: String by project
-val projectEMcVersion: String by project
-val projectEVersion: String by project
+val projectEFileId: String by project
 
 val jdkVersion: String by project
 
@@ -51,13 +51,12 @@ java {
 repositories {
     maven { url = uri("https://maven.shadowfacts.net/") } // Forgelin
     maven { url = uri("http://dvs1.progwml6.com/files/maven") } // JEI
-    maven { url = uri("https://minecraft.curseforge.com/api/maven") } // ProjectE
 }
 
 dependencies {
     "runtime"("mezz.jei:jei_$jeiMcVersion:$jeiVersion")
     "compile"("net.shadowfacts:Forgelin:$forgelinVersion")
-    "compile"("projecte:ProjectE:$projectEMcVersion:$projectEVersion")
+    "compile"("curse.maven:projecte:$projectEFileId")
 }
 
 configure<UserBaseExtension> {

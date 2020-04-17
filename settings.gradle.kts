@@ -3,6 +3,7 @@ val curseGradleVersion: String by settings
 val minecraftVersion: String by settings
 val githubReleaseVersion: String by settings
 val kotlinVersion: String by settings
+val curseMavenVersion: String by settings
 
 
 val moduleMappings = mapOf(
@@ -13,7 +14,8 @@ val versionMappings = mapOf(
     "net.minecraftforge.gradle.forge" to forgeGradleVersion,
     "com.matthewprenger.cursegradle" to curseGradleVersion,
     "com.github.breadmoirai.github-release" to githubReleaseVersion,
-    "org.jetbrains.kotlin.jvm" to kotlinVersion
+    "org.jetbrains.kotlin.jvm" to kotlinVersion,
+    "com.wynprice.cursemaven" to curseMavenVersion
 )
 
 rootProject.name = "craftdumper-$minecraftVersion"
