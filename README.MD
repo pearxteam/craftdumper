@@ -7,6 +7,7 @@ A Minecraft Forge mod that allows you to dump game information such as blocks, i
 
 ## Currently Supported Stuff
 * Advancements (`advancements`)
+* Armor (`armor`)
 * Attributes (`attributes`)
 * Biomes (`biomes`)
 * Blasting Recipes (`blasting_recipes`)
