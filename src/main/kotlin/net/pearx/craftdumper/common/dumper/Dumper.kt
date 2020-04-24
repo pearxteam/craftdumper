@@ -84,8 +84,6 @@ interface DumpProgressReporter {
 }
 
 interface Dumper : IForgeRegistryEntry<Dumper> {
-    override fun getRegistryType(): Class<Dumper> = Dumper::class.java
-
     val translationKey: String
 
     fun getTitle(): ITextComponent = TranslationTextComponent("craftdumper.dumper.$translationKey")
@@ -100,41 +98,7 @@ interface Dumper : IForgeRegistryEntry<Dumper> {
 
     fun dumpData(reporter: DumpProgressReporter): List<DumpOutput>
 
-    fun dumpAmounts(): DumpOutput?
-}
-
-typealias DumpAmountsCreator = DumpAmounts.() -> Unit
-typealias DumpCountCreator = () -> Int
-
-abstract class DumperBase : Dumper {
-    private var registryName: ResourceLocation? = null
-    private var amountsCreator: DumpAmountsCreator? = null
-    private var countCreator: DumpCountCreator? = null
-    private var _translationKey: String? = null
-
-    override fun getRegistryName(): ResourceLocation? = registryName
-
-    override fun setRegistryName(name: ResourceLocation?): Dumper = apply { registryName = name }
-
-    override var translationKey: String
-        get() = _translationKey ?: registryName?.path ?: "null"
-        set(value) {
-            _translationKey = value
-        }
-
-    override fun getAmounts(): DumpAmounts? = if (amountsCreator == null) null else DumpAmounts().apply { amountsCreator!!() }
-
-    override fun getCount(): Int = countCreator?.invoke() ?: 0
-
-    fun amounts(block: DumpAmountsCreator) {
-        amountsCreator = block
-    }
-
-    fun count(block: DumpCountCreator) {
-        countCreator = block
-    }
-
-    override fun dumpAmounts(): DumpOutput? {
+    fun dumpAmounts(): DumpOutput? {
         val amounts = getAmounts()
         if (amounts != null) {
             val amountsFile = CraftDumper.getOutputFile(registryName!!, "_amounts.csv")

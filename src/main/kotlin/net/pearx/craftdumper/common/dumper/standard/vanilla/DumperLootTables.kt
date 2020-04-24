@@ -8,8 +8,7 @@ import com.google.gson.stream.JsonWriter
 import net.minecraft.world.storage.loot.LootTableManager
 import net.minecraft.world.storage.loot.LootTables
 import net.minecraftforge.fml.server.ServerLifecycleHooks
-import net.pearx.craftdumper.common.dumper.dumperFiles
-import net.pearx.craftdumper.common.dumper.fileDirect
+import net.pearx.craftdumper.common.dumper.dsl.dumperFiles
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 import net.pearx.craftdumper.common.helper.toAssetsPath
 

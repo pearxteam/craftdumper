@@ -5,9 +5,7 @@ package net.pearx.craftdumper.common.dumper.standard.vanilla
 
 import net.minecraft.entity.EntityClassification
 import net.minecraftforge.registries.ForgeRegistries
-import net.pearx.craftdumper.common.dumper.add
-import net.pearx.craftdumper.common.dumper.dumperTable
-import net.pearx.craftdumper.common.dumper.row
+import net.pearx.craftdumper.common.dumper.dsl.dumperTable
 import net.pearx.craftdumper.common.helper.client
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 import net.pearx.craftdumper.common.helper.internal.mapArray
@@ -40,29 +38,31 @@ val DumperBiomes = dumperTable {
     amounts { +ForgeRegistries.BIOMES.keys }
     count { ForgeRegistries.BIOMES.count() }
     table {
-        ForgeRegistries.BIOMES.forEach { biome ->
-            row(header.size) {
-                with(biome) {
-                    add { registryName.toString() }
-                    client { add { displayName.unformattedComponentText.toString() } }
-                    add { parent.orEmpty() }
-                    add { category.getName() }
-                    add { depth.toString() }
-                    add { scale.toString() }
-                    add { defaultTemperature.toString() }
-                    add { tempCategory.getName() }
-                    add { precipitation.getName() }
-                    add { downfall.toString() }
-                    add { isHighHumidity.toPlusMinusString() }
-                    add { waterColor.toHexColorString() }
-                    add { waterFogColor.toHexColorString() }
-                    add { surfaceBuilderConfig.top.toString() }
-                    add { surfaceBuilderConfig.under.toString() }
-                    add { river.registryName.toString() }
-                    // todo carvers, decorators maybe somewhen?
-                    add { spawningChance.toString() }
-                    enumValues<EntityClassification>().forEach { type ->
-                        add { getSpawns(type).joinToString(separator = System.lineSeparator()) }
+        data {
+            ForgeRegistries.BIOMES.forEach { biome ->
+                row {
+                    with(biome) {
+                        add { registryName.toString() }
+                        client { add { displayName.unformattedComponentText.toString() } }
+                        add { parent.orEmpty() }
+                        add { category.getName() }
+                        add { depth.toString() }
+                        add { scale.toString() }
+                        add { defaultTemperature.toString() }
+                        add { tempCategory.getName() }
+                        add { precipitation.getName() }
+                        add { downfall.toString() }
+                        add { isHighHumidity.toPlusMinusString() }
+                        add { waterColor.toHexColorString() }
+                        add { waterFogColor.toHexColorString() }
+                        add { surfaceBuilderConfig.top.toString() }
+                        add { surfaceBuilderConfig.under.toString() }
+                        add { river.registryName.toString() }
+                        // todo carvers, decorators maybe somewhen?
+                        add { spawningChance.toString() }
+                        enumValues<EntityClassification>().forEach { type ->
+                            add { getSpawns(type).joinToString(separator = System.lineSeparator()) }
+                        }
                     }
                 }
             }

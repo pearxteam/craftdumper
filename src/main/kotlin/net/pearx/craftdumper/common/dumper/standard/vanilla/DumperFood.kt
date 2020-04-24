@@ -5,9 +5,7 @@ package net.pearx.craftdumper.common.dumper.standard.vanilla
 
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.pearx.craftdumper.common.dumper.add
-import net.pearx.craftdumper.common.dumper.dumperTable
-import net.pearx.craftdumper.common.dumper.row
+import net.pearx.craftdumper.common.dumper.dsl.dumperTable
 import net.pearx.craftdumper.common.helper.*
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 
@@ -21,20 +19,22 @@ val DumperFood = dumperTable {
     }
     count { foodCount() }
     table {
-        eachFood { item, stack ->
-            row(header.size) {
-                with(item) {
-                    add { stack.toFullString() }
-                    with(food!!) {
-                        add { healing.toString() }
-                        add { saturation.toString() }
-                        add { isMeat.toPlusMinusString() }
-                        add { canEatWhenFull().toPlusMinusString() }
-                        add { isFastEating.toPlusMinusString() }
-                        add { getUseDuration(stack).toString() }
-                        add {
-                            effects.joinToString(System.lineSeparator()) { (potion, probability) ->
-                                "${potion.effectName} - ${probability.toPercents()}%"
+        data {
+            eachFood { item, stack ->
+                row {
+                    with(item) {
+                        add { stack.toFullString() }
+                        with(food!!) {
+                            add { healing.toString() }
+                            add { saturation.toString() }
+                            add { isMeat.toPlusMinusString() }
+                            add { canEatWhenFull().toPlusMinusString() }
+                            add { isFastEating.toPlusMinusString() }
+                            add { getUseDuration(stack).toString() }
+                            add {
+                                effects.joinToString(System.lineSeparator()) { (potion, probability) ->
+                                    "${potion.effectName} - ${probability.toPercents()}%"
+                                }
                             }
                         }
                     }

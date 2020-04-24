@@ -11,9 +11,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.model.data.EmptyModelData
-import net.pearx.craftdumper.common.dumper.add
-import net.pearx.craftdumper.common.dumper.dumperTableClient
-import net.pearx.craftdumper.common.dumper.row
+import net.pearx.craftdumper.common.dumper.dsl.dumperTableClient
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 import net.pearx.craftdumper.common.helper.readField
 import net.pearx.craftdumper.common.helper.toPlusMinusString
@@ -26,31 +24,35 @@ val DumperModels = dumperTableClient {
     amounts { +Minecraft.getInstance().modelManager.modelRegistry.keys }
     count { Minecraft.getInstance().modelManager.modelRegistry.count() }
     table {
-        Minecraft.getInstance().modelManager.modelRegistry.keys.forEach { key ->
-            val model = Minecraft.getInstance().modelManager.modelRegistry[key]!!
-            row(header.size) {
-                add { key.toString() }
-                with(model) {
-                    val quads = getQuads(null, null, Random(0), EmptyModelData.INSTANCE)
-                    add {
-                        getParticleTexture(EmptyModelData.INSTANCE)?.name?.toTexturesPath().orEmpty()
-                    }
-                    add {
-                        val textures = mutableListOf<TextureAtlasSprite>()
-                        for (quad in quads) {
-                            if (quad.func_187508_a() !in textures)
-                                textures.add(quad.func_187508_a())
+        data {
+            Minecraft.getInstance().modelManager.modelRegistry.keys.forEach { key ->
+                val model = Minecraft.getInstance().modelManager.modelRegistry[key]!!
+                row {
+                    add { key.toString() }
+                    with(model) {
+                        val quads = getQuads(null, null, Random(0), EmptyModelData.INSTANCE)
+                        add {
+                            getParticleTexture(EmptyModelData.INSTANCE)?.name?.toTexturesPath().orEmpty()
                         }
-                        textures.joinToString(separator = System.lineSeparator()) { it.name.toTexturesPath() }
+                        add {
+                            val textures = mutableListOf<TextureAtlasSprite>()
+                            for (quad in quads) {
+                                if (quad.func_187508_a() !in textures)
+                                    textures.add(quad.func_187508_a())
+                            }
+                            textures.joinToString(separator = System.lineSeparator()) { it.name.toTexturesPath() }
+                        }
+                        add { quads.size.toString() }
+                        add { this::class.java.name }
+                        add { isAmbientOcclusion.toPlusMinusString() }
+                        add { isGui3d.toPlusMinusString() }
+                        add { isBuiltInRenderer.toPlusMinusString() }
+                        add {
+                            overrides.overrides.joinToString(System.lineSeparator()) {
+                                it.location.toString()
+                            }
+                        }
                     }
-                    add { quads.size.toString() }
-                    add { this::class.java.name }
-                    add { isAmbientOcclusion.toPlusMinusString() }
-                    add { isGui3d.toPlusMinusString() }
-                    add { isBuiltInRenderer.toPlusMinusString() }
-                    add { overrides.overrides.joinToString(System.lineSeparator()) {
-                        it.location.toString()
-                    } }
                 }
             }
         }

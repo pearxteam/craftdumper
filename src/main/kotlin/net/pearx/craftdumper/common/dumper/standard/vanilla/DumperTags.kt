@@ -9,9 +9,7 @@ import net.minecraft.fluid.Fluid
 import net.minecraft.item.Item
 import net.minecraft.tags.*
 import net.minecraftforge.registries.IForgeRegistryEntry
-import net.pearx.craftdumper.common.dumper.add
-import net.pearx.craftdumper.common.dumper.dumperTable
-import net.pearx.craftdumper.common.dumper.row
+import net.pearx.craftdumper.common.dumper.dsl.dumperTable
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 
 val DumperItemTags = dumperTags<Item>({ ItemTags.getCollection() }, "item", "Items")
@@ -22,16 +20,17 @@ val DumperEntityTags = dumperTags<EntityType<*>>({ EntityTypeTags.getCollection(
 
 
 private inline fun <T : IForgeRegistryEntry<T>> dumperTags(crossinline collection: () -> TagCollection<T>, name: String, columnName: String) = dumperTable {
-
     registryName = craftdumper("tags_${name}")
     header = listOf("Tag", columnName)
     amounts { collection().tagMap.forEach { (id, tag) -> id += tag.allElements.size } }
     count { collection().tagMap.size }
     table {
-        collection().tagMap.forEach { (id, tag) ->
-            row(header.size) {
-                add { id.toString() }
-                add { tag.allElements.joinToString(System.lineSeparator()) { it.registryName.toString() } }
+        data {
+            collection().tagMap.forEach { (id, tag) ->
+                row {
+                    add { id.toString() }
+                    add { tag.allElements.joinToString(System.lineSeparator()) { it.registryName.toString() } }
+                }
             }
         }
     }

@@ -4,9 +4,7 @@
 package net.pearx.craftdumper.common.dumper.standard.vanilla
 
 import net.minecraftforge.fml.server.ServerLifecycleHooks
-import net.pearx.craftdumper.common.dumper.add
-import net.pearx.craftdumper.common.dumper.dumperTable
-import net.pearx.craftdumper.common.dumper.row
+import net.pearx.craftdumper.common.dumper.dsl.dumperTable
 import net.pearx.craftdumper.common.helper.*
 import net.pearx.craftdumper.common.helper.internal.craftdumper
 
@@ -16,48 +14,50 @@ val DumperAdvancements = dumperTable {
     amounts { advancements.forEach { +it.id } }
     count { advancements.size }
     table {
-        advancements.forEach { adv ->
-            row(header.size) {
-                with(adv) {
-                    add { id.toString() }
-                    add { displayText.formattedText }
-                    display?.run {
-                        add { title.formattedText }
-                        add { description.formattedText }
-                        client {
-                            add { icon.toFullString() }
-                            add { x.toString() }
-                            add { y.toString() }
-                            add { background?.toAssetsPath().orEmpty() }
+        data {
+            advancements.forEach { adv ->
+                row {
+                    with(adv) {
+                        add { id.toString() }
+                        add { displayText.formattedText }
+                        display?.run {
+                            add { title.formattedText }
+                            add { description.formattedText }
+                            client {
+                                add { icon.toFullString() }
+                                add { x.toString() }
+                                add { y.toString() }
+                                add { background?.toAssetsPath().orEmpty() }
+                            }
+                            add { frame.toString() }
+                            add { isHidden.toPlusMinusString() }
+                            add { shouldAnnounceToChat().toPlusMinusString() }
+                            client { add { shouldShowToast().toPlusMinusString() } }
+                        } ?: repeat(if (isClient) 10 else 5) { add("") }
+                        add {
+                            buildMultilineString(criteria.entries) { (key, value) ->
+                                append(key)
+                                append(": ")
+                                append(value.criterionInstance?.id?.toString().orEmpty())
+                            }
                         }
-                        add { frame.toString() }
-                        add { isHidden.toPlusMinusString() }
-                        add { shouldAnnounceToChat().toPlusMinusString() }
-                        client { add { shouldShowToast().toPlusMinusString() } }
-                    } ?: repeat(if (isClient) 10 else 5) { add("") }
-                    add {
-                        buildMultilineString(criteria.entries) { (key, value) ->
-                            append(key)
-                            append(": ")
-                            append(value.criterionInstance?.id?.toString().orEmpty())
+                        add {
+                            buildMultilineString(requirements) { req ->
+                                req.joinTo(this, separator = " | ")
+                            }
                         }
-                    }
-                    add {
-                        buildMultilineString(requirements) { req ->
-                            req.joinTo(this, separator = " | ")
+                        add { parent?.id?.toString().orEmpty() }
+                        add {
+                            buildMultilineString(children) {
+                                append(it.id.toString())
+                            }
                         }
-                    }
-                    add { parent?.id?.toString().orEmpty() }
-                    add {
-                        buildMultilineString(children) {
-                            append(it.id.toString())
+                        rewards.apply {
+                            add { experience.toString() }
+                            add { loot.joinToString(separator = System.lineSeparator()) }
+                            add { recipes.joinToString(separator = System.lineSeparator()) }
+                            add { function?.id?.toString().orEmpty() }
                         }
-                    }
-                    rewards.apply {
-                        add { experience.toString() }
-                        add { loot.joinToString(separator = System.lineSeparator()) }
-                        add { recipes.joinToString(separator = System.lineSeparator()) }
-                        add { function?.id?.toString().orEmpty() }
                     }
                 }
             }
