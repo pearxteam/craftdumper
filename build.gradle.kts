@@ -100,6 +100,15 @@ configure<MinecraftExtension> {
 //    replaceIn("Reference.kt")
 //}
 
+val sourcesJar by tasks.registering(Jar::class) {
+    classifier = "sources"
+    from(sourceSets.main.get().allSource)
+}
+
+artifacts {
+    archives(sourcesJar)
+}
+
 publishing {
     repositories {
         fun AuthenticationSupported.pearxCredentials() {
@@ -123,6 +132,7 @@ publishing {
     publications {
         register<MavenPublication>("maven") {
             from(components["java"])
+            artifact(sourcesJar.get())
         }
     }
 }
@@ -156,15 +166,6 @@ configure<GithubReleaseExtension> {
 }
 
 tasks {
-    val sourcesJar by registering(Jar::class) {
-        classifier = "sources"
-        from(kotlin.sourceSets.main.get().kotlin)
-    }
-
-    artifacts {
-        archives(sourcesJar)
-    }
-
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.$jdkVersion"
         kotlinOptions.freeCompilerArgs = listOf("-Xno-param-assertions")
