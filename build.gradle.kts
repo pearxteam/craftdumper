@@ -166,6 +166,9 @@ configure<GithubReleaseExtension> {
 }
 
 tasks {
+    jar {
+        finalizedBy("reobfJar")
+    }
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.$jdkVersion"
         kotlinOptions.freeCompilerArgs = listOf("-Xno-param-assertions")
