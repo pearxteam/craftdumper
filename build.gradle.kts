@@ -40,7 +40,7 @@ val githubReleaseBranch: String by project
 
 val pearxRepoUsername: String? by project
 val pearxRepoPassword: String? by project
-    val curseforgeApiKey: String? by project
+val curseforgeApiKey: String? by project
 val devBuildNumber: String? by project
 val githubAccessToken: String? by project
 
@@ -122,7 +122,7 @@ publishing {
 
     publications {
         register<MavenPublication>("maven") {
-            artifact(tasks.getByName<Jar>("jar"))
+            from(components["java"])
         }
     }
 }
@@ -156,6 +156,15 @@ configure<GithubReleaseExtension> {
 }
 
 tasks {
+    val sourcesJar by registering(Jar::class) {
+        classifier = "sources"
+        from(kotlin.sourceSets.main.get().kotlin)
+    }
+
+    artifacts {
+        archives(sourcesJar)
+    }
+
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.$jdkVersion"
         kotlinOptions.freeCompilerArgs = listOf("-Xno-param-assertions")
