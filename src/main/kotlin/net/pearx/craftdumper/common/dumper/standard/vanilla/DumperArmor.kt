@@ -6,15 +6,12 @@ package net.pearx.craftdumper.common.dumper.standard.vanilla
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.ItemStack
 import net.pearx.craftdumper.common.dumper.dsl.dumperTable
-import net.pearx.craftdumper.common.helper.client
-import net.pearx.craftdumper.common.helper.eachStack
+import net.pearx.craftdumper.common.helper.*
 import net.pearx.craftdumper.common.helper.internal.craftdumper
-import net.pearx.craftdumper.common.helper.stackCount
-import net.pearx.craftdumper.common.helper.toFullString
 
 val DumperArmor = dumperTable {
     registryName = craftdumper("armor")
-    header = listOfNotNull("Item", client("Material"), "Slot", "Damage Reduce Amount", "Toughness", "Repair Material")
+    header = listOfNotNull("Item", client("Material"), "Slot", "Damage Reduce Amount", "Toughness", "Durability", "Repair Material")
     amounts {
         eachArmor { item, _ ->
             +item.registryName
@@ -31,6 +28,7 @@ val DumperArmor = dumperTable {
                         add { equipmentSlot.getName() }
                         add { damageReduceAmount.toString() }
                         add { toughness.toString() }
+                        add { stack.getDurabilityString() }
                         add { armorMaterial.repairMaterial.toFullString() }
                     }
                 }

@@ -87,3 +87,5 @@ private fun appendStackListOrSeparatedTo(to: Appendable, stacks: Collection<Item
 }
 
 fun Ingredient.toFullString() = buildString { appendTo(this) }
+
+fun ItemStack.getDurabilityString() = if(isDamageable) maxDamage.toString() else "Infinite"
