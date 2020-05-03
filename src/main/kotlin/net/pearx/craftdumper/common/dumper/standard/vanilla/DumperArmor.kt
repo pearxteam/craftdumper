@@ -11,7 +11,7 @@ import net.pearx.craftdumper.common.helper.internal.craftdumper
 
 val DumperArmor = dumperTable {
     registryName = craftdumper("armor")
-    header = listOfNotNull("Item", client("Material"), "Slot", "Damage Reduce Amount", "Toughness", "Durability", "Repair Material")
+    header = listOfNotNull("Item", client("Material"), "Slot", "Damage Reduce Amount", "Toughness", "Durability", "Enchantability", "Repair Material")
     amounts {
         eachArmor { item, _ ->
             +item.registryName
@@ -29,6 +29,7 @@ val DumperArmor = dumperTable {
                         add { damageReduceAmount.toString() }
                         add { toughness.toString() }
                         add { stack.getDurabilityString() }
+                        add { getItemEnchantability(stack).toString() }
                         add { armorMaterial.repairMaterial.toFullString() }
                     }
                 }
