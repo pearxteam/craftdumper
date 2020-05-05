@@ -46,6 +46,12 @@
     "craftdumper.dumper.particles": "Particles",
     "craftdumper.dumper.dimensions": "Dimensions",
     "craftdumper.dumper.containers": "Containers",
+    "craftdumper.dumper.axes": "Axes",
+    "craftdumper.dumper.pickaxes": "Pickaxes",
+    "craftdumper.dumper.hoes": "Hoes",
+    "craftdumper.dumper.swords": "Swords",
+    "craftdumper.dumper.shovels": "Shovels",
+
 
     "dump_type.unknown": "Unknown Dump Type",
     "dumper.unknown": "Unknown Dumper",

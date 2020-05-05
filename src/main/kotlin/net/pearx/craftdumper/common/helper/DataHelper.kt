@@ -6,6 +6,7 @@ import net.minecraftforge.forgespi.language.ModFileScanData
 import org.apache.commons.lang3.reflect.FieldUtils
 import org.objectweb.asm.Type
 import java.lang.reflect.Field
+import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 
@@ -61,3 +62,5 @@ fun Class<*>.getOwnerModId(): String {
 inline fun KClass<*>.getOwnerModId() = this.java.getOwnerModId()
 
 fun Float.toPercents(): Float = (this * 10000).roundToInt() / 100F
+fun Float.round(digits: Int) = (this * (10F.pow(digits))).roundToInt() / (10F.pow(digits))
+fun Double.round(digits: Int) = (this * (10.0.pow(digits))).roundToInt() / (10.0.pow(digits))

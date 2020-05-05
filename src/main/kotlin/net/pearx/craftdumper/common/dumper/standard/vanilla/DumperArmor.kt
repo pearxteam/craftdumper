@@ -38,5 +38,5 @@ val DumperArmor = dumperTable {
     }
 }
 
-private fun armorCount() = stackCount { it.food != null }
-private inline fun eachArmor(block: (item: ArmorItem, stack: ItemStack) -> Unit) = eachStack({ it is ArmorItem }) { item, stack -> block(item as ArmorItem, stack) }
+private fun armorCount() = countItems { it is ArmorItem }
+private inline fun eachArmor(block: (item: ArmorItem, stack: ItemStack) -> Unit) = eachItem({ it is ArmorItem }) { item, stack -> block(item as ArmorItem, stack) }

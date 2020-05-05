@@ -28,26 +28,35 @@ fun ItemStack.appendTo(to: Appendable) {
 
 fun ItemStack.toFullString() = buildString { appendTo(this) }
 
-inline fun eachStack(filter: (Item) -> Boolean = { true }, block: (item: Item, stack: ItemStack) -> Unit) {
+inline fun eachStack(itemStackFilter: (ItemStack) -> Boolean = { true }, itemFilter: (Item) -> Boolean = { true }, block: (item: Item, stack: ItemStack) -> Unit) {
     for (item in ForgeRegistries.ITEMS) {
-        if (filter(item)) {
+        if (itemFilter(item)) {
             val stacks = NonNullList.create<ItemStack>().also { item.fillItemGroup(it) }
             for (stack in stacks) {
-                block(item, stack)
+                if(itemStackFilter(stack)) {
+                    block(item, stack)
+                }
             }
         }
     }
 }
 
-inline fun stackCount(filter: (Item) -> Boolean = { true }): Int {
+inline fun eachItem(itemFilter: (Item) -> Boolean = { true }, block: (item: Item, stack: ItemStack) -> Unit) = eachStack(itemFilter = itemFilter, block = block)
+
+inline fun countStacks(itemFilter: (Item) -> Boolean = { true }, itemStackFilter: (ItemStack) -> Boolean = { true }): Int {
     var count = 0
     for(item in ForgeRegistries.ITEMS) {
-        if(filter(item)) {
-            count += NonNullList.create<ItemStack>().also { item.fillItemGroup(it) }.size
+        if(itemFilter(item)) {
+            for(stack in NonNullList.create<ItemStack>().also { item.fillItemGroup(it) })
+                if(itemStackFilter(stack))
+                    count++
         }
     }
     return count
 }
+
+inline fun countItems(itemFilter: (Item) -> Boolean = { true }): Int = countStacks(itemFilter = itemFilter)
+
 
 fun Item.fillItemGroup(list: NonNullList<ItemStack>) {
     try {

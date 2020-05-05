@@ -44,5 +44,5 @@ val DumperFood = dumperTable {
     }
 }
 
-private fun foodCount() = stackCount { it.food != null }
-private inline fun eachFood(block: (item: Item, stack: ItemStack) -> Unit) = eachStack({ it.food != null }, block)
+private fun foodCount() = countItems { it.food != null }
+private inline fun eachFood(block: (item: Item, stack: ItemStack) -> Unit) = eachItem({ it.food != null }, block)

@@ -24,7 +24,7 @@ val DumperItemStacks = dumperTable {
             +item.registryName
         }
     }
-    count { stackCount() }
+    count { countStacks() }
     table {
         data {
             eachStack { item, stack ->
