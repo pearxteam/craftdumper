@@ -62,7 +62,7 @@ val DumperVillagerPointsOfInterest = dumperTable {
                         }
                         add { maxFreeTickets.toString() }
 //                    add { workSound?.registryName?.toString().orEmpty() }
-                        add { func_225478_d().toString() }
+                        add { validRange.toString() }
                     }
                 }
             }
