@@ -64,6 +64,7 @@ dependencies {
     "runtimeOnly"(fg.deobf("mezz.jei:jei-$jeiMcVersion:$jeiVersion"))
     "compile"(fg.deobf("curse.maven:kottle:$kottleFileId"))
     "compile"(kotlin("stdlib-jdk$jdkVersion"))
+    "compile"(kotlin("reflect"))
     "compile"("org.jetbrains.kotlinx:kotlinx-coroutines-jdk$jdkVersion:$kotlinxCoroutinesVersion")
     "compile"(fg.deobf("curse.maven:projecte:$projectEFileId"))
 }
