@@ -31,6 +31,8 @@ val jeiMcVersion: String by project
 val kottleFileId: String by project
 val projectEFileId: String by project
 
+val kotlinxCoroutinesVersion: String by project
+
 val jdkVersion: String by project
 
 val curseforgeProjectId: String by project
@@ -61,6 +63,8 @@ dependencies {
     "minecraft"("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
     "runtimeOnly"(fg.deobf("mezz.jei:jei-$jeiMcVersion:$jeiVersion"))
     "compile"(fg.deobf("curse.maven:kottle:$kottleFileId"))
+    "compile"(kotlin("stdlib-jdk$jdkVersion"))
+    "compile"("org.jetbrains.kotlinx:kotlinx-coroutines-jdk$jdkVersion:$kotlinxCoroutinesVersion")
     "compile"(fg.deobf("curse.maven:projecte:$projectEFileId"))
 }
 
