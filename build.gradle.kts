@@ -158,7 +158,7 @@ configure<CurseExtension> {
         mainArtifact(mainArt.file, closureOf<CurseArtifact> {
             displayName = "[$minecraftVersion] CraftDumper $version"
         })
-        additionalArts.forEach { addArtifact(it) }
+        additionalArts.forEach { addArtifact(it.file) }
 
         options(closureOf<Options> {
             detectNewerJava = true
