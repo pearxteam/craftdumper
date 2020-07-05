@@ -151,9 +151,15 @@ configure<CurseExtension> {
         relations(closureOf<CurseRelation> {
             requiredDependency("kottle")
         })
-        mainArtifact(tasks.named("jar").get(), closureOf<CurseArtifact> {
+
+        val arts = (publishing.publications["maven"] as MavenPublication).artifacts
+        val mainArt = arts.first { it.classifier == null }
+        val additionalArts = arts.filter { it.classifier != null }
+        mainArtifact(mainArt.file, closureOf<CurseArtifact> {
             displayName = "[$minecraftVersion] CraftDumper $version"
         })
+        additionalArts.forEach { addArtifact(it) }
+
         options(closureOf<Options> {
             detectNewerJava = true
         })
