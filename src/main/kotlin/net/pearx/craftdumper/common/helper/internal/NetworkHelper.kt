@@ -1,7 +1,7 @@
 @file:JvmMultifileClass
 @file:JvmName("InternalHelper")
 
-package net.pearx.craftdumper.common.helper.internal.network
+package net.pearx.craftdumper.common.helper.internal
 
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.text.ITextComponent

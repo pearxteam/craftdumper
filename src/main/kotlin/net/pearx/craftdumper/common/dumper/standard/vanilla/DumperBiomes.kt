@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries
 import net.pearx.craftdumper.common.dumper.dsl.dumperTable
 import net.pearx.craftdumper.common.helper.client
 import net.pearx.craftdumper.common.helper.internal.craftdumper
-import net.pearx.craftdumper.common.helper.internal.mapArray
+import net.pearx.craftdumper.common.helper.mapArray
 import net.pearx.craftdumper.common.helper.mutableListOfNotNull
 import net.pearx.craftdumper.common.helper.toHexColorString
 import net.pearx.craftdumper.common.helper.toPlusMinusString

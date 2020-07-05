@@ -3,7 +3,7 @@ package net.pearx.craftdumper.common.network
 import net.minecraftforge.fml.network.NetworkRegistry
 import net.minecraftforge.fml.network.simple.SimpleChannel
 import net.pearx.craftdumper.common.helper.internal.craftdumper
-import net.pearx.craftdumper.common.helper.internal.network.register
+import net.pearx.craftdumper.common.helper.internal.register
 import net.pearx.craftdumper.common.network.message.CPacketCreateToast
 import net.pearx.craftdumper.common.network.message.CPacketHideToast
 import net.pearx.craftdumper.common.network.message.CPacketUpdateToast

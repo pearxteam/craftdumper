@@ -8,7 +8,6 @@ logoFile="logo.png"
   modId="craftdumper"
   version="${file.jarVersion}"
   displayName="CraftDumper"
-#      updateJSONURL="minecraftforge.net/versions.json"
   displayURL="https://www.curseforge.com/minecraft/mc-mods/craftdumper"
   authors="mrapplexz"
   description='''

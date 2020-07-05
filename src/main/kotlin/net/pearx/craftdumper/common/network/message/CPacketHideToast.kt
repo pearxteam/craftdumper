@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.network.PacketBuffer
 import net.minecraftforge.fml.network.NetworkEvent
 import net.pearx.craftdumper.client.DumperToast
-import net.pearx.craftdumper.common.helper.internal.network.PacketHandler
+import net.pearx.craftdumper.common.helper.internal.PacketHandler
 
 
 data class CPacketHideToast(var token: Int) {

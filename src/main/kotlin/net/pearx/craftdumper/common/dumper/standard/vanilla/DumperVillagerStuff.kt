@@ -32,7 +32,7 @@ val DumperVillagerProfessions = dumperTable {
 
 val DumperVillagerPointsOfInterest = dumperTable {
     registryName = craftdumper("villager_points_of_interest")
-    header = listOf("ID", "Name", "BlockStates", "Max Tickets", /*"Work Sound", */"Valid Range")
+    header = listOf("ID", "Name", "BlockStates", "Max Tickets", "Valid Range")
     amounts { +ForgeRegistries.POI_TYPES.keys }
     count { ForgeRegistries.POI_TYPES.count() }
     table {
@@ -61,7 +61,6 @@ val DumperVillagerPointsOfInterest = dumperTable {
                             result.joinToString(System.lineSeparator())
                         }
                         add { maxFreeTickets.toString() }
-//                    add { workSound?.registryName?.toString().orEmpty() }
                         add { validRange.toString() }
                     }
                 }

@@ -5,9 +5,9 @@ import net.minecraft.network.PacketBuffer
 import net.minecraft.util.text.ITextComponent
 import net.minecraftforge.fml.network.NetworkEvent
 import net.pearx.craftdumper.client.DumperToast
-import net.pearx.craftdumper.common.helper.internal.network.PacketHandler
-import net.pearx.craftdumper.common.helper.internal.network.readTextComponentNullable
-import net.pearx.craftdumper.common.helper.internal.network.writeTextComponentNullable
+import net.pearx.craftdumper.common.helper.internal.PacketHandler
+import net.pearx.craftdumper.common.helper.internal.readTextComponentNullable
+import net.pearx.craftdumper.common.helper.internal.writeTextComponentNullable
 
 
 data class CPacketUpdateToast(var token: Int, var progress: Float, var title: ITextComponent? = null, var subtitle: ITextComponent? = null) {
