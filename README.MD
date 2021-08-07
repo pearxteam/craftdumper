@@ -63,7 +63,7 @@ To create a dump, use the `/craftdumper <dumper name> [full|amounts|data]` comma
 All the dumper outputs will be placed in the `.minecraft/craftdumper` directory.
 
 ## Dependencies
-This mod requires [Kottle](https://www.curseforge.com/minecraft/mc-mods/kottle).
+This mod requires [Kotlin for Forge](https://www.curseforge.com/minecraft/mc-mods/kotlin-for-forge).
 
 ## Usage in Modpacks
-You can use this mod in any modpack!
+You can use this mod in any modpack you want :)

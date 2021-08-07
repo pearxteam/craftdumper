@@ -7,7 +7,6 @@ import java.time.OffsetDateTime
 plugins {
     id("net.minecraftforge.gradle")
     id("com.matthewprenger.cursegradle")
-    id("com.wynprice.cursemaven")
     id("com.github.breadmoirai.github-release")
     id("org.jetbrains.kotlin.jvm")
     `maven-publish`
@@ -23,12 +22,11 @@ val modAcceptedMcVersions: String by project
 val forgeVersion: String by project
 val minecraftVersion: String by project
 val mcpMappingsChannel: String by project
-val mcpMappingsMinecraftVersion: String by project
 val mcpMappingsVersion: String by project
 
 val jeiVersion: String by project
 val jeiMcVersion: String by project
-val kottleFileId: String by project
+val kotlinForForgeVersion: String by project
 val projectEFileId: String by project
 
 val kotlinxCoroutinesVersion: String by project
@@ -56,21 +54,25 @@ java {
 
 repositories {
     maven { url = uri("https://files.minecraftforge.net/maven") }
+    maven { url = uri("https://www.cursemaven.com") }
     maven { url = uri("https://dvs1.progwml6.com/files/maven") } // JEI
+    maven { url = uri("https://thedarkcolour.github.io/KotlinForForge/") } // Kotlin for Forge
 }
 
 dependencies {
     "minecraft"("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
+
+    "implementation"(kotlin("stdlib-jdk$jdkVersion"))
+    "implementation"(kotlin("reflect"))
+    "implementation"("org.jetbrains.kotlinx:kotlinx-coroutines-jdk$jdkVersion:$kotlinxCoroutinesVersion")
+
+    "implementation"("thedarkcolour:kotlinforforge:$kotlinForForgeVersion")
     "runtimeOnly"(fg.deobf("mezz.jei:jei-$jeiMcVersion:$jeiVersion"))
-    "compile"(fg.deobf("curse.maven:kottle:$kottleFileId"))
-    "compile"(kotlin("stdlib-jdk$jdkVersion"))
-    "compile"(kotlin("reflect"))
-    "compile"("org.jetbrains.kotlinx:kotlinx-coroutines-jdk$jdkVersion:$kotlinxCoroutinesVersion")
-    "compile"(fg.deobf("curse.maven:projecte:$projectEFileId"))
+    "implementation"(fg.deobf("curse.maven:projecte-226410:$projectEFileId"))
 }
 
 configure<MinecraftExtension> {
-    mappings(mcpMappingsChannel, "$mcpMappingsVersion-$mcpMappingsMinecraftVersion")
+    mappings(mcpMappingsChannel, mcpMappingsVersion)
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
 
     runs {
@@ -94,19 +96,8 @@ configure<MinecraftExtension> {
     }
 }
 
-//configure<UserBaseExtension> {
-//    version = "$minecraftVersion-$forgeVersion"
-//    runDir = "run"
-//    mappings = mcpMappingsVersion
-//    replace("VERSION = \"\"", "VERSION = \"$modVersion\"")
-//    replace("DESCRIPTION = \"\"", "DESCRIPTION = \"$modDescription\"")
-//    replace("ACCEPTED_MINECRAFT_VERSIONS = \"\"", "ACCEPTED_MINECRAFT_VERSIONS = \"$modAcceptedMcVersions\"")
-//    replace("DEPENDENCIES = \"\"", "DEPENDENCIES = \"$modDependencies\"")
-//    replaceIn("Reference.kt")
-//}
-
 val sourcesJar by tasks.registering(Jar::class) {
-    classifier = "sources"
+    archiveClassifier.set("sources")
     from(sourceSets.main.get().allSource)
 }
 
@@ -116,21 +107,13 @@ artifacts {
 
 publishing {
     repositories {
-        fun AuthenticationSupported.pearxCredentials() {
+        maven {
             credentials {
-                username = pearxRepoUsername
-                password = pearxRepoPassword
+                username = "pearxteam"
+                password = githubAccessToken
             }
-        }
-        maven {
-            pearxCredentials()
-            name = "develop"
-            url = uri("https://repo.pearx.net/maven2/develop/")
-        }
-        maven {
-            pearxCredentials()
-            name = "release"
-            url = uri("https://repo.pearx.net/maven2/release/")
+            name = "github"
+            url = uri("https://maven.pkg.github.com/pearxteam/craftdumper")
         }
     }
 
@@ -149,7 +132,7 @@ configure<CurseExtension> {
         releaseType = curseforgeReleaseType
         changelog = modChangelog
         relations(closureOf<CurseRelation> {
-            requiredDependency("kottle")
+            requiredDependency("kotlin-for-forge")
         })
 
         val arts = (publishing.publications["maven"] as MavenPublication).artifacts
@@ -186,24 +169,26 @@ tasks {
     }
     withType<Jar> {
         manifest {
-            attributes(mapOf(
-                "Specification-Title" to "CraftDumper",
-                "Specification-Vendor" to "PearX Team",
-                "Specification-Version" to modVersion,
-                "Implementation-Title" to project.name,
-                "Implementation-Version" to project.version,
-                "Implementation-Vendor" to "PearX Team",
-                "Implementation-Timestamp" to OffsetDateTime.now().toString()
-            ))
+            attributes(
+                mapOf(
+                    "Specification-Title" to "CraftDumper",
+                    "Specification-Vendor" to "PearX Team",
+                    "Specification-Version" to modVersion,
+                    "Implementation-Title" to project.name,
+                    "Implementation-Version" to project.version,
+                    "Implementation-Vendor" to "PearX Team",
+                    "Implementation-Timestamp" to OffsetDateTime.now().toString()
+                )
+            )
         }
     }
     register("publishDevelop") {
         group = "publishing"
-        dependsOn(withType<PublishToMavenRepository>().matching { it.repository == publishing.repositories["develop"] })
+        dependsOn(withType<PublishToMavenRepository>().matching { it.repository == publishing.repositories["github"] })
     }
     register("publishRelease") {
         group = "publishing"
-        dependsOn(withType<PublishToMavenRepository>().matching { it.repository == publishing.repositories["release"] })
+        dependsOn(withType<PublishToMavenRepository>().matching { it.repository == publishing.repositories["github"] })
         dependsOn(named("curseforge"))
         dependsOn(named("githubRelease"))
     }
