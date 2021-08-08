@@ -13,7 +13,26 @@ import net.pearx.craftdumper.common.helper.toPlusMinusString
 
 val DumperDimensionTypes = dumperTable {
     registryName = craftdumper("dimension_types")
-    header = listOfNotNull("ID", "Suffix", "Has Skylight", "Has Ceiling", "Is Ultrawarm", "Natural", "Coordinate Scale", "Piglin Safe", "Bed Work", "Respawn Anchor Works", "Has Raids", "Logical Height", "Has Dragon Fight", "Magnifier", "Fixed Time Exist", "Infinite Burn Blocks", client("Effects"))
+    header = listOfNotNull(
+        "ID",
+        "Suffix",
+        "Has Skylight",
+        "Has Ceiling",
+        "Is Ultrawarm",
+        "Natural",
+        "Coordinate Scale",
+        "Piglin Safe",
+        "Bed Work",
+        "Respawn Anchor Works",
+        "Has Raids",
+        "Logical Height",
+        "Has Dragon Fight",
+        "Magnifier",
+        "Fixed Time Exist",
+        "Infinite Burn Blocks",
+        "Ambient Light",
+        client("Effects")
+    )
     amounts { dimensions.forEach { +it.key.registryName } }
     count { dimensions.count() }
     table {
@@ -50,6 +69,7 @@ val DumperDimensionTypes = dumperTable {
                                 }
                             }
                         }
+                        add { ambientLight.toString() }
                         client { add { effects.toString() } }
                     }
                 }
