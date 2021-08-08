@@ -23,7 +23,7 @@ val DumperCampfireCookingRecipes = dumperRecipesCooking("campfire_cooking", IRec
 
 val DumperStonecuttingRecipes = dumperRecipesSimpleIngredients("stonecutting", IRecipeType.STONECUTTING, { true })
 
-val DumperShapelessRecipes = dumperRecipesSimpleIngredients("shapeless", IRecipeType.CRAFTING, { it !is IShapedRecipe<*> }, "Experience", "Cook Time")
+val DumperShapelessRecipes = dumperRecipesSimpleIngredients("shapeless", IRecipeType.CRAFTING, { it !is IShapedRecipe<*> })
 
 val DumperShapedRecipes = dumperRecipes("shaped", IRecipeType.CRAFTING, { it is IShapedRecipe<*> }, "Input Pattern", "Input Ingredients", "Output Item", "Width", "Height") { recipe, list ->
     with(recipe as IShapedRecipe<*>) {
@@ -69,7 +69,7 @@ private typealias CustomDump<T> = DumperTableDataContext.(recipe: T, list: Mutab
 
 private inline fun <C : IInventory, T : IRecipe<C>> dumperRecipes(name: String, type: IRecipeType<T>, crossinline filter: (T) -> Boolean, vararg elements: String, crossinline customDump: CustomDump<T>) = dumperTable {
     registryName = craftdumper("${name}_recipes")
-    header = listOf("ID", "Input Ingredients", "Output Item", *elements, "Group", "Serializer", "Icon", "Is Dynamic", "Class")
+    header = listOf("ID", *elements, "Group", "Serializer", "Icon", "Is Dynamic", "Class")
     amounts {
         eachRecipe(type, filter) {
             +it.id
@@ -95,7 +95,7 @@ private inline fun <C : IInventory, T : IRecipe<C>> dumperRecipes(name: String, 
     }
 }
 
-private inline fun <C : IInventory, T : IRecipe<C>> dumperRecipesSimpleIngredients(name: String, type: IRecipeType<T>, crossinline filter: (T) -> Boolean, vararg elements: String, crossinline customDump: CustomDump<T> = { _, _ -> }) = dumperRecipes(name, type, filter, *elements) { recipe, list ->
+private inline fun <C : IInventory, T : IRecipe<C>> dumperRecipesSimpleIngredients(name: String, type: IRecipeType<T>, crossinline filter: (T) -> Boolean, vararg elements: String, crossinline customDump: CustomDump<T> = { _, _ -> }) = dumperRecipes(name, type, filter, "Input Ingredients", "Output Item", *elements) { recipe, list ->
     with(recipe) {
         with(list) {
             add {
