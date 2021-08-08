@@ -33,7 +33,7 @@ fun onRegisterDumpers(event: RegistryEvent.Register<Dumper>) {
         register(DumperArmor)
         register(DumperAttributes)
         register(DumperAxes)
-//        register(DumperBiomes)
+        register(DumperBiomes)
         register(DumperBlocks)
         register(DumperCapabilities)
         register(DumperEnchantments)
