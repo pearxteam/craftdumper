@@ -72,6 +72,6 @@ fun onRegisterDumpers(event: RegistryEvent.Register<Dumper>) {
         register(DumperVillagerSchedules)
         register(DumperVillagerActivities)
         register(DumperStats)
-//        register(DumperDimensions)
+        register(DumperDimensionTypes)
     }
 }
