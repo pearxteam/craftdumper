@@ -34,7 +34,7 @@ val DumperPotionEffects = dumperTable {
                         add {
                             buildMultilineString(attributeModifierMap.entries) {
                                 val (attribute, modifier) = it
-                                append(attribute.name)
+                                append(attribute.registryName)
                                 append(": ")
                                 append(modifier)
                             }

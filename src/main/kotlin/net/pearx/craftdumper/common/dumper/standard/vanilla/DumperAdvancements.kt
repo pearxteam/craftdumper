@@ -19,10 +19,10 @@ val DumperAdvancements = dumperTable {
                 row {
                     with(adv) {
                         add { id.toString() }
-                        add { displayText.formattedText }
+                        add { displayText.string }
                         display?.run {
-                            add { title.formattedText }
-                            add { description.formattedText }
+                            add { title.string }
+                            add { description.string }
                             client {
                                 add { icon.toFullString() }
                                 add { x.toString() }

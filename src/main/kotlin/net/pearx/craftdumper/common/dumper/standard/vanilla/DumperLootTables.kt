@@ -5,8 +5,8 @@ package net.pearx.craftdumper.common.dumper.standard.vanilla
 
 import com.google.gson.internal.Streams
 import com.google.gson.stream.JsonWriter
-import net.minecraft.world.storage.loot.LootTableManager
-import net.minecraft.world.storage.loot.LootTables
+import net.minecraft.loot.LootTableManager
+import net.minecraft.loot.LootTables
 import net.minecraftforge.fml.server.ServerLifecycleHooks
 import net.pearx.craftdumper.common.dumper.dsl.dumperFiles
 import net.pearx.craftdumper.common.helper.internal.craftdumper
@@ -34,4 +34,4 @@ val DumperLootTables = dumperFiles {
     }
 }
 
-private fun getLootTables() = LootTables.func_215796_a()
+private fun getLootTables() = LootTables.getReadOnlyLootTables()

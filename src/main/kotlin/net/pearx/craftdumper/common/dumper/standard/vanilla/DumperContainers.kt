@@ -22,7 +22,7 @@ val DumperContainers = dumperTable {
                     with(container) {
                         add { registryName.toString() }
                         client {
-                            add { create(Int.MAX_VALUE, PlayerInventory(Minecraft.getInstance().player))::class.java.name }
+                            add { create(Int.MAX_VALUE, PlayerInventory(Minecraft.getInstance().player!!))::class.java.name }
                         }
                     }
                 }

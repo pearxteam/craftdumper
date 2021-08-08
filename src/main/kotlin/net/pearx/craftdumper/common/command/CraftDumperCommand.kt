@@ -3,10 +3,7 @@ package net.pearx.craftdumper.common.command
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.StringTextComponent
-import net.minecraft.util.text.TextFormatting
-import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.*
 import net.pearx.craftdumper.CraftDumper
 import net.pearx.craftdumper.common.dumper.DumpOutput
 import net.pearx.craftdumper.common.dumper.Dumper
@@ -40,25 +37,18 @@ object CraftDumperCommand {
     }
 
     fun createSuccessMessage(dumper: Dumper, outputs: List<DumpOutput>, displayOutputs: Boolean): List<ITextComponent> {
-        val lst = mutableListOf(TranslationTextComponent("commands.craftdumper.success", dumper.getTitle().apply { style.color = TextFormatting.GOLD }))
+        val lst = mutableListOf(TranslationTextComponent("commands.craftdumper.success", dumper.getTitle().apply { style = style.setColor(Color.fromTextFormatting(TextFormatting.GOLD))}))
 
         if (displayOutputs && outputs.isNotEmpty()) {
             val outputComponents = outputs.map {
                 it.getTextComponent().apply {
-                    with(style) {
-                        underlined = true
-                        color = TextFormatting.BLUE
-                    }
+                    style = style.setUnderlined(true).setColor(Color.fromTextFormatting(TextFormatting.BLUE))
                 }
             }
-            val first: ITextComponent = outputComponents[0]
+            val first = outputComponents[0]
             for (comp in outputComponents.subList(1, outputComponents.size)) {
                 first.appendSibling(StringTextComponent(", ").apply {
-                    with(style) {
-                        underlined = false
-                        color = TextFormatting.RESET
-                        clickEvent = null
-                    }
+                    style = style.setUnderlined(false).setColor(Color.fromTextFormatting(TextFormatting.RESET)).setClickEvent(null)
                 })
                 first.appendSibling(comp)
             }

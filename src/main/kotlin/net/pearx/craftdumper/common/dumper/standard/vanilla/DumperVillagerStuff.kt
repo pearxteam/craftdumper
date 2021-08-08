@@ -98,7 +98,7 @@ val DumperVillagerSensors = dumperTable {
                 row {
                     with(module) {
                         add { registryName.toString() }
-                        add { func_220995_a()::class.java.name }
+                        add { sensor::class.java.name }
                     }
                 }
             }
@@ -119,9 +119,9 @@ val DumperVillagerSchedules = dumperTable {
                         add { registryName.toString() }
                         add {
                             val sched = sortedMapOf<Int, Activity>()
-                            for ((activity, schedule) in field_221387_e) {
-                                for (time in schedule.field_221396_a) {
-                                    if (time.func_221389_b() > 0)
+                            for ((activity, schedule) in activityToDutiesMap) {
+                                for (time in schedule.dutyTimes) {
+                                    if (time.active > 0)
                                         sched[time.duration] = activity
                                 }
                             }

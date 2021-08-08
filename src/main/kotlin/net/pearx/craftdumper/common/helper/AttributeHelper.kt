@@ -3,18 +3,16 @@ package net.pearx.craftdumper.common.helper
 import com.mojang.authlib.GameProfile
 import net.minecraft.client.resources.I18n
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.attributes.IAttribute
+import net.minecraft.entity.ai.attributes.Attribute
 import net.minecraftforge.common.util.FakePlayer
 import net.minecraftforge.registries.ForgeRegistries
 import java.util.*
 
-val IAttribute.translationKey
-    get() = "attribute.name.$name"
-val IAttribute.displayName: String
-    get() = if (isClient) I18n.format(translationKey) else name
+val Attribute.displayName: String
+    get() = if (isClient) I18n.format(attributeName) else attributeName
 
-fun getAttributes(includeFakePlayer: Boolean): Set<IAttribute> {
-    val attributes = hashSetOf<IAttribute>()
+fun getAttributes(includeFakePlayer: Boolean): Set<Attribute> {
+    val attributes = hashSetOf<Attribute>()
     if (includeFakePlayer)
         addAttributes(attributes, FakePlayer(defaultWorld, GameProfile(UUID(0, 0), "craftdumper")))
     ForgeRegistries.ENTITIES.forEach { entityEntry ->
@@ -26,8 +24,8 @@ fun getAttributes(includeFakePlayer: Boolean): Set<IAttribute> {
     return attributes
 }
 
-private fun <T : LivingEntity> addAttributes(attributes: MutableSet<IAttribute>, entity: T) {
-    entity.attributes.allAttributes.forEach { attrInstance ->
+private fun <T : LivingEntity> addAttributes(attributes: MutableSet<Attribute>, entity: T) {
+    entity.attributeManager.instances.forEach { attrInstance ->
         attributes += attrInstance.attribute
     }
 }

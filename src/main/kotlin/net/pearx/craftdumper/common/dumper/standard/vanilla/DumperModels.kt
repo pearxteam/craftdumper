@@ -37,8 +37,8 @@ val DumperModels = dumperTableClient {
                         add {
                             val textures = mutableListOf<TextureAtlasSprite>()
                             for (quad in quads) {
-                                if (quad.func_187508_a() !in textures)
-                                    textures.add(quad.func_187508_a())
+                                if (quad.sprite !in textures)
+                                    textures.add(quad.sprite)
                             }
                             textures.joinToString(separator = System.lineSeparator()) { it.name.toTexturesPath() }
                         }

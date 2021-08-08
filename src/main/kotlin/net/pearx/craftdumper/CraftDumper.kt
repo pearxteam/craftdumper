@@ -2,7 +2,6 @@ package net.pearx.craftdumper
 
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.pearx.craftdumper.client.ClientProxy
@@ -16,19 +15,20 @@ import net.pearx.craftdumper.common.network.initNetwork
 import net.pearx.craftdumper.server.ServerProxy
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import java.util.function.Supplier
+import thedarkcolour.kotlinforforge.forge.runForDist
 
 @Mod("craftdumper")
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 object CraftDumper {
     val log: Logger = LogManager.getLogger()
 
-    @Suppress("RemoveExplicitTypeArguments") // if we remove explicit type argument, the kotlin compiler won't automatically infer it
-    val proxy: CommonProxy = DistExecutor.runForDist<CommonProxy>({ Supplier { ClientProxy() } }, { Supplier { ServerProxy() } })
+    val proxy: CommonProxy = runForDist({ ClientProxy() }, { ServerProxy() })
 
-    fun getOutputFile(prefix: String, postfix: String = "") = proxy.outputDirectory.resolve("${prefix}_${currentDateTime()}$postfix")
+    fun getOutputFile(prefix: String, postfix: String = "") =
+        proxy.outputDirectory.resolve("${prefix}_${currentDateTime()}$postfix")
 
-    fun getOutputFile(registryName: ResourceLocation, postfix: String = "") = getOutputFile(DumperRegistry.getRegistryElementName(registryName), postfix)
+    fun getOutputFile(registryName: ResourceLocation, postfix: String = "") =
+        getOutputFile(DumperRegistry.getRegistryElementName(registryName), postfix)
 
     @SubscribeEvent
     fun init(event: FMLCommonSetupEvent) {

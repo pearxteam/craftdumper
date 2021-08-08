@@ -15,7 +15,13 @@ internal interface PacketHandler<T> {
 }
 
 internal inline fun <reified T> SimpleChannel.register(id: Int, serializer: PacketHandler<T>) {
-    registerMessage(id, T::class.java, { msg: T, buffer: PacketBuffer -> serializer.encode(msg, buffer) }, { buffer: PacketBuffer -> serializer.decode(buffer) }, { msg, ctx -> serializer.handle(msg, { ctx.get() }) })
+    registerMessage(
+        id,
+        T::class.java,
+        { msg: T, buffer: PacketBuffer -> serializer.encode(msg, buffer) },
+        { buffer: PacketBuffer -> serializer.decode(buffer) },
+        { msg, ctx -> serializer.handle(msg) { ctx.get() } }
+    )
 }
 
 internal fun PacketBuffer.writeTextComponentNullable(component: ITextComponent?) {

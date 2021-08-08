@@ -32,7 +32,9 @@ val DumperFood = dumperTable {
                             add { isFastEating.toPlusMinusString() }
                             add { getUseDuration(stack).toString() }
                             add {
-                                effects.joinToString(System.lineSeparator()) { (potion, probability) ->
+                                effects.joinToString(System.lineSeparator()) { pair ->
+                                    val potion = pair.first
+                                    val probability = pair.second
                                     "${potion.effectName} - ${probability.toPercents()}%"
                                 }
                             }

@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 
 fun Boolean.toPlusMinusString() = if (this) "+" else "-"
 
-fun Int.toHexColorString() = "#${Integer.toHexString(this).toUpperCase().padStart(6, '0')}"
+fun Int.toHexColorString() = "#${Integer.toHexString(this).uppercase().padStart(6, '0')}"
 
 fun ResourceLocation.toAssetsPath(topPath: String = "", postfix: String = "") = "assets/$namespace/$topPath${if (topPath.isEmpty()) "" else "/"}$path$postfix"
 

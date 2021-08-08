@@ -7,6 +7,7 @@ import moze_intel.projecte.utils.EMCHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.item.BlockItem
+import net.minecraft.item.crafting.IRecipeType
 import net.minecraft.util.text.ITextComponent
 import net.minecraftforge.client.ItemModelMesherForge
 import net.minecraftforge.common.ForgeHooks
@@ -42,7 +43,7 @@ val DumperItemStacks = dumperTable {
                         }
                         add { getItemStackLimit(stack).toString() }
                         add { getMaxDamage(stack).toString() }
-                        add { ForgeHooks.getBurnTime(stack).toString() }
+                        add { ForgeHooks.getBurnTime(stack, IRecipeType.SMELTING).toString() }
                         add { getItemEnchantability(stack).toString() }
                         client { add { (Minecraft.getInstance().itemRenderer.itemModelMesher as ItemModelMesherForge).getLocation(stack).toString() } }
                         if (ModList.get().isLoaded(PROJECTE_ID))

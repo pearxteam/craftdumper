@@ -1,7 +1,6 @@
 package net.pearx.craftdumper.common.dumper
 
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.util.text.event.ClickEvent
 import net.minecraftforge.registries.IForgeRegistryEntry
@@ -73,9 +72,7 @@ class DumpAmounts : MutableMap<String, Int> by hashMapOf() {
 
 class DumpOutput(private val translationKey: String, private val path: File) {
     fun getTextComponent() = TranslationTextComponent("craftdumper.output.$translationKey").apply {
-        with(style) {
-            clickEvent = ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())
-        }
+        style = style.setClickEvent(ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString()))
     }
 }
 
@@ -86,7 +83,7 @@ interface DumpProgressReporter {
 interface Dumper : IForgeRegistryEntry<Dumper> {
     val translationKey: String
 
-    fun getTitle(): ITextComponent = TranslationTextComponent("craftdumper.dumper.$translationKey")
+    fun getTitle() = TranslationTextComponent("craftdumper.dumper.$translationKey")
 
     fun getSubtitleData() = TranslationTextComponent("craftdumper.toast.subtitle.data")
 
@@ -110,7 +107,7 @@ interface Dumper : IForgeRegistryEntry<Dumper> {
                         if (start)
                             start = false
                         else
-                            appendln()
+                            appendLine()
                         appendCsvRow(key, value.toString())
                     }
                 }

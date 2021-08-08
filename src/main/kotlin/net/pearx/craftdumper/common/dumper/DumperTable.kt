@@ -15,7 +15,7 @@ interface DumperTable : Dumper {
                 val header = createHeader()
                 appendCsvRow(header)
                 dumpTable(header).forEachIndexed { index, row ->
-                    appendln()
+                    appendLine()
                     appendCsvRow(row)
                     reporter.progress = index + 1
                 }

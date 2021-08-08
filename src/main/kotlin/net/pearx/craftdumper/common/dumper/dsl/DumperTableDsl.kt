@@ -46,7 +46,7 @@ class DumperTableDataContext(val header: List<String>) {
     }
 
     @PublishedApi
-    internal fun createIterator() = Iterable { iterator<List<String>> { dataFiller() } }
+    internal fun createIterator() = Iterable { iterator { dataFiller() } }
 }
 
 @DumperDsl

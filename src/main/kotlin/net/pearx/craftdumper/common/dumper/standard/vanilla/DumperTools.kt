@@ -4,7 +4,7 @@
 package net.pearx.craftdumper.common.dumper.standard.vanilla
 
 import com.mojang.authlib.GameProfile
-import net.minecraft.entity.SharedMonsterAttributes
+import net.minecraft.entity.ai.attributes.Attributes
 import net.minecraft.inventory.EquipmentSlotType
 import net.minecraft.item.*
 import net.minecraftforge.common.ToolType
@@ -40,12 +40,12 @@ private inline fun <reified T : TieredItem> dumperTools(name: String, type: Tool
                         with(item) {
                             add { stack.toFullString() }
                             val modifiers = stack.getAttributeModifiers(EquipmentSlotType.MAINHAND)
-                            val damage = modifiers[SharedMonsterAttributes.ATTACK_DAMAGE.name].first { it.id == Item.ATTACK_DAMAGE_MODIFIER }.amount
-                            val speed = modifiers[SharedMonsterAttributes.ATTACK_SPEED.name].first { it.id == Item.ATTACK_SPEED_MODIFIER }.amount
+                            val damage = modifiers[Attributes.ATTACK_DAMAGE].first { it.id == Item.ATTACK_DAMAGE_MODIFIER }.amount
+                            val speed = modifiers[Attributes.ATTACK_SPEED].first { it.id == Item.ATTACK_SPEED_MODIFIER }.amount
                             add { "+${damage.round(5)}" }
-                            add { "${(fakePlayer.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).baseValue + damage).round(5)}"}
+                            add { "${(fakePlayer.getAttribute(Attributes.ATTACK_DAMAGE)!!.baseValue + damage).round(5)}"}
                             add { "-${-speed.round(5)}" }
-                            add { "${(fakePlayer.getAttribute(SharedMonsterAttributes.ATTACK_SPEED).baseValue + speed).round(5)}"}
+                            add { "${(fakePlayer.getAttribute(Attributes.ATTACK_SPEED)!!.baseValue + speed).round(5)}"}
                             add { stack.getDurabilityString() }
                             add { tier.efficiency.toString() }
                             add { tier.harvestLevel.toString() }

@@ -30,7 +30,7 @@ inline fun <T> buildMultilineString(iterable: Iterable<T>, action: StringBuilder
             if (start)
                 start = false
             else
-                appendln()
+                appendLine()
             action(element)
         }
     }
@@ -43,7 +43,7 @@ inline fun buildMultilineString(iterable: IntArray, action: StringBuilder.(Int) 
             if (start)
                 start = false
             else
-                appendln()
+                appendLine()
             action(element)
         }
     }
@@ -56,7 +56,7 @@ inline fun <T> buildMultilineString(iterable: Array<T>, action: StringBuilder.(T
             if (start)
                 start = false
             else
-                appendln()
+                appendLine()
             action(element)
         }
     }

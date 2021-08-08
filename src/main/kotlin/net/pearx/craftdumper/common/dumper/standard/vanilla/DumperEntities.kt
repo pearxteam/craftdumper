@@ -40,7 +40,7 @@ val DumperEntities = dumperTable {
                         add { width.toString() }
                         add { height.toString() }
                         add { size.fixed.toPlusMinusString() }
-                        add { trackingRange.toString() }
+                        add { func_233602_m_().toString() } //trackingRange
                         add { if (updateFrequency == Int.MAX_VALUE) "" else updateFrequency.toString() }
                         add { shouldSendVelocityUpdates().toPlusMinusString() }
                         add { tags.joinToString(System.lineSeparator()) { it.toString() } }

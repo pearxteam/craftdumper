@@ -15,14 +15,3 @@ inline fun <C : IInventory, T : IRecipe<C>> eachRecipe(type: IRecipeType<T>, fil
 inline fun <C : IInventory, T : IRecipe<C>> countRecipes(type: IRecipeType<T>, filter: (T) -> Boolean = { true }): Int {
     return defaultWorld.recipeManager.getRecipes(type).values.count { filter(it as T) }
 }
-
-
-
-//private inline fun eachShapeless(block: (recipe: IRecipe) -> Unit) {
-//    for (recipe in ForgeRegistries.RECIPES)
-//        if (recipe !is IShapedRecipe)
-//            block(recipe)
-//}
-//
-//val recipes
-//    get() = defaultWorld.recipeManager.recipes

@@ -1,8 +1,9 @@
-modLoader="kotlinfml"
+modLoader="kotlinforforge"
 loaderVersion="[1,)"
 issueTrackerURL="https://github.com/pearxteam/craftdumper/issues"
 showAsResourcePack=false
 logoFile="logo.png"
+license = "GNU General Public License v3.0"
 
 [[mods]]
   modId="craftdumper"
@@ -14,8 +15,9 @@ logoFile="logo.png"
   A Minecraft Forge mod that can create dumps of various game stuff, such as blocks, items, entities and many more.
   '''
 
-  [[dependencies.craftdumper]]
-    modId="projecte"
-    mandatory=false
-    ordering="AFTER"
-    side="BOTH"
+#  [[dependencies.craftdumper]]
+#    modId="projecte"
+#    versionRange="()"
+#    mandatory=false
+#    ordering="AFTER"
+#    side="BOTH"

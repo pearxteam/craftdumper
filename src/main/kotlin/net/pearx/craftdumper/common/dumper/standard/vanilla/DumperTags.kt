@@ -19,14 +19,14 @@ val DumperEntityTags = dumperTags<EntityType<*>>({ EntityTypeTags.getCollection(
 
 
 
-private inline fun <T : IForgeRegistryEntry<T>> dumperTags(crossinline collection: () -> TagCollection<T>, name: String, columnName: String) = dumperTable {
+private inline fun <T : IForgeRegistryEntry<T>> dumperTags(crossinline collection: () -> ITagCollection<T>, name: String, columnName: String) = dumperTable {
     registryName = craftdumper("tags_${name}")
     header = listOf("Tag", columnName)
-    amounts { collection().tagMap.forEach { (id, tag) -> id += tag.allElements.size } }
-    count { collection().tagMap.size }
+    amounts { collection().idTagMap.forEach { (id, tag) -> id += tag.allElements.size } }
+    count { collection().idTagMap.size }
     table {
         data {
-            collection().tagMap.forEach { (id, tag) ->
+            collection().idTagMap.forEach { (id, tag) ->
                 row {
                     add { id.toString() }
                     add { tag.allElements.joinToString(System.lineSeparator()) { it.registryName.toString() } }
